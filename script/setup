@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+# Bundler
+puts '=> Installing Gems'
+puts `bundle install`
+
+puts '=> Done'

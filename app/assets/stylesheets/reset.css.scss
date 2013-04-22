@@ -1,0 +1,17 @@
+// Reset ---------------------------------------------------------------------
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary { display: block }
+fieldset, input, select, button, textarea, figure { margin: 0; font-size: 100%; max-width: 100% }
+fieldset, legend, a img { padding: 0; border: 0 }
+time { display: inline }
+body { margin: 0 }
+a { text-decoration: none }
+[tabindex]:not(a) { outline: 0 }
+ul, ol { padding: 0 }
+h1, h2, h3, h4 { text-rendering: optimizeLegibility }
+// CSS for <sub> and <sup> https://gist.github.com/413930
+sub, sup { font-size: 70%; line-height: 0; position: relative; vertical-align: baseline }
+sup { top: -.5em }
+sub { bottom: -.25em }
+address { font-style: normal }
+img { max-width: 100% }
+[hidden] { display: none }

@@ -1,0 +1,22 @@
+//= require reset
+//= require_self
+
+// Base ----------------------------------------------------------------------
+* { box-sizing: border-box }
+html { font-size: 17px }
+
+body, button, input, legend, textarea {
+  font-family: 'Open sans', 'sans-serif';
+  font-size: 18;
+  line-height: 1.5;
+  color: #202020;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
+  font-weight: 400;
+  margin: 1em 0;
+}
+
+a { color: #01b3df }
+a:focus, a:hover { color: #01b3df }

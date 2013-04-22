@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <title>Edsa</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= stylesheet_link_tag :application %>
+  <%= inline_script_tag :head_script %>
+</head>
+<body>
+  <header id="header" role="banner">
+    <nav role="navigation"></nav>
+  </header>
+
+  <section role="main">
+    <%= yield %>
+  </section>
+
+  <footer id="footer" role="contentinfo">
+  </footer>
+
+  <script>document.write('<script src="//cdnjs.cloudflare.com/ajax/libs/' +
+    ('__proto__' in {} && !/firefox\/3/i.test(navigator.userAgent) ?
+    'zepto/1.0rc1/zepto.min.js' : 'jquery/1.9.0/jquery.min.js') + '"><\/script>')</script>
+  <%= javascript_include_tag :application %>
+</body>
+</html>
