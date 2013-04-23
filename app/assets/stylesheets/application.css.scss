@@ -33,13 +33,17 @@ a:focus, a:hover { color: lighten($blueColor, 10%) }
 
 // Header --------------------------------------------------------------------
 header {
-  position: relative;
-  width: 95%;
-  margin: auto;
+  position: fixed;
+  top: 0; left: 2.5%; right: 2.5%;
   font-size: 14px;
-  border: 6px solid #e1e1e1;
-  border-top: 0;
-  @include gradient(#fefefe, #fafafa);
+
+  & > div {
+    z-index: 1;
+    position: relative;
+    border: 6px solid #e1e1e1;
+    border-top: 0;
+    @include gradient(#fefefe, #fafafa);
+  }
 
   h1 {
     margin: 0;
@@ -78,6 +82,18 @@ header {
   }
 }
 
+header:before {
+  z-index: 0;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 200px;
+  @include gradient(#fff, rgba(#fff, 0));
+  background-color: transparent;
+  pointer-events: none;
+}
+
 header li + li { border-left: 1px solid #c4c4c4 }
 header li {
   float: left;
@@ -107,6 +123,12 @@ header li.selected {
     @include gradient(#4ddafd, #02c9fb);
   }
   a:hover, a:focus { @include gradient(lighten(#4ddafd, 5%), lighten(#02c9fb, 5%)) }
+}
+
+// Main ----------------------------------------------------------------------
+[role="main"] {
+  margin-top: 5em;
+  line-height: 1.8
 }
 
 // --------------------------------------------------------------------------- 1067px
