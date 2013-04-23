@@ -6,7 +6,12 @@
 
 // Base ----------------------------------------------------------------------
 * { box-sizing: border-box }
-html { font-size: $baseFontSize }
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 body, button, input, legend, textarea {
   font-family: 'Open sans', 'sans-serif';
@@ -33,6 +38,7 @@ a:focus, a:hover { color: lighten($blueColor, 10%) }
 
 // Header --------------------------------------------------------------------
 header {
+  z-index: 1;
   position: fixed;
   top: 0; left: 2.5%; right: 2.5%;
   font-size: 14px;
@@ -51,6 +57,10 @@ header {
     color: #b3b3b3;
     font-size: 1.4em;
     border-bottom: 1px solid #c4c4c4;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 
     .wrap {
       line-height: 1.3;
