@@ -3,7 +3,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 fieldset, input, select, button, textarea, figure { margin: 0; font-size: 100%; max-width: 100% }
 fieldset, legend, a img { padding: 0; border: 0 }
 time { display: inline }
-body { margin: 0 }
+body, ul { margin: 0 }
 a { text-decoration: none }
 [tabindex]:not(a) { outline: 0 }
 ul, ol { padding: 0 }

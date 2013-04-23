@@ -1,15 +1,18 @@
 //= require reset
 //= require_self
 
+@import 'variables';
+@import 'mixins';
+
 // Base ----------------------------------------------------------------------
 * { box-sizing: border-box }
-html { font-size: 17px }
+html { font-size: $baseFontSize }
 
 body, button, input, legend, textarea {
   font-family: 'Open sans', 'sans-serif';
-  font-size: 18;
+  font-size: $baseFontSize;
   line-height: 1.5;
-  color: #202020;
+  color: $mainTextColor;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -18,5 +21,84 @@ h1, h2, h3, h4, h5, h6 {
   margin: 1em 0;
 }
 
-a { color: #01b3df }
-a:focus, a:hover { color: #01b3df }
+a { color: $blueColor }
+a:focus, a:hover { color: lighten($blueColor, 10%) }
+
+// Layout --------------------------------------------------------------------
+.wrap {
+  width: 78%;
+  max-width: 540px;
+  margin: auto;
+}
+
+// Header --------------------------------------------------------------------
+header {
+  position: relative;
+  width: 95%;
+  margin: auto;
+  font-size: 14px;
+  border: 6px solid #e1e1e1;
+  border-top: 0;
+  @include gradient(#fefefe, #fafafa);
+
+  h1 {
+    margin: 0;
+    padding: 1em 0;
+    color: #b3b3b3;
+    font-size: 1.4em;
+    border-bottom: 1px solid #c4c4c4;
+
+    & > div { max-width: 540px; margin: auto }
+    .author { font-weight: bold }
+    .title:before { content: '-'; padding: 0 .5em 0 .4em }
+  }
+
+  a { color: #838383 }
+  a:hover, a:focus { color: inherit }
+
+  ul {
+    position: absolute;
+    top: 0;
+    height: 100%;
+
+    &.left  { left: 0; border-right: 1px solid #c4c4c4 }
+    &.right { right: 0; border-left: 1px solid #c4c4c4 }
+  }
+
+  .library {
+    text-transform: uppercase;
+    font-weight: bold;
+    border-left: 1px solid #f6f6f6;
+  }
+}
+
+header li + li { border-left: 1px solid #c4c4c4 }
+header li {
+  float: left;
+  list-style-type: none;
+  height: 100%;
+
+  a {
+    display: block;
+    height: 100%;
+    padding: 0 1.4em;
+    border-bottom: 1px solid #c4c4c4;
+  }
+
+  a:hover, a:focus { background-color: rgba(#fff, .8) }
+  a:before { content: ''; height: 100% }
+  a:before, a > span { display: inline-block; vertical-align: middle }
+
+  img { display: block }
+}
+
+header li.selected {
+  border-left: 0;
+
+  a {
+    background-color: $blueColor;
+    border-bottom: 1px solid #01b3df;
+    @include gradient(#4ddafd, #02c9fb);
+  }
+  a:hover, a:focus { @include gradient(lighten(#4ddafd, 5%), lighten(#02c9fb, 5%)) }
+}
