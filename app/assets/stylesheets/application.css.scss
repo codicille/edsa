@@ -138,7 +138,23 @@ header li.selected {
 // Main ----------------------------------------------------------------------
 [role="main"] {
   margin-top: 5em;
-  line-height: 1.8
+  line-height: 1.8;
+  counter-reset: paragraph;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+
+  p { position: relative }
+  p:before {
+    display: inline-block;
+    width: 10%;
+    margin-left: -10%;
+    font-size: 14px;
+    color: $blueColor;
+    counter-increment: paragraph;
+    content:"§" counter(paragraph);
+  }
 }
 
 // --------------------------------------------------------------------------- 1067px
