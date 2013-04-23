@@ -48,7 +48,13 @@ header {
     font-size: 1.4em;
     border-bottom: 1px solid #c4c4c4;
 
-    & > div { max-width: 540px; margin: auto }
+    .wrap {
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .author { font-weight: bold }
     .title:before { content: '-'; padding: 0 .5em 0 .4em }
   }
@@ -101,4 +107,14 @@ header li.selected {
     @include gradient(#4ddafd, #02c9fb);
   }
   a:hover, a:focus { @include gradient(lighten(#4ddafd, 5%), lighten(#02c9fb, 5%)) }
+}
+
+// --------------------------------------------------------------------------- 1067px
+@media (max-width: 1067px) {
+  header .wrap {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 235px 0 230px;
+  }
 }
