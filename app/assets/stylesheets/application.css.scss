@@ -137,7 +137,9 @@ header li.selected {
 
 // Main ----------------------------------------------------------------------
 [role="main"] {
-  margin-top: 5em;
+  margin: 7em 0;
+  font-family: Times, serif;
+  font-size: 21px;
   line-height: 1.8;
   counter-reset: paragraph;
   -webkit-user-select: text;
@@ -147,6 +149,7 @@ header li.selected {
 
   p { position: relative }
   p:before {
+    font-family: 'Open sans', sans-serif;
     display: inline-block;
     width: 10%;
     margin-left: -10%;
