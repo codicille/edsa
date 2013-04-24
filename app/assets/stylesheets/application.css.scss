@@ -141,6 +141,7 @@ header li.selected {
 }
 
 .show-advanced-menus {
+  header:before { height: 200px }
   .advanced-menu { @include vendor-prefixes(transform, translateY(0)) }
   .button-advanced-menus { @include vendor-prefixes(transform, translateY(-100%)) }
 }
@@ -188,7 +189,7 @@ footer:before, {
   display: block;
   position: absolute;
   left: 0;
-  width: 100%; height: 150px;
+  width: 100%; height: 100px;
   background-color: transparent !important;
   pointer-events: none;
 }
