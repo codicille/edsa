@@ -10,7 +10,7 @@
 </head>
 <body>
   <header>
-    <div>
+    <div class="advanced-menu">
       <ul class="left">
         <li><a class="library" href="javascript:"><span>Bibliothèque</span></a></li>
         <li><a class="book" href="javascript:"><span><img src="<%= asset_path 'icons/icon-book.png' %>"></span></a></li>
@@ -24,9 +24,10 @@
       <ul class="right">
         <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-search.png' %>"></span></a></li>
         <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-text.png' %>"></span></a></li>
-        <li class="selected"><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-close.png' %>"></span></a></li>
+        <li class="selected"><a class="close-advanced-menus" href="javascript:hideAdvancedMenus()"><span><img src="<%= asset_path 'icons/icon-close.png' %>"></span></a></li>
       </ul>
     </div>
+    <a class="button-advanced-menus" href="javascript:showAdvancedMenus()"><img src="<%= asset_path 'icons/icon-glasses.png' %>"></a>
   </header>
 
   <section role="main">

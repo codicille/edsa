@@ -38,12 +38,13 @@ header {
   top: 0; left: 2.5%; right: 2.5%;
   font-size: 14px;
 
-  & > div {
+  .advanced-menu {
     z-index: 1;
     position: relative;
     border: 6px solid #e1e1e1;
     border-top: 0;
     @include gradient(#fefefe, #fafafa);
+    @include vendor-prefixes(transform, translateY(-100%));
   }
 
   h1 {
@@ -81,6 +82,25 @@ header {
     text-transform: uppercase;
     font-weight: bold;
     border-left: 1px solid #f6f6f6;
+  }
+
+  .button-advanced-menus {
+    position: absolute;
+    top: 24px; right: 0;
+    display: block;
+    width: 76px; height: 76px;
+    background-color: #f9f9f9;
+    border-radius: 100%;
+    text-align: center;
+
+    &:hover, &:focus { background-color: darken(#f9f9f9, 5%) }
+
+    img { position: relative; top: -2px ;}
+    &:before { content: ''; height: 100%; }
+    &:before, img {
+      display: inline-block;
+      vertical-align: middle;
+    }
   }
 }
 
@@ -125,6 +145,16 @@ header li.selected {
     @include gradient(#4ddafd, #02c9fb);
   }
   a:hover, a:focus { @include gradient(lighten(#4ddafd, 5%), lighten(#02c9fb, 5%)) }
+}
+
+// Advanced Menus ------------------------------------------------------------
+.advanced-menu, .button-advanced-menus {
+  @include transform-transition(.2s)
+}
+
+.show-advanced-menus {
+  .advanced-menu { @include vendor-prefixes(transform, translateY(0)) }
+  .button-advanced-menus { @include vendor-prefixes(transform, translateY(-100%)) }
 }
 
 // Main ----------------------------------------------------------------------
