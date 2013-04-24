@@ -143,7 +143,7 @@ header li.selected {
 .show-advanced-menus {
   header:before { height: 200px }
   .advanced-menu { @include vendor-prefixes(transform, translateY(0)) }
-  .button-advanced-menus { @include vendor-prefixes(transform, translateY(-100%)) }
+  .button-advanced-menus { @include vendor-prefixes(transform, translateY(-25%) scale(0)) }
 }
 
 // Main ----------------------------------------------------------------------
