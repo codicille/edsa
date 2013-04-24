@@ -3,6 +3,7 @@ ruby '1.9.3'
 
 # Server
 gem 'unicorn'
+gem 'foreman'
 
 # App
 gem 'rake'
