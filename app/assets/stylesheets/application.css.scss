@@ -141,11 +141,17 @@ header li.selected {
   font-family: Times, serif;
   font-size: 21px;
   line-height: 1.8;
-  counter-reset: paragraph;
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
   user-select: text;
+
+  h1, h2 { margin: .2em 0 }
+  h1 { font-size: 48px }
+  h2 { font-size: 32px }
+  h3 { margin-top: 2em }
+
+  section { counter-reset: paragraph }
 
   p { position: relative }
   p:before {
