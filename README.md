@@ -3,7 +3,8 @@
 > Web-based and multi-devices e-book reader.
 
 ## Setup
-Run `script/setup` for a one-step complete installation.
+Run `script/setup` for a one-step complete installation.<br>
+Use `foreman start` to run the application.
 
 ## Asset Helpers
 ### `asset_path`
@@ -42,7 +43,8 @@ Don’t forget to set the `ENV['ASSET_HOST']` environment variable. We strongly 
 ```sh
 rake deploy:staging
 ```
-Push `dev` to `origin/dev` & `staging/master`
+Push `master` to `origin/master` & `staging/master`<br>
+You can change the branch in [Rakefile](Rakefile#L28-L30)
 
 ### Production
 ```sh
