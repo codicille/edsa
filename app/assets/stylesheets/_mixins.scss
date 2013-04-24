@@ -12,3 +12,10 @@
   -ms-#{$name}: $argument;
   #{$name}: $argument;
 }
+
+@mixin transform-transition($options) {
+  -webkit-transition: -webkit-transform $options;
+  -moz-transition: -moz-transform $options;
+  -ms-transition: -ms-transform $options;
+  transition: transform $options;
+}
