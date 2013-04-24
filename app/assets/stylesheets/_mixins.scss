@@ -5,3 +5,10 @@
   background-image: -webkit-linear-gradient($from, $to); // Safari 5.1+, Chrome 10+
   background-image: -o-linear-gradient($from, $to); // Opera 11.10+
 }
+
+@mixin vendor-prefixes($name, $argument) {
+  -webkit-#{$name}: $argument;
+  -moz-#{$name}: $argument;
+  -ms-#{$name}: $argument;
+  #{$name}: $argument;
+}

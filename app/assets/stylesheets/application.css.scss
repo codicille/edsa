@@ -6,12 +6,7 @@
 
 // Base ----------------------------------------------------------------------
 * { box-sizing: border-box }
-body {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+body { @include vendor-prefixes(user-select, none) }
 
 body, button, input, legend, textarea {
   font-family: 'Open sans', 'sans-serif';
@@ -57,10 +52,7 @@ header {
     color: #b3b3b3;
     font-size: 1.4em;
     border-bottom: 1px solid #c4c4c4;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
+    @include vendor-prefixes(user-select, text);
 
     .wrap {
       line-height: 1.3;
@@ -141,10 +133,7 @@ header li.selected {
   font-family: Times, serif;
   font-size: 21px;
   line-height: 1.8;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+  @include vendor-prefixes(user-select, text);
 
   h1, h2 { margin: .2em 0 }
   h1 { font-size: 48px }
