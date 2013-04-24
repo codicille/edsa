@@ -53,7 +53,7 @@ header {
     color: #b3b3b3;
     font-size: 1.4em;
     border-bottom: 1px solid #c4c4c4;
-    @include vendor-prefixes(user-select, text);
+    &:hover { @include vendor-prefixes(user-select, text) }
 
     .wrap {
       line-height: 1.3;
