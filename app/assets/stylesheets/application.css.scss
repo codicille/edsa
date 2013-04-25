@@ -141,7 +141,7 @@ header li.selected {
 }
 
 .show-advanced-menus {
-  header:before { height: 200px }
+  header:before, footer:before { height: 200px }
   .advanced-menu { @include vendor-prefixes(transform, translateY(0)) }
   .button-advanced-menus { @include vendor-prefixes(transform, translateY(-25%) scale(0)) }
 }
@@ -179,6 +179,40 @@ footer {
   position: fixed;
   bottom: 0; left: 0;
   width: 100%;
+
+  .advanced-menu {
+    font-size: 0;
+    padding-bottom: 8px;
+    @include gradient(rgba(#fff, 0), #fff);
+    @include vendor-prefixes(transform, translateY(100%));
+  }
+
+  .advanced-menu > div {
+    z-index: 1;
+    position: relative;
+    font-size: 14px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.timeline {
+  width: 72%;
+  padding-right: 30px;
+
+  .line {
+    display: block;
+    height: 1px;
+    background-color: #d8d8d8;
+  }
+}
+
+.chapters {
+  padding: .4em;
+  text-align: center;
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
+  @include gradient(#fff, #f3f3f3);
 }
 
 // Header & Footer fadeout ----------------------------------------------------
