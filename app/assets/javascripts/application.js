@@ -16,7 +16,7 @@ hideAdvancedMenus = function() {
 }
 
 getScrollTop = function() {
-  return window.pageYOffset || (typeof $window.scrollTop === "function" ? $window.scrollTop() : void 0);
+  return window.pageYOffset || (typeof $window.scrollTop === "function" ? $window.scrollTop() : 0);
 }
 
 stopScroll = function(e) { $window.off('scroll') }
