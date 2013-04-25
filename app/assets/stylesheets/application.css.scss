@@ -5,7 +5,7 @@
 @import 'mixins';
 
 // Base ----------------------------------------------------------------------
-* { box-sizing: border-box }
+* { box-sizing: border-box; -webkit-font-smoothing: subpixel-antialiased; }
 body { @include vendor-prefixes(user-select, none) }
 
 body, button, input, legend, textarea {
