@@ -1,3 +1,6 @@
+//= require_tree ./ext
+//= require_self
+
 // Cached elements
 var $body, $window;
 
