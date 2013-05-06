@@ -37,6 +37,7 @@ header {
   position: fixed;
   top: 0; left: 2.5%; right: 2.5%;
   font-size: 14px;
+  pointer-events: none;
 
   .advanced-menu {
     z-index: 1;
@@ -92,6 +93,7 @@ header {
     background-color: #f9f9f9;
     border-radius: 100%;
     text-align: center;
+    pointer-events: all;
 
     &:hover, &:focus { background-color: darken(#f9f9f9, 5%) }
 
@@ -141,6 +143,7 @@ header li.selected {
 }
 
 .show-advanced-menus {
+  header, footer { pointer-events: all }
   header:before, footer:before { height: 200px }
   .advanced-menu { @include vendor-prefixes(transform, translateY(0)) }
   .button-advanced-menus { @include vendor-prefixes(transform, translateY(-25%) scale(0)) }
@@ -180,6 +183,7 @@ footer {
   position: fixed;
   bottom: 0; left: 0;
   width: 100%;
+  pointer-events: none;
 
   .advanced-menu {
     font-size: 0;
