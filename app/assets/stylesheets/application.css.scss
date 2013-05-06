@@ -165,8 +165,10 @@ header li.selected {
     font-family: 'Open sans', sans-serif;
     display: inline-block;
     width: 10%;
-    margin-left: -10%;
+    margin-left: -17%;
     font-size: 14px;
+    text-align: right;
+    padding-right: 7%;
     color: $blueColor;
     counter-increment: paragraph;
     content:"§" counter(paragraph);
