@@ -39,7 +39,7 @@ initScroll = function(e) {
 
 // History replace state
 getAnchorTypeAndNumberMatches = function(url) {
-  return url.match(/(paragraph|chapter)-([0-9]+)/);
+  return url.match(/(paragraph|chapter)(-|\/)([0-9]+)/);
 }
 
 gotoAnchor = function(anchorType, anchorNumber) {
@@ -59,7 +59,7 @@ $('.paragraph-count').on('click', function(e) {
 
   matches = getAnchorTypeAndNumberMatches(this.getAttribute('href'));
   anchorType = matches[1];
-  anchorNumber = matches[2];
+  anchorNumber = matches[3];
 
   state = {};
   title = defaultTitle + ' - ' + anchorType.capitalize() + ' ' + anchorNumber;
@@ -68,3 +68,19 @@ $('.paragraph-count').on('click', function(e) {
   history.replaceState(state, title, url)
   gotoAnchor(anchorType, anchorNumber)
 })
+
+initCurrentAnchor = function() {
+  var currentHref, matches;
+
+  currentHref = window.location.href;
+  matches = getAnchorTypeAndNumberMatches(currentHref);
+
+  if (matches == null) { return }
+
+  anchorType = matches[1];
+  anchorNumber = matches[3];
+
+  gotoAnchor(anchorType, anchorNumber);
+}
+
+initCurrentAnchor()
