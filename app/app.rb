@@ -11,6 +11,11 @@ class Edsa::App < Sinatra::Base
     erb :index
   end
 
+  get '/:anchor_type/:anchor_number' do
+    raise Sinatra::NotFound unless request.path_info.match(/(paragraph|chapter)\/([0-9]+)$/)
+    erb :index
+  end
+
   # Errors
   not_found do
     erb :'404'

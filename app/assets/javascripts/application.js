@@ -2,10 +2,11 @@
 //= require_self
 
 // Cached elements
-var $body, $window;
+var $body, $window, defaultTitle;
 
 $body = $('body');
 $window = $(window);
+defaultTitle = document.title;
 
 // Advanced menus
 showAdvancedMenus = function() {
@@ -35,3 +36,35 @@ initScroll = function(e) {
     if (difference > 100) { hideAdvancedMenus() }
   })
 }
+
+// History replace state
+getAnchorTypeAndNumberMatches = function(url) {
+  return url.match(/(paragraph|chapter)-([0-9]+)/);
+}
+
+gotoAnchor = function(anchorType, anchorNumber) {
+  var id, $elem, offset;
+
+  id = '#' + anchorType + '-' + anchorNumber
+  $elem = $(id)
+  offset = $elem.offset().top
+
+  $window.scrollTop(offset)
+  document.title = defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
+}
+
+$('.paragraph-count').on('click', function(e) {
+  var matches, anchorType, anchorNumber, state, title, url;
+  e.preventDefault();
+
+  matches = getAnchorTypeAndNumberMatches(this.getAttribute('href'));
+  anchorType = matches[1];
+  anchorNumber = matches[2];
+
+  state = {};
+  title = defaultTitle + ' - ' + anchorType.capitalize() + ' ' + anchorNumber;
+  url = '/' + anchorType + '/' + anchorNumber;
+
+  history.replaceState(state, title, url)
+  gotoAnchor(anchorType, anchorNumber)
+})
