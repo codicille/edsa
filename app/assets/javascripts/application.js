@@ -135,7 +135,7 @@ onWindowScroll = function(e) {
   // Close advanced menus
   if (advancedMenusOpened) {
     scrollDifference = Math.abs(scrollTop - currentScrollTop);
-    if (scrollDifference > 100) { hideAdvancedMenus() }
+    if (scrollDifference > 200) { hideAdvancedMenus() }
   }
 
   // Change history state to current chapter & paragraph
