@@ -1,58 +1,19 @@
 <h1>Gabrielle Roy</h1>
 <h2>Un jardin au bout du monde</h2>
 
-<section id="chapter-1" class="chapter">
-  <h3>Chapitre 1</h3>
-  <div id="paragraph-1" class="paragraph">
-    <p>
-      <a href="#paragraph-1" class="paragraph-count">1</a>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non tortor sed leo lacinia lobortis. Proin lorem quam, auctor ac dapibus eget, dapibus vel tortor. Sed fringilla congue mi, ut congue odio tincidunt quis. Nam a urna sit amet justo ultrices tincidunt sed ac felis. Suspendisse scelerisque dolor eu enim pulvinar accumsan. Vivamus condimentum justo vel nisi tincidunt ultrices. Maecenas quis ligula eget orci sollicitudin sollicitudin. Cras nibh dolor, pulvinar quis sagittis non, tempor ac nunc. Quisque pretium sollicitudin porta. Proin justo tortor, convallis ac congue et, sollicitudin et velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus.Duis iaculis pulvinar metus, sed pellentesque mi mattis sit amet. Nunc non urna quam, eu sollicitudin nibh.
-    </p>
-  </div>
-  <div id="paragraph-2" class="paragraph">
-    <p>
-      <a href="#paragraph-2" class="paragraph-count">2</a>
-      Praesent ut malesuada nibh. Donec venenatis tincidunt commodo. Praesent ut malesuada nibh. Donec venenatis tincidunt commodo. Mauris sit amet justo mauris. Morbi ultricies euismod suscipit. Mauris sit amet Mauris sit ametjusto mauris. Morbi ultricies euismod suscipit. In sollicitudin ultricies dapibus. Morbi faucibus eleifend accumsan. Fusce volutpat, erat quis ornare scelerisque, mauris mi egestas eros, eget posuere tortor urna in urna. Maecenas commodo purus id enim molestie laoreet. Nam sit amet mi orci. Aliquam dolor augue, faucibus non viverra eu, faucibus et tortor. Nullam lobortis mi nec neque convallis volutpat. Quisque molestie libero ut sapien venenatis ac vehicula justo auctor. Cras congue tempus magna, in rhoncus turpis lacinia ut. Integer tempus, metus quis vulputate imperdiet, odio nunc lacinia purus, nec commodo lorem turpis at purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    </p>
-  </div>
-  <div id="paragraph-3" class="paragraph">
-    <p>
-      <a href="#paragraph-3" class="paragraph-count">3</a>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non tortor sed leo lacinia lobortis. Proin lorem quam, auctor ac dapibus eget, dapibus vel tortor. Sed fringilla congue mi, ut congue odio tincidunt quis. Nam a urna sit amet justo ultrices tincidunt sed ac felis. Suspendisse scelerisque dolor eu enim pulvinar accumsan. Vivamus condimentum justo vel nisi tincidunt ultrices. Maecenas quis ligula eget orci sollicitudin sollicitudin. Cras nibh dolor, pulvinar quis sagittis non, tempor ac nunc. Quisque pretium sollicitudin porta. Proin justo tortor, convallis ac congue et, sollicitudin et velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus.Duis iaculis pulvinar metus, sed pellentesque mi mattis sit amet. Nunc non urna quam, eu sollicitudin nibh.
-    </p>
-  </div>
-  <div id="paragraph-4" class="paragraph">
-    <p>
-      <a href="#paragraph-4" class="paragraph-count">4</a>
-      Praesent ut malesuada nibh. Donec venenatis tincidunt commodo. Praesent ut malesuada nibh. Donec venenatis tincidunt commodo. Mauris sit amet justo mauris. Morbi ultricies euismod suscipit. Mauris sit amet Mauris sit ametjusto mauris. Morbi ultricies euismod suscipit. In sollicitudin ultricies dapibus. Morbi faucibus eleifend accumsan. Fusce volutpat, erat quis ornare scelerisque, mauris mi egestas eros, eget posuere tortor urna in urna. Maecenas commodo purus id enim molestie laoreet. Nam sit amet mi orci. Aliquam dolor augue, faucibus non viverra eu, faucibus et tortor. Nullam lobortis mi nec neque convallis volutpat. Quisque molestie libero ut sapien venenatis ac vehicula justo auctor. Cras congue tempus magna, in rhoncus turpis lacinia ut. Integer tempus, metus quis vulputate imperdiet, odio nunc lacinia purus, nec commodo lorem turpis at purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    </p>
-  </div>
-</section>
+<% 40.times do |i| %>
+  <% chapter_index = i + 1 %>
+  <section id="chapter-<%= chapter_index %>" class="chapter">
+    <h3>Chapitre <%= chapter_index %></h3>
 
-<section id="chapter-2" class="chapter">
-  <h3>Chapitre 2</h3>
-  <div id="paragraph-5" class="paragraph">
-    <p>
-      <a href="#paragraph-5" class="paragraph-count">5</a>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non tortor sed leo lacinia lobortis. Proin lorem quam, auctor ac dapibus eget, dapibus vel tortor. Sed fringilla congue mi, ut congue odio tincidunt quis. Nam a urna sit amet justo ultrices tincidunt sed ac felis. Suspendisse scelerisque dolor eu enim pulvinar accumsan. Vivamus condimentum justo vel nisi tincidunt ultrices. Maecenas quis ligula eget orci sollicitudin sollicitudin. Cras nibh dolor, pulvinar quis sagittis non, tempor ac nunc. Quisque pretium sollicitudin porta. Proin justo tortor, convallis ac congue et, sollicitudin et velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus.Duis iaculis pulvinar metus, sed pellentesque mi mattis sit amet. Nunc non urna quam, eu sollicitudin nibh.
-    </p>
-  </div>
-  <div id="paragraph-6" class="paragraph">
-    <p>
-      <a href="#paragraph-6" class="paragraph-count">6</a>
-      Praesent ut malesuada nibh. Donec venenatis tincidunt commodo. Praesent ut malesuada nibh. Donec venenatis tincidunt commodo. Mauris sit amet justo mauris. Morbi ultricies euismod suscipit. Mauris sit amet Mauris sit ametjusto mauris. Morbi ultricies euismod suscipit. In sollicitudin ultricies dapibus. Morbi faucibus eleifend accumsan. Fusce volutpat, erat quis ornare scelerisque, mauris mi egestas eros, eget posuere tortor urna in urna. Maecenas commodo purus id enim molestie laoreet. Nam sit amet mi orci. Aliquam dolor augue, faucibus non viverra eu, faucibus et tortor. Nullam lobortis mi nec neque convallis volutpat. Quisque molestie libero ut sapien venenatis ac vehicula justo auctor. Cras congue tempus magna, in rhoncus turpis lacinia ut. Integer tempus, metus quis vulputate imperdiet, odio nunc lacinia purus, nec commodo lorem turpis at purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    </p>
-  </div>
-  <div id="paragraph-7" class="paragraph">
-    <p>
-      <a href="#paragraph-7" class="paragraph-count">7</a>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non tortor sed leo lacinia lobortis. Proin lorem quam, auctor ac dapibus eget, dapibus vel tortor. Sed fringilla congue mi, ut congue odio tincidunt quis. Nam a urna sit amet justo ultrices tincidunt sed ac felis. Suspendisse scelerisque dolor eu enim pulvinar accumsan. Vivamus condimentum justo vel nisi tincidunt ultrices. Maecenas quis ligula eget orci sollicitudin sollicitudin. Cras nibh dolor, pulvinar quis sagittis non, tempor ac nunc. Quisque pretium sollicitudin porta. Proin justo tortor, convallis ac congue et, sollicitudin et velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus.Duis iaculis pulvinar metus, sed pellentesque mi mattis sit amet. Nunc non urna quam, eu sollicitudin nibh.
-    </p>
-  </div>
-  <div id="paragraph-8" class="paragraph">
-    <p>
-      <a href="#paragraph-8" class="paragraph-count">8</a>
-      Praesent ut malesuada nibh. Donec venenatis tincidunt commodo. Praesent ut malesuada nibh. Donec venenatis tincidunt commodo. Mauris sit amet justo mauris. Morbi ultricies euismod suscipit. Mauris sit amet Mauris sit ametjusto mauris. Morbi ultricies euismod suscipit. In sollicitudin ultricies dapibus. Morbi faucibus eleifend accumsan. Fusce volutpat, erat quis ornare scelerisque, mauris mi egestas eros, eget posuere tortor urna in urna. Maecenas commodo purus id enim molestie laoreet. Nam sit amet mi orci. Aliquam dolor augue, faucibus non viverra eu, faucibus et tortor. Nullam lobortis mi nec neque convallis volutpat. Quisque molestie libero ut sapien venenatis ac vehicula justo auctor. Cras congue tempus magna, in rhoncus turpis lacinia ut. Integer tempus, metus quis vulputate imperdiet, odio nunc lacinia purus, nec commodo lorem turpis at purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    </p>
-  </div>
-</section>
+    <% 8.times do |ii| %>
+      <% paragraph_index = (i * 8 + ii) + 1 %>
+      <div id="paragraph-<%= paragraph_index %>" class="paragraph">
+        <p>
+          <a href="#paragraph-<%= paragraph_index %>" class="paragraph-count"><%= paragraph_index %></a>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non tortor sed leo lacinia lobortis. Proin lorem quam, auctor ac dapibus eget, dapibus vel tortor. Sed fringilla congue mi, ut congue odio tincidunt quis. Nam a urna sit amet justo ultrices tincidunt sed ac felis. Suspendisse scelerisque dolor eu enim pulvinar accumsan. Vivamus condimentum justo vel nisi tincidunt ultrices. Maecenas quis ligula eget orci sollicitudin sollicitudin. Cras nibh dolor, pulvinar quis sagittis non, tempor ac nunc. Quisque pretium sollicitudin porta. Proin justo tortor, convallis ac congue et, sollicitudin et velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sit amet magna id felis ullamcorper dignissim in nec lectus.Duis iaculis pulvinar metus, sed pellentesque mi mattis sit amet. Nunc non urna quam, eu sollicitudin nibh.
+        </p>
+      </div>
+    <% end %>
+  </section>
+<% end %>
