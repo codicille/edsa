@@ -2,15 +2,22 @@
 //= require_self
 
 // Global variables & cached elements
-var $body, $window, defaultTitle, currentState;
+var $body, $window, $currentChapter, $currentParagraph, $paragraphCount, defaultTitle, currentState;
 
 $body = $('body');
 $window = $(window);
+
+$currentChapter = $('[data-hook="current-chapter"]');
+$currentParagraph = $('[data-hook="current-paragraph"]');
+$paragraphCount = $('[data-hook="paragraph-count"]');
 
 defaultTitle = document.title;
 currentState = null;
 advancedMenusOpened = false;
 currentScrollTop = 0;
+currentChapter = 1;
+currentParagraph = 1;
+paragraphCount = 1;
 
 // Advanced menus
 showAdvancedMenus = function() {
@@ -135,20 +142,46 @@ onWindowScroll = function(e) {
   $('.chapter').each(function(i, chapter) {
     if (!isInTheFold(chapter)) { return true }
     currentAnchor = chapter;
+    setCurrentChapter(getAnchorTypeAndNumberMatches(chapter.id).number);
 
     $(chapter).children('.paragraph').each(function(ii, paragraph) {
       if (!isInTheFold(paragraph)) { return true }
       currentAnchor = paragraph;
+      setCurrentParagraph(getAnchorTypeAndNumberMatches(paragraph.id).number);
     });
   });
 
   if (currentAnchor == null) {
     clearState();
+    setCurrentChapter(1);
+    setCurrentParagraph(1);
     return;
   }
 
   matches = getAnchorTypeAndNumberMatches(currentAnchor.id);
   replaceStateFromMatches(matches, false);
+}
+
+setCurrentChapter = function(chapterNumber) {
+  if (chapterNumber == currentChapter) { return }
+
+  currentChapter = chapterNumber;
+  $currentChapter.html(chapterNumber);
+}
+
+setCurrentParagraph = function(paragraphNumber) {
+  if (paragraphNumber == currentParagraph) { return }
+
+  currentParagraph = paragraphNumber;
+  $currentParagraph.html(paragraphNumber);
+}
+
+setParagraphCount = function(count) {
+  if (count == null) { count = $('.paragraph').length }
+  if (count == paragraphCount) { return }
+
+  paragraphCount = count;
+  $paragraphCount.html(count);
 }
 
 // Events
@@ -158,3 +191,4 @@ $window.on('resize', onWindowScroll);
 
 // Onload
 gotoCurrentAnchor();
+setParagraphCount();
