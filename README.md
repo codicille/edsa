@@ -2,55 +2,24 @@
 
 > Web-based and multi-devices e-book reader.
 
-## Setup
-Run `script/setup` for a one-step complete installation.<br>
+## Objectives
+
+The goal of this proejct is to provide a very capable and nice front-end only
+web-based ebook reader that can be embeded in a more complete ebook solution.
+
+The reader is run via the [Sinatra][sinatra] ruby framework for demonstration
+purpose but could be use in an other framework or language.
+
+## Quick start
+
+Run `script/setup` for a one-step complete installation.
+
 Use `foreman start` to run the application.
 
-## Asset Helpers
-### `asset_path`
-```erb
-<img src="<%= asset_path 'kckstrt.png' %>" alt="Kckstrt">
-```
+## Credits & license
 
-`asset_path` uses Sprockets’ `digest_path` to find the asset within `app/assets/(images|javascripts|stylesheets)`.
+EDSA source is released under GNU General Public License Version 3. See [LICENSE](LICENSE) for details.
 
---
-### `javascript_include_tag` & `stylesheet_link_tag`
-```erb
-<head>
-  <title>Kckstrt</title>
-  <%= stylesheet_link_tag :styles %>
-  <%# => <link rel="stylesheet" href="/assets/styles.css"> %>
-</head>
-<body>
-  <%= javascript_link_tag :scripts %>
-  <%# => <script src="/assets/scripts.js"></script> %>
-</body>
-```
+Contributions are welcome, please read [contributing guide](CONTRIBUTING.md) first.
 
---
-### `inline_script_tag`
-```erb
-<%= inline_script_tag :scripts %>
-<%# => <script>console.log('content of scripts.js')</script> %>
-```
-
-## Deployment
-This app is [Heroku][]-ready.<br>
-Don’t forget to set the `ENV['ASSET_HOST']` environment variable. We strongly suggest using [Amazon CloudFront][CloudFront] for a plug and play CDN host. Otherwise you’ll have to pre-compile your assets. Such script isn’t included.
-
-### Staging
-```sh
-rake deploy:staging
-```
-Push `master` to `origin/master` & `staging/master`<br>
-You can change the branch in [Rakefile](Rakefile#L28-L30)
-
-### Production
-```sh
-rake deploy:production
-```
-Push `master` to `origin/master` & `production/master`
-
-[Heroku]: http://www.heroku.com
-[CloudFront]: http://aws.amazon.com/cloudfront
+[sinatra]: https://github.com/sinatra
