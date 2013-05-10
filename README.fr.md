@@ -12,7 +12,7 @@ Le projet est exécuté via le cadre d'application web ruby [Sinatra][sinatra]
 pour le démo, mais l'idée est de pouvoir utiliser le code dans n'importe quel
 langage ou cadre d'application.
 
-## Guide de démarre
+## Guide de démarrage
 
 Exécutez `script/setup` pour installer le projet.
 
