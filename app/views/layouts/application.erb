@@ -24,7 +24,7 @@
       <ul class="right">
         <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-search.png' %>"></span></a></li>
         <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-text.png' %>"></span></a></li>
-        <li class="selected"><a class="close-advanced-menus" href="javascript:hideAdvancedMenus()"><span><img src="<%= asset_path 'icons/icon-close.png' %>"></span></a></li>
+        <li class="last"><a class="close-advanced-menus blue-button" href="javascript:hideAdvancedMenus()"><span><img src="<%= asset_path 'icons/icon-close.png' %>"></span></a></li>
       </ul>
     </div>
     <a class="button-advanced-menus" href="javascript:showAdvancedMenus()"><img src="<%= asset_path 'icons/icon-glasses.png' %>"></a>
@@ -43,7 +43,21 @@
           <span class="line"></span>
         </div>
         <div class="chapters">
-          Chapitre <span data-hook="current-chapter">1</span> | §<span data-hook="current-paragraph">1</span>/<span data-hook="paragraph-count">1</span>
+          <div class="button">Chapitre <span data-hook="current-chapter">1</span> | §<span data-hook="current-paragraph">1</span>/<span data-hook="paragraph-count">1</span></div>
+          <div class="popup popup-with-tip">
+            <div class="columns">
+              <div class="column column-2">
+                <span>Chapitre</span>
+                <select name="chapter"></select>
+              </div>
+              <div class="column column-2">
+                <span>Paragraphe</span>
+                <select name="paragraph"></select>
+              </div>
+            </div>
+
+            <button class="blue-button">Aller</button>
+          </div>
         </div>
       </div>
     </div>

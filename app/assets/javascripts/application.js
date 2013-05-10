@@ -2,7 +2,9 @@
 //= require_self
 
 // Global variables & cached elements
-var $body, $window, $currentChapter, $currentParagraph, $paragraphCount, defaultTitle, currentState;
+var $body, $window, $currentChapter, $currentParagraph, $paragraphCount, $chapterSelect, $paragraphSelect,
+    defaultTitle, currentState, advancedMenusOpened, currentScrollTop, currentChapter, currentParagraph,
+    paragraphCount, chapterCount;
 
 $body = $('body');
 $window = $(window);
@@ -10,6 +12,8 @@ $window = $(window);
 $currentChapter = $('[data-hook="current-chapter"]');
 $currentParagraph = $('[data-hook="current-paragraph"]');
 $paragraphCount = $('[data-hook="paragraph-count"]');
+$chapterSelect = $('select[name="chapter"]')
+$paragraphSelect = $('select[name="paragraph"]')
 
 defaultTitle = document.title;
 currentState = null;
@@ -18,6 +22,7 @@ currentScrollTop = 0;
 currentChapter = 1;
 currentParagraph = 1;
 paragraphCount = 1;
+chapterCount = 1;
 
 // Advanced menus
 showAdvancedMenus = function() {
@@ -167,6 +172,8 @@ setCurrentChapter = function(chapterNumber) {
 
   currentChapter = chapterNumber;
   $currentChapter.html(chapterNumber);
+
+  $chapterSelect[0].options.selectedIndex = chapterNumber - 1;
 }
 
 setCurrentParagraph = function(paragraphNumber) {
@@ -174,6 +181,8 @@ setCurrentParagraph = function(paragraphNumber) {
 
   currentParagraph = paragraphNumber;
   $currentParagraph.html(paragraphNumber);
+
+  $paragraphSelect[0].options.selectedIndex = paragraphNumber - 1;
 }
 
 setParagraphCount = function(count) {
@@ -181,7 +190,28 @@ setParagraphCount = function(count) {
   if (count == paragraphCount) { return }
 
   paragraphCount = count;
+  setAnchorSelect('paragraph');
+
   $paragraphCount.html(count);
+}
+
+setChapterCount = function(count) {
+  if (count == null) { count = $('.chapter').length }
+  if (count == chapterCount) { return }
+
+  chapterCount = count;
+  setAnchorSelect('chapter');
+}
+
+setAnchorSelect = function(anchorType) {
+  var $select, anchorCount;
+
+  anchorCount = this[anchorType + 'Count'];
+  $select = this['$' + anchorType + 'Select'];
+
+  for (var i=1; i <= anchorCount; i++) {
+    $select.append('<option value="' + i + '">' + i + '</option>')
+  }
 }
 
 // Events
@@ -192,3 +222,4 @@ $window.on('resize', onWindowScroll);
 // Onload
 gotoCurrentAnchor();
 setParagraphCount();
+setChapterCount();
