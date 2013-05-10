@@ -71,7 +71,7 @@ header {
       text-overflow: ellipsis;
     }
 
-    .author { font-weight: bold }
+    .author { font-weight: 700 }
     .title:before { content: '-'; padding: 0 .5em 0 .4em }
   }
 
@@ -89,7 +89,7 @@ header {
 
   .library {
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 700;
     border-left: 1px solid #f6f6f6;
   }
 
