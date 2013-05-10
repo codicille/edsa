@@ -6,7 +6,7 @@
 
 ## Objectives
 
-The goal of this proejct is to provide a very capable and nice front-end only
+The goal of this project is to provide a very capable and nice front-end only
 web-based ebook reader that can be embeded in a more complete ebook solution.
 
 The reader is run via the [Sinatra][sinatra] ruby framework for demonstration
