@@ -285,7 +285,7 @@ footer {
   }
 }
 
-.chapters {
+.anchors {
   position: relative;
 
   .column-2:first-child { padding-right: .6em }
@@ -312,7 +312,7 @@ footer {
   }
 }
 
-.chapters:hover {
+.anchors:hover {
   .popup {
     opacity: 1;
     pointer-events: all;

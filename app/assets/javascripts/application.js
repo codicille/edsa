@@ -2,9 +2,13 @@
 //= require_self
 
 // Global variables & cached elements
-var $body, $window, $currentChapter, $currentParagraph, $paragraphCount, $chapterSelect, $paragraphSelect,
-    defaultTitle, currentState, advancedMenusOpened, currentScrollTop, currentChapter, currentParagraph,
-    paragraphCount, chapterCount;
+var _this, $body, $window, $currentChapter, $currentParagraph, $paragraphCount, $chapterSelect, $paragraphSelect,
+    $anchorsButton;
+
+var defaultTitle, currentState, advancedMenusOpened, currentScrollTop, currentChapter, currentParagraph,
+    paragraphCount, chapterCount, forceChapterChange, forceParagraphChange, lastAnchorTypeChanged;
+
+_this = this;
 
 $body = $('body');
 $window = $(window);
@@ -12,8 +16,9 @@ $window = $(window);
 $currentChapter = $('[data-hook="current-chapter"]');
 $currentParagraph = $('[data-hook="current-paragraph"]');
 $paragraphCount = $('[data-hook="paragraph-count"]');
-$chapterSelect = $('select[name="chapter"]')
-$paragraphSelect = $('select[name="paragraph"]')
+$chapterSelect = $('select[name="chapter"]');
+$paragraphSelect = $('select[name="paragraph"]');
+$anchorsButton = $('.anchors button');
 
 defaultTitle = document.title;
 currentState = null;
@@ -23,6 +28,9 @@ currentChapter = 1;
 currentParagraph = 1;
 paragraphCount = 1;
 chapterCount = 1;
+forceChapterChange = false;
+forceParagraphChange = false;
+lastAnchorTypeChanged = 'paragraph';
 
 // Advanced menus
 showAdvancedMenus = function() {
@@ -168,20 +176,22 @@ onWindowScroll = function(e) {
 }
 
 setCurrentChapter = function(chapterNumber) {
-  if (chapterNumber == currentChapter) { return }
+  if (chapterNumber == currentChapter && !forceChapterChange) { return }
 
   currentChapter = chapterNumber;
-  $currentChapter.html(chapterNumber);
+  forceChapterChange = false;
 
+  $currentChapter.html(chapterNumber);
   $chapterSelect[0].options.selectedIndex = chapterNumber - 1;
 }
 
 setCurrentParagraph = function(paragraphNumber) {
-  if (paragraphNumber == currentParagraph) { return }
+  if (paragraphNumber == currentParagraph && !forceParagraphChange) { return }
 
   currentParagraph = paragraphNumber;
-  $currentParagraph.html(paragraphNumber);
+  forceParagraphChange = false;
 
+  $currentParagraph.html(paragraphNumber);
   $paragraphSelect[0].options.selectedIndex = paragraphNumber - 1;
 }
 
@@ -214,10 +224,53 @@ setAnchorSelect = function(anchorType) {
   }
 }
 
+onChapterSelectChange = function(e) {
+  var value, paragraphNumber, $chapter, $paragraph;
+
+  value = e.currentTarget.value;
+  $chapter = $('#chapter-' + value);
+  $paragraph = $chapter.children('.paragraph:first-of-type');
+
+  paragraphNumber = getAnchorTypeAndNumberMatches($paragraph[0].id).number;
+  changeSiblingAnchorSelect($paragraphSelect[0], paragraphNumber, 'chapter');
+}
+
+onParagraphSelectChange = function(e) {
+  var value, chapterNumber, $chapter, $paragraph;
+
+  value = e.currentTarget.value;
+  $paragraph = $('#paragraph-' + value);
+  $chapter = $paragraph.parent('');
+
+  chapterNumber = getAnchorTypeAndNumberMatches($chapter[0].id).number;
+  changeSiblingAnchorSelect($chapterSelect[0], chapterNumber, 'paragraph');
+}
+
+changeSiblingAnchorSelect = function(siblingAnchorSelect, anchorNumber, anchorType) {
+  siblingAnchorSelect.options.selectedIndex = anchorNumber - 1;
+
+  forceChapterChange = true;
+  forceParagraphChange = true;
+
+  lastAnchorTypeChanged = anchorType;
+}
+
+onAnchorsButtonClick = function(e) {
+  var anchorNumber, $select;
+
+  $select = _this['$' + lastAnchorTypeChanged + 'Select'];
+  anchorNumber = $select.val();
+
+  replaceState(lastAnchorTypeChanged, anchorNumber, true);
+}
+
 // Events
 $('.paragraph-count').on('click', onParagraphCountClick);
 $window.on('scroll', onWindowScroll);
 $window.on('resize', onWindowScroll);
+$chapterSelect.on('change', onChapterSelectChange);
+$paragraphSelect.on('change', onParagraphSelectChange);
+$anchorsButton.on('click', onAnchorsButtonClick);
 
 // Onload
 gotoCurrentAnchor();
