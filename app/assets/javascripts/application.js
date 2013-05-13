@@ -140,16 +140,10 @@ onParagraphCountClick = function(e) {
 }
 
 onWindowScroll = function(e) {
-  var scrollTop, scrollDifference, currentAnchor;
+  var scrollTop, currentAnchor;
 
   scrollTop = getScrollTop();
   currentAnchor = null;
-
-  // Close advanced menus
-  if (advancedMenusOpened) {
-    scrollDifference = Math.abs(scrollTop - currentScrollTop);
-    if (scrollDifference > 200) { hideAdvancedMenus() }
-  }
 
   // Change history state to current chapter & paragraph
   $('.chapter').each(function(i, chapter) {
