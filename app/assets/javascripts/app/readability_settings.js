@@ -17,7 +17,8 @@ ReadabilitySettings.prototype = (function() { var pro = {};
   // jQuery cached elements
   var elements = {
     container: $('.readability-settings-container'),
-    main: $('[role="main"]')
+    main: $('[role="main"]'),
+    paragraphCountLinks: $('.paragraph-count')
   }
 
   // Public scope --------------------------------------------------------------
@@ -111,6 +112,7 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     options.lineHeight.current = lineHeight;
 
     elements.main.css('line-height', lineHeight);
+    elements.paragraphCountLinks.css('line-height', lineHeight * 1.5);
   }
 
 return pro })();
