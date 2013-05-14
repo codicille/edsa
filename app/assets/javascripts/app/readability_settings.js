@@ -7,6 +7,10 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     fontSize: {
       default: 0,
       current: 0
+    },
+    lineHeight: {
+      default: 0,
+      current: 0
     }
   }
 
@@ -21,6 +25,8 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     var mainComputedStyle = window.getComputedStyle(elements.main[0]);
 
     setFontSizeOptions(mainComputedStyle);
+    setLineHeightOptions(mainComputedStyle);
+
     initContrastSlider();
   }
 
@@ -31,6 +37,10 @@ ReadabilitySettings.prototype = (function() { var pro = {};
   pro.largerFontSize  = function() { changeFontSize(1) }
   pro.smallerFontSize = function() { changeFontSize(-1) }
   pro.normalFontSize  = function() { setFontSize(options.fontSize.default) }
+
+  pro.largerLineHeight  = function() { changeLineHeight(1) }
+  pro.smallerLineHeight = function() { changeLineHeight(-1) }
+  pro.normalLineHeight  = function() { setLineHeight(options.lineHeight.default) }
 
   // Private scope -------------------------------------------------------------
   var openSubmenu = function() {
@@ -77,6 +87,30 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     options.fontSize.current = fontSize;
 
     elements.main.css('font-size', fontSize + 'px');
+  }
+
+  // Line-height Management
+  var setLineHeightOptions = function(mainComputedStyle) {
+    var mainLineHeight, lineHeight, roundedLineHeight;
+
+    mainLineHeight = parseInt(mainComputedStyle.getPropertyValue('line-height'));
+    lineHeight = mainLineHeight / options.fontSize.default;
+    roundedLineHeight = Math.round(lineHeight * 10) / 10;
+
+    options.lineHeight.default = roundedLineHeight;
+    options.lineHeight.current = roundedLineHeight;
+  }
+
+  var changeLineHeight = function(increment) {
+    var newLineHeight = (options.lineHeight.current * 10 + increment) / 10;
+    setLineHeight(newLineHeight);
+  }
+
+  var setLineHeight = function(lineHeight) {
+    if (options.lineHeight.current == lineHeight) { return }
+    options.lineHeight.current = lineHeight;
+
+    elements.main.css('line-height', lineHeight);
   }
 
 return pro })();
