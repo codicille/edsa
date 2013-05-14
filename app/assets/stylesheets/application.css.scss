@@ -41,6 +41,13 @@ a:focus, a:hover { color: lighten($blueColor, 10%) }
   font-size: $baseFontSize;
 }
 
+// Fonts ---------------------------------------------------------------------
+.font-helvetica { font-family: Helvetica, sans-serif }
+.font-times { font-family: Times, serif }
+.font-source-code { font-family: 'Source Code Pro', sans-serif }
+.font-pt-serif { font-family: 'PT Serif', serif }
+.font-open-sans { font-family: 'Open Sans', sans-serif }
+
 // Header --------------------------------------------------------------------
 header {
   z-index: 1;
@@ -251,7 +258,7 @@ header li {
   }
 }
 
-.simple-buttons {
+.buttons-group {
   .simple-button { border-radius: 0; border-bottom: 0 }
   .simple-button:first-child { border-radius: 3px 3px 0 0 }
   .simple-button:last-child { border-radius: 0 0 3px 3px; border-bottom: 1px solid #d8d8d8 }
@@ -373,7 +380,6 @@ header li {
 // Main ----------------------------------------------------------------------
 [role="main"] {
   margin: 7em 0;
-  font-family: Times, serif;
   font-size: 21px;
   line-height: 1.8;
   counter-reset: paragraph;

@@ -11,6 +11,10 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     lineHeight: {
       default: 0,
       current: 0
+    },
+    fontFamily: {
+      default: null,
+      current: null
     }
   }
 
@@ -27,7 +31,9 @@ ReadabilitySettings.prototype = (function() { var pro = {};
 
     setFontSizeOptions(mainComputedStyle);
     setLineHeightOptions(mainComputedStyle);
+    setFontFamilyOptions();
 
+    initFontFamilyButtonsGroup();
     initContrastSlider();
   }
 
@@ -42,6 +48,8 @@ ReadabilitySettings.prototype = (function() { var pro = {};
   pro.largerLineHeight  = function() { changeLineHeight(1) }
   pro.smallerLineHeight = function() { changeLineHeight(-1) }
   pro.normalLineHeight  = function() { setLineHeight(options.lineHeight.default) }
+
+  pro.fontFamily = function(fontFamily) { setFontFamily(fontFamily) }
 
   // Private scope -------------------------------------------------------------
   var openSubmenu = function() {
@@ -113,6 +121,32 @@ ReadabilitySettings.prototype = (function() { var pro = {};
 
     elements.main.css('line-height', lineHeight);
     elements.paragraphCountLinks.css('line-height', lineHeight * 1.5);
+  }
+
+  // Font family Management
+  var initFontFamilyButtonsGroup = function() {
+    var buttonsGroup, $buttonsGroup, defaultButton;
+
+    $buttonsGroup = $('.buttons-group.fonts');
+    defaultButton = $buttonsGroup.children('.font-' + options.fontFamily.default);
+
+    buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
+  }
+
+  var setFontFamilyOptions = function() {
+    var fontName = elements.main[0].className.match(/font-(.+)/);
+
+    options.fontFamily.default = fontName[1];
+    options.fontFamily.current = fontName[1];
+  }
+
+  var setFontFamily = function(fontFamily) {
+    if (options.fontFamily.current == fontFamily) { return }
+    var previousFontFamily = options.fontFamily.current;
+    options.fontFamily.current = fontFamily;
+
+    elements.main.removeClass('font-' + previousFontFamily);
+    elements.main.addClass('font-' + fontFamily);
   }
 
 return pro })();

@@ -5,7 +5,7 @@
   <title>Gabrielle Roy - Un jardin au bout du monde</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet'>
+  <link href='//fonts.googleapis.com/css?family=PT+Serif|Source+Code+Pro|Open+Sans:400,700' rel='stylesheet'>
   <%= stylesheet_link_tag :application %>
   <%= inline_script_tag :head_script %>
 </head>
@@ -64,12 +64,12 @@
             </section>
             <section>
               <span class="submenu-title">Police</span>
-              <div class="simple-buttons fonts">
-                <a href="javascript:" class="simple-button" style="font-family: Helvetica;"><span>Helvetica</span></a>
-                <a href="javascript:" class="simple-button selected" style="font-family: Times;"><span>Times</span></a>
-                <a href="javascript:" class="simple-button" style="font-family: Source Code;"><span>Source Code</span></a>
-                <a href="javascript:" class="simple-button" style="font-family: PT Serif;"><span>PT Serif</span></a>
-                <a href="javascript:" class="simple-button" style="font-family: Open Sans;"><span>Open Sans</span></a>
+              <div class="buttons-group fonts">
+                <a href="javascript:ReadabilitySettings.fontFamily('helvetica')" class="simple-button font-helvetica"><span>Helvetica</span></a>
+                <a href="javascript:ReadabilitySettings.fontFamily('times')" class="simple-button font-times"><span>Times</span></a>
+                <a href="javascript:ReadabilitySettings.fontFamily('source-code')" class="simple-button font-source-code"><span>Source Code</span></a>
+                <a href="javascript:ReadabilitySettings.fontFamily('pt-serif')" class="simple-button font-pt-serif"><span>PT Serif</span></a>
+                <a href="javascript:ReadabilitySettings.fontFamily('open-sans')" class="simple-button font-open-sans"><span>Open Sans</span></a>
               </div>
             </section>
           </div>
@@ -80,7 +80,7 @@
     <a class="button-advanced-menus" href="javascript:App.showAdvancedMenus()"><img src="<%= asset_path 'icons/icon-glasses.png' %>"></a>
   </header>
 
-  <section role="main">
+  <section role="main" class="font-times">
     <div class="wrap">
       <%= yield %>
     </div>
