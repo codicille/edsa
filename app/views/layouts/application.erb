@@ -24,7 +24,56 @@
       </h1>
       <ul class="right">
         <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-search.png' %>"></span></a></li>
-        <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-text.png' %>"></span></a></li>
+        <li class="submenu-container readability-settings-container">
+          <a href="javascript:ReadabilitySettings.toggleSubmenu()"><span><img src="<%= asset_path 'icons/icon-readability.png' %>"></span></a>
+          <div class="submenu">
+            <section>
+              <span class="submenu-title">Taille de la police</span>
+              <div class="columns">
+                <div class="column column-3"><a href="javascript:" class="simple-button"><img width="16" src="<%= asset_path 'icons/icon-letter-small.png' %>"></a></div>
+                <div class="column column-3"><a href="javascript:" class="simple-button"><span>Normal</span></a></div>
+                <div class="column column-3"><a href="javascript:" class="simple-button"><img width="22" src="<%= asset_path 'icons/icon-letter.png' %>"></a></div>
+              </div>
+            </section>
+            <section>
+              <span class="submenu-title">Taille de l’interlignage</span>
+              <div class="columns">
+                <div class="column column-3"><a href="javascript:" class="simple-button"><span class="icon-minus">-</span></a></div>
+                <div class="column column-3"><a href="javascript:" class="simple-button"><span>Normal</span></a></div>
+                <div class="column column-3"><a href="javascript:" class="simple-button"><span class="icon-plus">+</span></a></div>
+              </div>
+            </section>
+            <section class="contrast">
+              <span class="submenu-title">Contraste texte/fond</span>
+              <div class="columns">
+                <img class="contrast-icon icon-moon" src="<%= asset_path 'icons/icon-moon.png' %>">
+                <div class="slider-container column column-1">
+                  <div>
+                    <span class="slider"></span>
+                    <div class="contrast-colors">
+                      <span style="background-color: #1590b0;"></span>
+                      <span style="background-color: #17a0c3;"></span>
+                      <span style="background-color: #19afd5;"></span>
+                      <span style="background-color: #1cc0e9;"></span>
+                      <span style="background-color: #1ecffc;"></span>
+                    </div>
+                  </div>
+                </div>
+                <img class="contrast-icon icon-sun" src="<%= asset_path 'icons/icon-sun.png' %>">
+              </div>
+            </section>
+            <section>
+              <span class="submenu-title">Police</span>
+              <div class="simple-buttons fonts">
+                <a href="javascript:" class="simple-button" style="font-family: Helvetica;"><span>Helvetica</span></a>
+                <a href="javascript:" class="simple-button selected" style="font-family: Times;"><span>Times</span></a>
+                <a href="javascript:" class="simple-button" style="font-family: Source Code;"><span>Source Code</span></a>
+                <a href="javascript:" class="simple-button" style="font-family: PT Serif;"><span>PT Serif</span></a>
+                <a href="javascript:" class="simple-button" style="font-family: Open Sans;"><span>Open Sans</span></a>
+              </div>
+            </section>
+          </div>
+        </li>
         <li class="last"><a class="close-advanced-menus blue-button" href="javascript:App.hideAdvancedMenus()"><span><img src="<%= asset_path 'icons/icon-close.png' %>"></span></a></li>
       </ul>
     </div>
@@ -64,6 +113,7 @@
   </footer>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
   <%= javascript_include_tag :application %>
 </body>
 </html>
