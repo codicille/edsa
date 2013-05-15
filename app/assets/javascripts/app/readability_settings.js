@@ -12,6 +12,10 @@ ReadabilitySettings.prototype = (function() { var pro = {};
       default: 0,
       current: 0
     },
+    theme: {
+      default: null,
+      current: null
+    },
     fontFamily: {
       default: null,
       current: null
@@ -20,6 +24,7 @@ ReadabilitySettings.prototype = (function() { var pro = {};
 
   // jQuery cached elements
   var elements = {
+    body: $('body'),
     container: $('.readability-settings-container'),
     main: $('[role="main"]'),
     paragraphCountLinks: $('.paragraph-count')
@@ -31,10 +36,11 @@ ReadabilitySettings.prototype = (function() { var pro = {};
 
     setFontSizeOptions(mainComputedStyle);
     setLineHeightOptions(mainComputedStyle);
+    setThemeOptions();
     setFontFamilyOptions();
 
     initFontFamilyButtonsGroup();
-    initContrastSlider();
+    initThemeSlider();
   }
 
   pro.toggleSubmenu = function() {
@@ -64,18 +70,6 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     options.submenuOpened = false;
 
     elements.container.removeClass('show-submenu');
-  }
-
-  var initContrastSlider = function() {
-    $(".slider-container .slider").slider({
-      value: 1,
-      min: 1,
-      max: 5,
-      step: 1,
-      slide: function(e, ui) {
-        // console.log(ui.value);
-      }
-    })
   }
 
   // Font-size Management
@@ -123,6 +117,33 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     elements.paragraphCountLinks.css('line-height', lineHeight * 1.5);
   }
 
+  // Themes Management
+  var setThemeOptions = function() {
+    var theme = elements.body[0].className.match(/theme-(.+)/)[1];
+
+    options.theme.default = theme;
+    options.theme.current = theme;
+  }
+
+  var initThemeSlider = function() {
+    $(".slider-container .slider").slider({
+      value: options.theme.default,
+      min: 1,
+      max: 5,
+      step: 1,
+      slide: function(e, ui) { setTheme(ui.value) }
+    });
+  }
+
+  var setTheme = function(theme) {
+    if (options.theme.current == theme) { return }
+    var previousTheme = options.theme.current;
+    options.theme.current = theme;
+
+    elements.body.removeClass('theme-' + previousTheme);
+    elements.body.addClass('theme-' + theme);
+  }
+
   // Font family Management
   var initFontFamilyButtonsGroup = function() {
     var buttonsGroup, $buttonsGroup, defaultButton;
@@ -134,10 +155,10 @@ ReadabilitySettings.prototype = (function() { var pro = {};
   }
 
   var setFontFamilyOptions = function() {
-    var fontName = elements.main[0].className.match(/font-(.+)/);
+    var fontName = elements.main[0].className.match(/font-(.+)/)[1];
 
-    options.fontFamily.default = fontName[1];
-    options.fontFamily.current = fontName[1];
+    options.fontFamily.default = fontName;
+    options.fontFamily.current = fontName;
   }
 
   var setFontFamily = function(fontFamily) {

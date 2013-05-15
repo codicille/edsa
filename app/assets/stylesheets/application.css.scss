@@ -48,6 +48,13 @@ a:focus, a:hover { color: lighten($blueColor, 10%) }
 .font-pt-serif { font-family: 'PT Serif', serif }
 .font-open-sans { font-family: 'Open Sans', sans-serif }
 
+// Themes --------------------------------------------------------------------
+.theme-1 { background-color: #fff; color: $mainTextColor }
+.theme-2 { background-color: #fff; color: $mainTextColor }
+.theme-3 { background-color: #fff; color: $mainTextColor }
+.theme-4 { background-color: #fff; color: $mainTextColor }
+.theme-5 { background-color: #fff; color: $mainTextColor }
+
 // Header --------------------------------------------------------------------
 header {
   z-index: 1;
