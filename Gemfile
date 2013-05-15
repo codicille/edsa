@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+if RUBY_VERSION == '1.9.3'
+  ruby '1.9.3'
+else
+  ruby '2.0.0'
+end
 
 # Server
 gem 'unicorn'
