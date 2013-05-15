@@ -14,6 +14,10 @@ langage ou cadre d'application.
 
 ## Guide de démarrage
 
+Minimum requis pour exécuter l'application de démo :
+
+* Ruby 1.9.3+
+
 Exécutez `script/setup` pour installer le projet.
 
 Utilisez `foreman start` pour exécuter l'application.

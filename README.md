@@ -14,6 +14,10 @@ purpose but could be use in an other framework or language.
 
 ## Quick start
 
+Minimal requirements to run the demo application :
+
+* Ruby 1.9.3+
+
 Run `script/setup` for a one-step complete installation.
 
 Use `foreman start` to run the application.
