@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+# Bundler itself
+puts '=> Verifying dependencies'
+if `which bundle`.empty?
+  puts '=> Installing Bundler'
+  puts `gem install bundler`
+end
+
 # Bundler
 puts '=> Installing Gems'
 puts `bundle install`
