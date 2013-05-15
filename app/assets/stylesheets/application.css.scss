@@ -49,11 +49,40 @@ a:focus, a:hover { color: lighten($blueColor, 10%) }
 .font-open-sans { font-family: 'Open Sans', sans-serif }
 
 // Themes --------------------------------------------------------------------
-.theme-1 { background-color: #fff; color: $mainTextColor }
-.theme-2 { background-color: #fff; color: $mainTextColor }
-.theme-3 { background-color: #fff; color: $mainTextColor }
-.theme-4 { background-color: #fff; color: $mainTextColor }
-.theme-5 { background-color: #fff; color: $mainTextColor }
+.theme-1 {
+  background-color: #fff;
+  color: #202020;
+  header:before { @include gradient(#fff, rgba(#fff, 0)) }
+  footer:before { @include gradient(rgba(#fff, 0), #fff) }
+}
+
+.theme-2 {
+  background-color: #e6e6e6;
+  color: #414141;
+  header:before { @include gradient(#e6e6e6, rgba(#e6e6e6, 0)) }
+  footer:before { @include gradient(rgba(#e6e6e6, 0), #e6e6e6) }
+}
+
+.theme-3 {
+  background-color: #c5cbce;
+  color: #4b5155;
+  header:before { @include gradient(#c5cbce, rgba(#c5cbce, 0)) }
+  footer:before { @include gradient(rgba(#c5cbce, 0), #c5cbce) }
+}
+
+.theme-4 {
+  background-color: #3e4243;
+  color: #c3c4c5;
+  header:before { @include gradient(#3e4243, rgba(#3e4243, 0)) }
+  footer:before { @include gradient(rgba(#3e4243, 0), #3e4243) }
+}
+
+.theme-5 {
+  background-color: #161616;
+  color: #cdcdcd;
+  header:before { @include gradient(#161616, rgba(#161616, 0)) }
+  footer:before { @include gradient(rgba(#161616, 0), #161616) }
+}
 
 // Header --------------------------------------------------------------------
 header {
@@ -500,8 +529,8 @@ footer:before, {
   pointer-events: none;
 }
 
-header:before { top: 0; @include gradient(#fff, rgba(#fff, 0)) }
-footer:before { bottom: 0; @include gradient(rgba(#fff, 0), #fff) }
+header:before { top: 0; }
+footer:before { bottom: 0; }
 
 // --------------------------------------------------------------------------- 1067px
 @media (max-width: 1067px) {
