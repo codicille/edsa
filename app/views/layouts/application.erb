@@ -5,11 +5,11 @@
   <title>Gabrielle Roy - Un jardin au bout du monde</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet'>
+  <link href='//fonts.googleapis.com/css?family=PT+Serif|Source+Code+Pro|Open+Sans:400,700' rel='stylesheet'>
   <%= stylesheet_link_tag :application %>
   <%= inline_script_tag :head_script %>
 </head>
-<body>
+<body class="theme-1">
   <header>
     <div class="advanced-menu">
       <ul class="left">
@@ -24,14 +24,63 @@
       </h1>
       <ul class="right">
         <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-search.png' %>"></span></a></li>
-        <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-text.png' %>"></span></a></li>
+        <li class="submenu-container readability-settings-container">
+          <a href="javascript:ReadabilitySettings.toggleSubmenu()"><span><img src="<%= asset_path 'icons/icon-readability.png' %>"></span></a>
+          <div class="submenu">
+            <section>
+              <span class="submenu-title">Taille de la police</span>
+              <div class="columns">
+                <div class="column column-3"><a href="javascript:ReadabilitySettings.smallerFontSize()" class="simple-button"><img width="16" src="<%= asset_path 'icons/icon-letter-small.png' %>"></a></div>
+                <div class="column column-3"><a href="javascript:ReadabilitySettings.normalFontSize()" class="simple-button"><span>Normal</span></a></div>
+                <div class="column column-3"><a href="javascript:ReadabilitySettings.largerFontSize()" class="simple-button"><img width="22" src="<%= asset_path 'icons/icon-letter.png' %>"></a></div>
+              </div>
+            </section>
+            <section>
+              <span class="submenu-title">Taille de l’interlignage</span>
+              <div class="columns">
+                <div class="column column-3"><a href="javascript:ReadabilitySettings.smallerLineHeight()" class="simple-button"><span class="icon-minus">-</span></a></div>
+                <div class="column column-3"><a href="javascript:ReadabilitySettings.normalLineHeight()" class="simple-button"><span>Normal</span></a></div>
+                <div class="column column-3"><a href="javascript:ReadabilitySettings.largerLineHeight()" class="simple-button"><span class="icon-plus">+</span></a></div>
+              </div>
+            </section>
+            <section class="contrast">
+              <span class="submenu-title">Contraste texte/fond</span>
+              <div class="columns">
+                <img class="contrast-icon icon-moon" src="<%= asset_path 'icons/icon-moon.png' %>">
+                <div class="slider-container column column-1">
+                  <div>
+                    <span class="slider"></span>
+                    <div class="contrast-colors">
+                      <span style="background-color: #1590b0;"></span>
+                      <span style="background-color: #17a0c3;"></span>
+                      <span style="background-color: #19afd5;"></span>
+                      <span style="background-color: #1cc0e9;"></span>
+                      <span style="background-color: #1ecffc;"></span>
+                    </div>
+                  </div>
+                </div>
+                <img class="contrast-icon icon-sun" src="<%= asset_path 'icons/icon-sun.png' %>">
+              </div>
+            </section>
+            <section>
+              <span class="submenu-title">Police</span>
+              <div class="buttons-group fonts">
+                <a href="javascript:ReadabilitySettings.fontFamily('helvetica')" class="simple-button font-helvetica"><span>Helvetica</span></a>
+                <a href="javascript:ReadabilitySettings.fontFamily('times')" class="simple-button font-times"><span>Times</span></a>
+                <a href="javascript:ReadabilitySettings.fontFamily('source-code')" class="simple-button font-source-code"><span>Source Code</span></a>
+                <a href="javascript:ReadabilitySettings.fontFamily('pt-serif')" class="simple-button font-pt-serif"><span>PT Serif</span></a>
+                <a href="javascript:ReadabilitySettings.fontFamily('open-sans')" class="simple-button font-open-sans"><span>Open Sans</span></a>
+              </div>
+            </section>
+          </div>
+        </li>
         <li class="last"><a class="close-advanced-menus blue-button" href="javascript:App.hideAdvancedMenus()"><span><img src="<%= asset_path 'icons/icon-close.png' %>"></span></a></li>
       </ul>
     </div>
     <a class="button-advanced-menus" href="javascript:App.showAdvancedMenus()"><img src="<%= asset_path 'icons/icon-glasses.png' %>"></a>
   </header>
 
-  <section role="main">
+  <section role="main" class="font-times">
     <div class="wrap">
       <%= yield %>
     </div>
@@ -64,6 +113,7 @@
   </footer>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
   <%= javascript_include_tag :application %>
 </body>
 </html>
