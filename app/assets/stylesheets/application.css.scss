@@ -50,17 +50,17 @@ a:focus, a:hover { color: lighten($blueColor, 10%) }
 
 // Themes --------------------------------------------------------------------
 .theme-1 {
-  background-color: #fff;
-  color: #202020;
-  header:before { @include gradient(#fff, rgba(#fff, 0)) }
-  footer:before { @include gradient(rgba(#fff, 0), #fff) }
+  background-color: #161616;
+  color: #cdcdcd;
+  header:before { @include gradient(#161616, rgba(#161616, 0)) }
+  footer:before { @include gradient(rgba(#161616, 0), #161616) }
 }
 
 .theme-2 {
-  background-color: #e6e6e6;
-  color: #414141;
-  header:before { @include gradient(#e6e6e6, rgba(#e6e6e6, 0)) }
-  footer:before { @include gradient(rgba(#e6e6e6, 0), #e6e6e6) }
+  background-color: #3e4243;
+  color: #c3c4c5;
+  header:before { @include gradient(#3e4243, rgba(#3e4243, 0)) }
+  footer:before { @include gradient(rgba(#3e4243, 0), #3e4243) }
 }
 
 .theme-3 {
@@ -71,17 +71,17 @@ a:focus, a:hover { color: lighten($blueColor, 10%) }
 }
 
 .theme-4 {
-  background-color: #3e4243;
-  color: #c3c4c5;
-  header:before { @include gradient(#3e4243, rgba(#3e4243, 0)) }
-  footer:before { @include gradient(rgba(#3e4243, 0), #3e4243) }
+  background-color: #e6e6e6;
+  color: #414141;
+  header:before { @include gradient(#e6e6e6, rgba(#e6e6e6, 0)) }
+  footer:before { @include gradient(rgba(#e6e6e6, 0), #e6e6e6) }
 }
 
 .theme-5 {
-  background-color: #161616;
-  color: #cdcdcd;
-  header:before { @include gradient(#161616, rgba(#161616, 0)) }
-  footer:before { @include gradient(rgba(#161616, 0), #161616) }
+  background-color: #fff;
+  color: #202020;
+  header:before { @include gradient(#fff, rgba(#fff, 0)) }
+  footer:before { @include gradient(rgba(#fff, 0), #fff) }
 }
 
 // Header --------------------------------------------------------------------
