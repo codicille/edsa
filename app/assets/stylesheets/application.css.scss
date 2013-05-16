@@ -117,7 +117,8 @@ header {
       max-width: none;
       width: 100%;
       text-align: center;
-      padding: 0 147px 0 213px
+      padding: 0 147px 0 213px;
+      .touch & { text-align: left }
     }
 
     .author { font-weight: 700 }
@@ -234,7 +235,7 @@ header li {
   .column-3:last-child { padding: 0 0 0 .8em }
 
   section { padding: 1.5em 1.8em 1em }
-  section + section { border-top: 1px solid #eee }
+  section + section, .column + .column section { border-top: 1px solid #eee }
   section:last-child { padding-bottom: 2em }
 
   .simple-button {
@@ -304,12 +305,25 @@ header li {
 }
 
 .buttons-group {
+  position: relative;
+
   .simple-button { border-radius: 0; border-bottom: 0 }
   .simple-button:first-child { border-radius: 3px 3px 0 0 }
   .simple-button:last-child { border-radius: 0 0 3px 3px; border-bottom: 1px solid #d8d8d8 }
 
   .simple-button.selected + .simple-button { border-top-color: #0298bd }
   .simple-button.selected:last-child { border-bottom-color: #0298bd !important }
+
+  select {
+    display: none;
+    position: absolute;
+    top: 0; right: 0;
+    bottom: 0; left: 0;
+    width: 100%;
+    opacity: 0;
+    font-size: 16px;
+    -webkit-appearance: none;
+  }
 }
 
 .popup {
@@ -400,6 +414,7 @@ header li {
 
 .slider-container {
   padding: 0 3.6em 0 2.5em;
+  width: 100%;
   & > div { position: relative }
 }
 
@@ -541,7 +556,7 @@ footer:before, {
 header:before { top: 0; }
 footer:before { bottom: 0; }
 
-// --------------------------------------------------------------------------- 1065px
+// Smaller header font-size -------------------------------------------------- 1065px
 @media (max-width: 1065px) {
   header {
     font-size: 12px;
@@ -554,7 +569,29 @@ footer:before { bottom: 0; }
   }
 }
 
-// --------------------------------------------------------------------------- 600px
+// Two columns submenu ------------------------------------------------------- 760px
+@media (max-height: 760px) and (min-width: 601px) {
+  .submenu { max-width: 848px }
+  .submenu .column-1 { width: 50% }
+
+  .submenu section + section,
+  .submenu .column + .column section { border-top: 0 }
+}
+
+@media (max-height: 760px) and (max-width: 968px) {
+  header {
+    left: 0; right: 0;
+    .advanced-menu { border-width: 0 }
+  }
+
+  .submenu {
+    width: 100%;
+    margin-right: 0;
+    right: 0;
+  }
+}
+
+// Book title under header --------------------------------------------------- 600px
 @media (max-width: 600px) {
   header {
     left: 0; right: 0;
@@ -580,5 +617,34 @@ footer:before { bottom: 0; }
     .book-title { opacity: 1 }
   }
 
-  .submenu { right: 0; margin-right: 0 }
+  .submenu {
+    right: 0;
+    margin-right: 0;
+
+    .column { font-size: 10px }
+    section { padding-top: 1em }
+    .submenu-title { padding-top: 0 }
+    .simple-button { height: 40px }
+  }
+
+  .ui-slider-handle {
+    width: 24px; height: 24px;
+    top: 5px;
+  }
+
+  .icon-moon { max-width: 16px; margin-right: -16px }
+  .icon-sun { max-width: 28px; margin-left: -28px }
+
+  .submenu .buttons-group {
+    select { display: block }
+
+    .simple-button {
+      display: none;
+
+      &.selected {
+        display: block;
+        border-radius: 3px;
+      }
+    }
+  }
 }

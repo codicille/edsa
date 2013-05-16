@@ -151,7 +151,7 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     var buttonsGroup, $buttonsGroup, defaultButton;
 
     $buttonsGroup = $('.buttons-group.fonts');
-    defaultButton = $buttonsGroup.children('.font-' + options.fontFamily.default);
+    defaultButton = $buttonsGroup.find('.font-' + options.fontFamily.default);
 
     buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
   }
