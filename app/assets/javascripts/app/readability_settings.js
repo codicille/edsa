@@ -47,6 +47,9 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     options.submenuOpened ? closeSubmenu() : openSubmenu();
   }
 
+  pro.openSubmenu = function() { openSubmenu() }
+  pro.closeSubmenu = function() { closeSubmenu() }
+
   pro.largerFontSize  = function() { changeFontSize(1) }
   pro.smallerFontSize = function() { changeFontSize(-1) }
   pro.normalFontSize  = function() { setFontSize(options.fontSize.default) }

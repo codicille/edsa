@@ -61,6 +61,7 @@ App.prototype = (function() { var pro = {};
     if (!options.advancedMenusOpened) { return }
     options.advancedMenusOpened = false;
 
+    if (ReadabilitySettings) { ReadabilitySettings.closeSubmenu() }
     elements.body.removeClass('show-advanced-menus');
   }
 
