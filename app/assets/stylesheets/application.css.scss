@@ -114,6 +114,10 @@ header {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: none;
+      width: 100%;
+      text-align: center;
+      padding: 0 147px 0 213px
     }
 
     .author { font-weight: 700 }
@@ -541,13 +545,7 @@ footer:before { bottom: 0; }
 @media (max-width: 1065px) {
   header {
     font-size: 12px;
-
-    .wrap {
-      width: 100%;
-      max-width: none;
-      margin: 0;
-      padding: 0 210px 0 200px;
-    }
+    h1 .wrap { padding-left: 200px }
   }
 
   .submenu {
