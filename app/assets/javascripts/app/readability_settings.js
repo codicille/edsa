@@ -25,7 +25,6 @@ ReadabilitySettings.prototype = (function() { var pro = {};
   // jQuery cached elements
   var elements = {
     body: $('body'),
-    container: $('.readability-settings-container'),
     main: $('[role="main"]'),
     paragraphCountLinks: $('.paragraph-count')
   }
@@ -65,14 +64,14 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     if (options.submenuOpened) { return }
     options.submenuOpened = true;
 
-    elements.container.addClass('show-submenu');
+    elements.body.addClass('show-readability-settings');
   }
 
   var closeSubmenu = function() {
     if (!options.submenuOpened) { return }
     options.submenuOpened = false;
 
-    elements.container.removeClass('show-submenu');
+    elements.body.removeClass('show-readability-settings');
   }
 
   // Font-size Management
