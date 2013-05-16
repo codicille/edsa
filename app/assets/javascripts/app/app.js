@@ -28,7 +28,8 @@ App.prototype = (function() { var pro = {};
     paragraphCount: $('[data-hook="paragraph-count"]'),
     chapterSelect: $('select[name="chapter"]'),
     paragraphSelect: $('select[name="paragraph"]'),
-    anchorsButton: $('.anchors button')
+    anchorsButton: $('.anchors button'),
+    allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])')
   }
 
   // Public scope --------------------------------------------------------------
@@ -50,6 +51,10 @@ App.prototype = (function() { var pro = {};
 
     // Mobile
     window.scrollTo(0, 1);
+    elements.allLinks.onTap(function(e) {
+      action = this.href.match(/javascript:(.+)/)[1];
+      eval(action);
+    });
   }
 
   pro.showAdvancedMenus = function() {
