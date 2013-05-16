@@ -68,7 +68,7 @@ App.prototype = (function() { var pro = {};
 
   // Private scope -------------------------------------------------------------
   var getAnchorTypeAndNumberMatches = function(string) {
-    var matches = string.match(/(paragraph|chapter)(-|\/)([0-9]+)/);
+    var matches = string.match(/(paragraph|chapter|preface|foreword)(-|\/)([0-9]+)/);
     if (matches == null) { return null }
 
     return { type: matches[1], number: matches[3] }
@@ -159,7 +159,7 @@ App.prototype = (function() { var pro = {};
     currentAnchor = null;
 
     // Change history state to current chapter & paragraph
-    $('.chapter').each(function(i, chapter) {
+    $('.section').each(function(i, chapter) {
       if (!isInTheFold(chapter)) { return true }
       currentAnchor = chapter;
       setCurrentChapter(getAnchorTypeAndNumberMatches(chapter.id).number);
