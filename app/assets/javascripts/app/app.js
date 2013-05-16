@@ -8,6 +8,7 @@ App.prototype = (function() { var pro = {};
     currentState: null,
     advancedMenusOpened: false,
     currentScrollTop: 0,
+    currentSection: {},
     currentChapter: 1,
     currentParagraph: 1,
     paragraphCount: 1,
@@ -21,6 +22,7 @@ App.prototype = (function() { var pro = {};
   var elements = {
     body: $('body'),
     window: $(window),
+    sectionName: $('[data-hook="section-name"]'),
     currentChapter: $('[data-hook="current-chapter"]'),
     currentParagraph: $('[data-hook="current-paragraph"]'),
     paragraphCount: $('[data-hook="paragraph-count"]'),
@@ -158,13 +160,14 @@ App.prototype = (function() { var pro = {};
     scrollTop = _this.getScrollTop();
     currentAnchor = null;
 
-    // Change history state to current chapter & paragraph
-    $('.section').each(function(i, chapter) {
-      if (!isInTheFold(chapter)) { return true }
-      currentAnchor = chapter;
-      setCurrentChapter(getAnchorTypeAndNumberMatches(chapter.id).number);
+    // Change history state to current section & paragraph
+    $('.section').each(function(i, section) {
+      if (!isInTheFold(section)) { return true }
+      currentAnchor = section;
+      setCurrentSection(getAnchorTypeAndNumberMatches(section.id));
+      // setCurrentChapter(getAnchorTypeAndNumberMatches(chapter.id).number);
 
-      $(chapter).children('.paragraph').each(function(ii, paragraph) {
+      $(section).children('.paragraph').each(function(ii, paragraph) {
         if (!isInTheFold(paragraph)) { return true }
         currentAnchor = paragraph;
         setCurrentParagraph(getAnchorTypeAndNumberMatches(paragraph.id).number);
@@ -180,6 +183,16 @@ App.prototype = (function() { var pro = {};
 
     matches = getAnchorTypeAndNumberMatches(currentAnchor.id);
     replaceStateFromMatches(matches, false);
+  }
+
+  var setCurrentSection = function(anchor) {
+    if (anchor.type == options.currentSection.type && anchor.number == options.currentSection.number) { return }
+    options.currentSection = anchor;
+
+    elements.sectionName.html(anchor.type.capitalize());
+
+    if (anchor.type == 'chapter') { setCurrentChapter(anchor.number) }
+    else { setCurrentChapter(1) }
   }
 
   var setCurrentChapter = function(chapterNumber) {
