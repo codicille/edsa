@@ -47,6 +47,9 @@ App.prototype = (function() { var pro = {};
     gotoCurrentAnchor();
     setParagraphCount();
     setChapterCount();
+
+    // Mobile
+    window.scrollTo(0, 1);
   }
 
   pro.showAdvancedMenus = function() {
