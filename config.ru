@@ -6,6 +6,7 @@ use Rack::Deflater
 map '/assets' do
   Assets = Sprockets::Environment.new
 
+  Assets.append_path 'app/assets/fonts'
   Assets.append_path 'app/assets/images'
   Assets.append_path 'app/assets/javascripts'
   Assets.append_path 'app/assets/stylesheets'

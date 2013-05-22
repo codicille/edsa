@@ -14,7 +14,7 @@
     <div class="advanced-menu">
       <ul class="left">
         <li><a class="library" href="javascript:"><span>Bibliothèque</span></a></li>
-        <li><a class="book" href="javascript:"><span><img src="<%= asset_path 'icons/icon-book.png' %>"></span></a></li>
+        <li><a class="book" href="javascript:"><span data-icon="b" class="icon-books"></span></a></li>
       </ul>
       <h1 title="Gabrielle Roy - Un jardin au bout du monde">
         <div class="wrap">
@@ -25,12 +25,22 @@
         </div>
       </h1>
       <ul class="right">
-        <!-- <li><a href="javascript:"><span><img src="<%= asset_path 'icons/icon-search.png' %>"></span></a></li> -->
-        <li class="readability-settings-container"><a href="javascript:ReadabilitySettings.toggleSubmenu()"><span><img src="<%= asset_path 'icons/icon-readability.png' %>"></span></a></li>
-        <li class="last"><a class="close-advanced-menus blue-button" href="javascript:App.hideAdvancedMenus()"><span><img src="<%= asset_path 'icons/icon-close.png' %>"></span></a></li>
+        <li class="readability-settings-container">
+          <a href="javascript:ReadabilitySettings.toggleSubmenu()">
+            <span class="icon-fonts">
+              <span data-icon="a" class="icon-small-font"></span>
+              <span data-icon="a" class="icon-big-font"></span>
+            </span>
+          </a>
+        </li>
+        <li class="last">
+          <a class="close-advanced-menus blue-button" href="javascript:App.hideAdvancedMenus()">
+            <span data-icon="x" class="icon-close"></span>
+          </a>
+        </li>
       </ul>
     </div>
-    <a class="button-advanced-menus" href="javascript:App.showAdvancedMenus()"><img src="<%= asset_path 'icons/icon-glasses.png' %>"></a>
+    <a class="button-advanced-menus" href="javascript:App.showAdvancedMenus()"><span data-icon="g" class="icon-glasses"></span></a>
   </header>
 
   <div class="submenu readability-settings">
@@ -39,23 +49,23 @@
         <section>
           <span class="submenu-title">Taille de la police</span>
           <div class="columns">
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.smallerFontSize()" class="simple-button"><img width="16" src="<%= asset_path 'icons/icon-letter-small.png' %>"></a></div>
+            <div class="column column-3"><a href="javascript:ReadabilitySettings.smallerFontSize()" class="simple-button"><span data-icon="a" class="icon-small-font"></span></a></div>
             <div class="column column-3"><a href="javascript:ReadabilitySettings.normalFontSize()" class="simple-button"><span>Normal</span></a></div>
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.largerFontSize()" class="simple-button"><img width="22" src="<%= asset_path 'icons/icon-letter.png' %>"></a></div>
+            <div class="column column-3"><a href="javascript:ReadabilitySettings.largerFontSize()" class="simple-button"><span data-icon="a" class="icon-big-font"></span></a></div>
           </div>
         </section>
         <section>
           <span class="submenu-title">Taille de l’interlignage</span>
           <div class="columns">
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.smallerLineHeight()" class="simple-button"><span class="icon-minus">-</span></a></div>
+            <div class="column column-3"><a href="javascript:ReadabilitySettings.smallerLineHeight()" class="simple-button"><span data-icon="-"></span></a></div>
             <div class="column column-3"><a href="javascript:ReadabilitySettings.normalLineHeight()" class="simple-button"><span>Normal</span></a></div>
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.largerLineHeight()" class="simple-button"><span class="icon-plus">+</span></a></div>
+            <div class="column column-3"><a href="javascript:ReadabilitySettings.largerLineHeight()" class="simple-button"><span data-icon="+"></span></a></div>
           </div>
         </section>
         <section class="contrast">
           <span class="submenu-title">Contraste texte/fond</span>
           <div class="columns">
-            <img class="contrast-icon icon-moon" src="<%= asset_path 'icons/icon-moon.png' %>">
+            <span class="icon-moon contrast-icon" data-icon="m"></span>
             <div class="slider-container column">
               <div>
                 <span class="slider"></span>
@@ -68,7 +78,7 @@
                 </div>
               </div>
             </div>
-            <img class="contrast-icon icon-sun" src="<%= asset_path 'icons/icon-sun.png' %>">
+            <span class="icon-sun contrast-icon" data-icon="s"></span>
           </div>
         </section>
       </div>

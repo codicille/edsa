@@ -1,4 +1,5 @@
 //= require reset
+//= require ./font_face
 //= require_self
 
 @import 'variables';
@@ -170,14 +171,13 @@ header {
     text-align: center;
     pointer-events: all;
 
-    img {
-      width: 60%;
+    span {
       position: relative;
       top: -2px;
     }
 
     &:before { content: ''; height: 100%; }
-    &:before, img {
+    &:before, span {
       display: inline-block;
       vertical-align: middle;
     }
@@ -187,6 +187,7 @@ header {
 .no-touch header .button-advanced-menus:hover,
 .no-touch header .button-advanced-menus:focus,
 .touch header .button-advanced-menus:active {
+  color: inherit;
   background-color: darken(#f9f9f9, 5%);
 }
 
@@ -203,7 +204,7 @@ header li {
     border-bottom: 1px solid #c4c4c4;
   }
 
-  & > a, .blue-button { padding: 0 1.4em }
+  & > a, .blue-button { padding: 0 1.3em }
 
   & > a:before { content: ''; height: 100% }
   & > a:before, & > a > span { display: inline-block; vertical-align: middle }
@@ -214,6 +215,7 @@ header li {
 .no-touch header li > a:hover,
 .no-touch header li > a:focus,
 .touch header li > a:active {
+  color: #838383;
   background-color: rgba(#fff, .8);
 }
 
@@ -308,6 +310,7 @@ header li {
 .no-touch .blue-button:hover,
 .no-touch .blue-button:focus,
 .touch .blue-button:active {
+  color: #fff;
   @include gradient(lighten(#4ddafd, 5%), lighten(#02c9fb, 5%));
 }
 
@@ -409,31 +412,6 @@ header li {
   }
 }
 
-.icon-minus,
-.icon-plus,
-.icon-plus:after {
-  display: inline-block;
-  background-color: #838383;
-}
-
-.icon-minus,
-.icon-plus {
-  width: 15px; height: 3px;
-  font-size: 0;
-}
-
-.icon-plus {
-  position: relative;
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 15px;
-    margin: -6px 0 0 6px;
-  }
-}
-
 .ui-slider {
   display: block;
   position: absolute;
@@ -469,8 +447,30 @@ header li {
   vertical-align: middle;
 }
 
-.icon-moon { margin-right: -24px }
-.icon-sun { margin-left: -40px }
+.icon-fonts { font-size: 0 }
+.icon-fonts > span { display: inline-block }
+.icon-fonts > .icon-big-font {
+  position: relative;
+  top: -1px; left: 1px;
+}
+
+.icon-big-font:before { font-size: 28px }
+.icon-close:before { font-size: 26px }
+.icon-glasses:before { font-size: 20px }
+.icon-books:before { font-size: 28px }
+
+.icon-moon,
+.icon-sun { color: #d8d8d8 }
+
+.icon-moon {
+  margin-right: -24px;
+  &:before { font-size: 30px }
+}
+
+.icon-sun {
+  margin-left: -40px;
+  &:before { font-size: 40px }
+}
 
 .contrast-colors span {
   display: inline-block;
@@ -670,6 +670,9 @@ footer:before { bottom: 0; }
     section { padding-top: 1em }
     .submenu-title { padding-top: 0 }
     .simple-button { height: 40px }
+
+    .icon-big-font:before { font-size: 20px }
+    .icon-small-font:before { font-size: 12px }
   }
 
   .ui-slider-handle {
@@ -677,8 +680,15 @@ footer:before { bottom: 0; }
     top: 5px;
   }
 
-  .icon-moon { max-width: 16px; margin-right: -16px }
-  .icon-sun { max-width: 28px; margin-left: -28px }
+  .icon-moon {
+    margin-right: -16px;
+    &:before { font-size: 20px }
+  }
+
+  .icon-sun {
+    margin-left: -28px;
+    &:before { font-size: 28px }
+  }
 
   .submenu .buttons-group {
     select { display: block }
