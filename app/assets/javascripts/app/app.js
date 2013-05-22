@@ -174,7 +174,6 @@ App.prototype = (function() { var pro = {};
       if (!isInTheFold(section)) { return true }
       currentAnchor = section;
       setCurrentSection(getAnchorTypeAndNumberMatches(section.id));
-      // setCurrentChapter(getAnchorTypeAndNumberMatches(chapter.id).number);
 
       $(section).children('.paragraph').each(function(ii, paragraph) {
         if (!isInTheFold(paragraph)) { return true }
