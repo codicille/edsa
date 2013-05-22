@@ -51,11 +51,14 @@ App.prototype = (function() { var pro = {};
     setChapterCount();
 
     // Mobile
-    window.scrollTo(0, 1);
-    elements.allLinks.onTap(function(e) {
-      action = this.href.match(/javascript:(.+)/)[1];
-      eval(action);
-    });
+    if (UA.IS_TOUCH_DEVICE) {
+      window.scrollTo(0, 1);
+      elements.allLinks.on('click', function(e) { return false });
+      elements.allLinks.onTap(function(e) {
+        action = this.href.match(/javascript:(.+)/)[1];
+        eval(action);
+      });
+    }
   }
 
   pro.showAdvancedMenus = function() {

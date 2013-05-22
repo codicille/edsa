@@ -42,7 +42,11 @@ ReadabilitySettings.prototype = (function() { var pro = {};
     initFontFamilyButtonsGroup();
     initThemeSlider();
 
-    elements.veil.on('click', closeSubmenu);
+    if (UA.IS_TOUCH_DEVICE) {
+      elements.veil.onTap(closeSubmenu);
+    } else {
+      elements.veil.on('click', closeSubmenu);
+    }
   }
 
   pro.toggleSubmenu = function() {
