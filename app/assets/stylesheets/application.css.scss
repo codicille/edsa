@@ -5,7 +5,11 @@
 @import 'mixins';
 
 // Base ----------------------------------------------------------------------
-* { @include vendor-prefixes(box-sizing, border-box); -webkit-font-smoothing: subpixel-antialiased; }
+* {
+  @include vendor-prefixes(box-sizing, border-box);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 body { @include vendor-prefixes(user-select, none) }
 
 body, button, input, legend, textarea {
@@ -22,7 +26,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a { color: $blueColor }
-a:focus, a:hover { color: lighten($blueColor, 10%) }
+.no-touch a:focus,
+.no-touch a:hover,
+.touch a:active {
+  color: lighten($blueColor, 10%);
+}
 
 // Layout --------------------------------------------------------------------
 .wrap {
@@ -136,7 +144,6 @@ header {
   }
 
   a { color: #838383 }
-  a:hover, a:focus { color: inherit }
 
   ul {
     position: absolute;
@@ -163,8 +170,6 @@ header {
     text-align: center;
     pointer-events: all;
 
-    &:hover, &:focus { background-color: darken(#f9f9f9, 5%) }
-
     img {
       width: 60%;
       position: relative;
@@ -177,6 +182,12 @@ header {
       vertical-align: middle;
     }
   }
+}
+
+.no-touch header .button-advanced-menus:hover,
+.no-touch header .button-advanced-menus:focus,
+.touch header .button-advanced-menus:active {
+  background-color: darken(#f9f9f9, 5%);
 }
 
 header li + li { border-left: 1px solid #c4c4c4 }
@@ -194,11 +205,16 @@ header li {
 
   & > a, .blue-button { padding: 0 1.4em }
 
-  & > a:hover, a:focus { background-color: rgba(#fff, .8) }
   & > a:before { content: ''; height: 100% }
   & > a:before, & > a > span { display: inline-block; vertical-align: middle }
 
   img { display: block }
+}
+
+.no-touch header li > a:hover,
+.no-touch header li > a:focus,
+.touch header li > a:active {
+  background-color: rgba(#fff, .8);
 }
 
 // Advanced Menus ------------------------------------------------------------
@@ -287,8 +303,12 @@ header li {
   border: 0 solid #01b3df;
   border-bottom-width: 1px;
   @include gradient(#4ddafd, #02c9fb);
+}
 
-  &:hover, &:focus { @include gradient(lighten(#4ddafd, 5%), lighten(#02c9fb, 5%)) }
+.no-touch .blue-button:hover,
+.no-touch .blue-button:focus,
+.touch .blue-button:active {
+  @include gradient(lighten(#4ddafd, 5%), lighten(#02c9fb, 5%));
 }
 
 .simple-button {
@@ -298,8 +318,6 @@ header li {
   border: 1px solid #d8d8d8;
   border-radius: 3px;
   background-color: #fafafa;
-
-  &:hover, &:focus { background-color: #fff }
 
   &.selected {
     color: #fff;
@@ -312,6 +330,19 @@ header li {
     display: block;
     margin: auto;
   }
+}
+
+.no-touch .simple-button:hover,
+.no-touch .simple-button:focus,
+.touch .simple-button:active {
+  color: inherit;
+  background-color: #fff;
+}
+
+.no-touch .simple-button.selected:hover,
+.no-touch .simple-button.selected:focus,
+.touch .simple-button.selected:active {
+  color: #fff;
 }
 
 .buttons-group {
@@ -418,8 +449,12 @@ header li {
   box-shadow: 0 1px 2px rgba(#000, .46), 0 0 0 4px rgba(#000, .09);
   background-color: #f4f4f4;
   @include gradient(#fff, #ebebeb);
+}
 
-  &:hover { background: #fff }
+.no-touch .ui-slider-handle:hover,
+.no-touch .ui-slider-handle:focus,
+.touch .ui-slider-handle:active {
+  background: #fff;
 }
 
 .slider-container {
