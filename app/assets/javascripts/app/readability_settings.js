@@ -26,7 +26,8 @@ ReadabilitySettings.prototype = (function() { var pro = {};
   var elements = {
     body: $('body'),
     main: $('[role="main"]'),
-    paragraphCountLinks: $('.paragraph-count')
+    paragraphCountLinks: $('.paragraph-count'),
+    veil: $('.veil')
   }
 
   // Public scope --------------------------------------------------------------
@@ -40,6 +41,8 @@ ReadabilitySettings.prototype = (function() { var pro = {};
 
     initFontFamilyButtonsGroup();
     initThemeSlider();
+
+    elements.veil.on('click', closeSubmenu);
   }
 
   pro.toggleSubmenu = function() {
