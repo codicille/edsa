@@ -59,6 +59,10 @@ ReadabilitySettings.prototype = (function() { var pro = {};
 
   pro.fontFamily = function(fontFamily) { setFontFamily(fontFamily) }
 
+  pro.get = function(option) {
+    return options[option]
+  }
+
   // Private scope -------------------------------------------------------------
   var openSubmenu = function() {
     if (options.submenuOpened) { return }

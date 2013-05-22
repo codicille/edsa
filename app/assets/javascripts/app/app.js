@@ -37,6 +37,7 @@ App.prototype = (function() { var pro = {};
     _this = this;
 
     // Events
+    $(document).on('keyup', handleKeyup);
     $('.paragraph-count').on('click', onParagraphCountClick);
     elements.window.on('scroll', onWindowScroll);
     elements.window.on('resize', onWindowScroll);
@@ -78,6 +79,21 @@ App.prototype = (function() { var pro = {};
   }
 
   // Private scope -------------------------------------------------------------
+  var handleKeyup = function(e) {
+    var keys, key;
+
+    keys = { escape: 27 };
+    key = e.keyCode ? e.keyCode : e.which;
+
+    if (key != keys.escape) { return }
+
+    if (ReadabilitySettings.get('submenuOpened')) {
+      ReadabilitySettings.closeSubmenu();
+    } else {
+      App.hideAdvancedMenus();
+    }
+  }
+
   var getAnchorTypeAndNumberMatches = function(string) {
     var matches = string.match(/(paragraph|chapter|preface|foreword)(-|\/)([0-9]+)/);
     if (matches == null) { return null }
