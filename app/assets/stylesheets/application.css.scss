@@ -487,6 +487,7 @@ header li {
   margin: 7em 0;
   font-size: 21px;
   line-height: 1.8;
+  text-align: left;
   counter-reset: paragraph;
   @include vendor-prefixes(user-select, text);
 
@@ -615,7 +616,7 @@ footer:before { bottom: 0; }
 }
 
 // Two columns submenu ------------------------------------------------------- 760px
-@media (max-height: 760px) and (min-width: 601px) {
+@media (max-height: 914px) and (min-width: 601px) {
   .submenu { max-width: 848px }
   .submenu .column-1 { width: 50% }
 
@@ -623,7 +624,7 @@ footer:before { bottom: 0; }
   .submenu .column + .column section { border-top: 0 }
 }
 
-@media (max-height: 760px) and (max-width: 968px) {
+@media (max-height: 914px) and (max-width: 968px) {
   header {
     left: 0; right: 0;
     .advanced-menu { border-width: 0 }

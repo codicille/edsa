@@ -10,9 +10,10 @@ ReadabilitySettings = (function() {
     // Global variables
     this.options = {
       submenuOpened: false,
-      fontSize: { default: 0, current: 0 },
-      lineHeight: { default: 0, current: 0 },
-      theme: { default: null, current: null },
+      fontSize:   { default: 0,    current: 0 },
+      lineHeight: { default: 0,    current: 0 },
+      alignment:  { default: null, current: null },
+      theme:      { default: null, current: null },
       fontFamily: { default: null, current: null }
     }
 
@@ -29,9 +30,11 @@ ReadabilitySettings = (function() {
 
     this.setFontSizeOptions(mainComputedStyle);
     this.setLineHeightOptions(mainComputedStyle);
+    this.setAlignmentOptions(mainComputedStyle);
     this.setThemeOptions();
     this.setFontFamilyOptions();
 
+    this.initAlignmentButtonsGroup();
     this.initFontFamilyButtonsGroup();
     this.initThemeSlider();
 
@@ -116,6 +119,33 @@ ReadabilitySettings = (function() {
 
     this.elements.main.css('line-height', lineHeight);
     this.elements.paragraphCountLinks.css('line-height', lineHeight * 1.5);
+  }
+
+  // Alignment Management
+  ReadabilitySettings.prototype.leftAlignment    = function() { this.setAlignment('left') }
+  ReadabilitySettings.prototype.justifyAlignment = function() { this.setAlignment('justify') }
+
+  ReadabilitySettings.prototype.initAlignmentButtonsGroup = function() {
+    var buttonsGroup, $buttonsGroup, defaultButton;
+
+    $buttonsGroup = $('.alignments');
+    defaultButton = $buttonsGroup.find('.alignment-' + this.options.alignment.default);
+
+    buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
+  }
+
+  ReadabilitySettings.prototype.setAlignmentOptions = function(mainComputedStyle) {
+    var mainAlignment = mainComputedStyle.getPropertyValue('text-align');
+
+    this.options.alignment.default = mainAlignment;
+    this.options.alignment.current = mainAlignment;
+  }
+
+  ReadabilitySettings.prototype.setAlignment = function(alignment) {
+    if (this.options.alignment.current == alignment) { return }
+    this.options.alignment.current = alignment;
+
+    this.elements.main.css('text-align', alignment);
   }
 
   // Themes Management
