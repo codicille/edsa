@@ -1,88 +1,101 @@
-var App = function() { this.initialize.apply(this, arguments) };
-App.prototype = (function() { var pro = {};
-  var _this = null;
+var App,
+    __bind = function(fn, me) { return function() { return fn.apply(me, arguments) }};
 
-  // Global variables
-  var options = {
-    defaultTitle: document.title,
-    currentState: null,
-    advancedMenusOpened: false,
-    currentScrollTop: 0,
-    currentSection: {},
-    currentChapter: 1,
-    currentParagraph: 1,
-    paragraphCount: 1,
-    chapterCount: 1,
-    forceChapterChange: false,
-    forceParagraphChange: false,
-    lastAnchorTypeChanged: 'paragraph'
-  }
+App = (function() {
+  function App() {
+    // Scope callback functions to instance
+    this.handleKeyup             = __bind(this.handleKeyup, this);
+    this.onParagraphCountClick   = __bind(this.onParagraphCountClick, this);
+    this.onWindowScroll          = __bind(this.onWindowScroll, this);
+    this.onChapterSelectChange   = __bind(this.onChapterSelectChange, this);
+    this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
+    this.onAnchorsButtonClick    = __bind(this.onAnchorsButtonClick, this);
 
-  // jQuery cached elements
-  var elements = {
-    body: $('body'),
-    window: $(window),
-    sectionName: $('[data-hook="section-name"]'),
-    currentChapter: $('[data-hook="current-chapter"]'),
-    currentParagraph: $('[data-hook="current-paragraph"]'),
-    paragraphCount: $('[data-hook="paragraph-count"]'),
-    chapterSelect: $('select[name="chapter"]'),
-    paragraphSelect: $('select[name="paragraph"]'),
-    anchorsButton: $('.anchors button'),
-    allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])')
-  }
+    // Global variables
+    this.options = {
+      defaultTitle: document.title,
+      currentState: null,
+      advancedMenusOpened: false,
+      currentScrollTop: 0,
+      currentSection: {},
+      currentChapter: 1,
+      currentParagraph: 1,
+      paragraphCount: 1,
+      chapterCount: 1,
+      forceChapterChange: false,
+      forceParagraphChange: false,
+      lastAnchorTypeChanged: 'paragraph'
+    }
 
-  // Public scope --------------------------------------------------------------
-  pro.initialize = function(args) {
-    _this = this;
+    // jQuery cached elements
+    this.elements = {
+      body: $('body'),
+      window: $(window),
+      sectionName: $('[data-hook="section-name"]'),
+      currentChapter: $('[data-hook="current-chapter"]'),
+      currentParagraph: $('[data-hook="current-paragraph"]'),
+      paragraphCount: $('[data-hook="paragraph-count"]'),
+      chapterSelect: $('select[name="chapter"]'),
+      paragraphSelect: $('select[name="paragraph"]'),
+      anchorsButton: $('.anchors button'),
+      allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])')
+    }
 
     // Events
-    $(document).on('keyup', handleKeyup);
-    $('.paragraph-count').on('click', onParagraphCountClick);
-    elements.window.on('scroll', onWindowScroll);
-    elements.window.on('resize', onWindowScroll);
-    elements.chapterSelect.on('change', onChapterSelectChange);
-    elements.paragraphSelect.on('change', onParagraphSelectChange);
-    elements.anchorsButton.on('click', onAnchorsButtonClick);
+    $(document).on('keyup', this.handleKeyup);
+    $('.paragraph-count').on('click', this.onParagraphCountClick);
+    this.elements.window.on('scroll', this.onWindowScroll);
+    this.elements.window.on('resize', this.onWindowScroll);
+    this.elements.chapterSelect.on('change', this.onChapterSelectChange);
+    this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
+    this.elements.anchorsButton.on('click', this.onAnchorsButtonClick);
 
     // Onload
-    gotoCurrentAnchor();
-    setParagraphCount();
-    setChapterCount();
+    this.gotoCurrentAnchor();
+    this.setParagraphCount();
+    this.setChapterCount();
 
     // Mobile
     if (UA.IS_TOUCH_DEVICE) {
       window.scrollTo(0, 1);
-      elements.allLinks.on('click', function(e) { return false });
-      elements.allLinks.onTap(function(e) {
+      this.elements.allLinks.on('click', function(e) { return false });
+      this.elements.allLinks.onTap(function(e) {
         action = this.href.match(/javascript:(.+)/)[1];
         eval(action);
       });
     }
   }
 
-  pro.showAdvancedMenus = function() {
-    if (options.advancedMenusOpened) { return }
-    options.advancedMenusOpened = true;
-    options.currentScrollTop = this.getScrollTop();
-
-    elements.body.addClass('show-advanced-menus');
+  // Utils
+  App.prototype.getScrollTop = function() {
+    return window.pageYOffset || (typeof this.elements.window.scrollTop === "function" ? this.elements.window.scrollTop() : 0);
   }
 
-  pro.hideAdvancedMenus = function() {
-    if (!options.advancedMenusOpened) { return }
-    options.advancedMenusOpened = false;
+  App.prototype.isInTheFold = function(elem) {
+    var rect = elem.getBoundingClientRect();
+    if (rect.top <= 0 && rect.bottom > 0) { return true }
+    return false;
+  }
+
+  // Advanced menus management
+  App.prototype.showAdvancedMenus = function() {
+    if (this.options.advancedMenusOpened) { return }
+    this.options.advancedMenusOpened = true;
+    this.options.currentScrollTop = this.getScrollTop();
+
+    this.elements.body.addClass('show-advanced-menus');
+  }
+
+  App.prototype.hideAdvancedMenus = function() {
+    if (!this.options.advancedMenusOpened) { return }
+    this.options.advancedMenusOpened = false;
 
     if (ReadabilitySettings) { ReadabilitySettings.closeSubmenu() }
-    elements.body.removeClass('show-advanced-menus');
+    this.elements.body.removeClass('show-advanced-menus');
   }
 
-  pro.getScrollTop = function() {
-    return window.pageYOffset || (typeof elements.window.scrollTop === "function" ? elements.window.scrollTop() : 0);
-  }
-
-  // Private scope -------------------------------------------------------------
-  var handleKeyup = function(e) {
+  // Events callback
+  App.prototype.handleKeyup = function(e) {
     var keys, key;
 
     keys = { escape: 27 };
@@ -93,225 +106,230 @@ App.prototype = (function() { var pro = {};
     if (ReadabilitySettings.get('submenuOpened')) {
       ReadabilitySettings.closeSubmenu();
     } else {
-      App.hideAdvancedMenus();
+      this.hideAdvancedMenus();
     }
   }
 
-  var getAnchorTypeAndNumberMatches = function(string) {
-    var matches = string.match(/(paragraph|chapter|preface|foreword)(-|\/)([0-9]+)/);
-    if (matches == null) { return null }
-
-    return { type: matches[1], number: matches[3] }
-  }
-
-  var gotoAnchor = function(anchorType, anchorNumber) {
-    var id, $elem, offset;
-
-    id = '#' + anchorType + '-' + anchorNumber;
-    $elem = $(id);
-    offset = $elem.offset().top;
-
-    elements.window.scrollTop(offset);
-    document.title = options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
-  }
-
-  var gotoAnchorFromMatches = function(matches) {
-    if (matches == null) { return }
-    gotoAnchor(matches.type, matches.number);
-  }
-
-  var gotoCurrentAnchor = function() {
-    var currentHref, matches;
-
-    currentHref = window.location.href;
-    matches = getAnchorTypeAndNumberMatches(currentHref);
-
-    if (matches == null) { return }
-    gotoAnchorFromMatches(matches);
-  }
-
-  var replaceState = function(anchorType, anchorNumber, scrollToAnchor) {
-    if (options.currentState && options.currentState.type == anchorType && options.currentState.number == anchorNumber) { return }
-
-    var state, title, url;
-    if (scrollToAnchor == null) { scrollToAnchor = false }
-
-    state = { type: anchorType, number: anchorNumber };
-    title = options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
-    url = '/' + anchorType + '/' + anchorNumber;
-
-    window.history.replaceState(state, title, url);
-    options.currentState = state;
-
-    if (scrollToAnchor) {
-      gotoAnchor(anchorType, anchorNumber);
-    } else {
-      document.title = title;
-    }
-  }
-
-  var replaceStateFromMatches = function(matches, scrollToAnchor) {
-    if (matches == null) { return }
-    replaceState(matches.type, matches.number, scrollToAnchor);
-  }
-
-  var clearState = function() {
-    if (options.currentState == null) { return }
-    options.currentState = null;
-
-    var state, title, url;
-
-    state = {};
-    title = options.defaultTitle;
-    url = '/';
-
-    window.history.replaceState(state, title, url);
-    document.title = title;
-  }
-
-  var isInTheFold = function(elem) {
-    var rect = elem.getBoundingClientRect();
-    if (rect.top <= 0 && rect.bottom > 0) { return true }
-    return false;
-  }
-
-  var onParagraphCountClick = function(e) {
+  App.prototype.onParagraphCountClick = function(e) {
     e.preventDefault();
 
-    var matches = getAnchorTypeAndNumberMatches(this.getAttribute('href'));
-    replaceStateFromMatches(matches, true);
+    var matches = this.getAnchorTypeAndNumberMatches(e.currentTarget.getAttribute('href'));
+    this.replaceStateFromMatches(matches, true);
   }
 
-  var onWindowScroll = function(e) {
-    var scrollTop, currentAnchor;
+  App.prototype.onWindowScroll = function(e) {
+    var _this, scrollTop, currentAnchor;
 
-    scrollTop = _this.getScrollTop();
+    _this = this;
+    scrollTop = this.getScrollTop();
     currentAnchor = null;
 
     // Change history state to current section & paragraph
     $('.section').each(function(i, section) {
-      if (!isInTheFold(section)) { return true }
+      if (!_this.isInTheFold(section)) { return true }
       currentAnchor = section;
-      setCurrentSection(getAnchorTypeAndNumberMatches(section.id));
+      _this.setCurrentSection(_this.getAnchorTypeAndNumberMatches(section.id));
 
       $(section).children('.paragraph').each(function(ii, paragraph) {
-        if (!isInTheFold(paragraph)) { return true }
+        if (!_this.isInTheFold(paragraph)) { return true }
         currentAnchor = paragraph;
-        setCurrentParagraph(getAnchorTypeAndNumberMatches(paragraph.id).number);
+        _this.setCurrentParagraph(_this.getAnchorTypeAndNumberMatches(paragraph.id).number);
       });
     });
 
     if (currentAnchor == null) {
-      clearState();
-      setCurrentChapter(1);
-      setCurrentParagraph(1);
+      this.clearState();
+      this.setCurrentChapter(1);
+      this.setCurrentParagraph(1);
       return;
     }
 
-    matches = getAnchorTypeAndNumberMatches(currentAnchor.id);
-    replaceStateFromMatches(matches, false);
+    matches = this.getAnchorTypeAndNumberMatches(currentAnchor.id);
+    this.replaceStateFromMatches(matches, false);
   }
 
-  var setCurrentSection = function(anchor) {
-    if (anchor.type == options.currentSection.type && anchor.number == options.currentSection.number) { return }
-    options.currentSection = anchor;
-
-    elements.sectionName.html(anchor.type.capitalize());
-
-    if (anchor.type == 'chapter') { setCurrentChapter(anchor.number) }
-    else { setCurrentChapter(1) }
-  }
-
-  var setCurrentChapter = function(chapterNumber) {
-    if (chapterNumber == options.currentChapter && !options.forceChapterChange) { return }
-
-    options.currentChapter = chapterNumber;
-    options.forceChapterChange = false;
-
-    elements.currentChapter.html(chapterNumber);
-    elements.chapterSelect[0].options.selectedIndex = chapterNumber - 1;
-  }
-
-  var setCurrentParagraph = function(paragraphNumber) {
-    if (paragraphNumber == options.currentParagraph && !options.forceParagraphChange) { return }
-
-    options.currentParagraph = paragraphNumber;
-    options.forceParagraphChange = false;
-
-    elements.currentParagraph.html(paragraphNumber);
-    elements.paragraphSelect[0].options.selectedIndex = paragraphNumber - 1;
-  }
-
-  var setParagraphCount = function(count) {
-    if (count == null) { count = $('.paragraph').length }
-    if (count == options.paragraphCount) { return }
-
-    options.paragraphCount = count;
-    setAnchorSelect('paragraph');
-
-    elements.paragraphCount.html(count);
-  }
-
-  var setChapterCount = function(count) {
-    if (count == null) { count = $('.chapter').length }
-    if (count == options.chapterCount) { return }
-
-    options.chapterCount = count;
-    setAnchorSelect('chapter');
-  }
-
-  var setAnchorSelect = function(anchorType) {
-    var $select, anchorCount;
-
-    anchorCount = options[anchorType + 'Count'];
-    $select = elements[anchorType + 'Select'];
-
-    for (var i=1; i <= anchorCount; i++) {
-      $select.append('<option value="' + i + '">' + i + '</option>')
-    }
-  }
-
-  var onChapterSelectChange = function(e) {
+  App.prototype.onChapterSelectChange = function(e) {
     var value, paragraphNumber, $chapter, $paragraph;
 
     value = e.currentTarget.value;
     $chapter = $('#chapter-' + value);
     $paragraph = $chapter.children('.paragraph:first-of-type');
 
-    paragraphNumber = getAnchorTypeAndNumberMatches($paragraph[0].id).number;
-    changeSiblingAnchorSelect(elements.paragraphSelect[0], paragraphNumber, 'chapter');
+    paragraphNumber = this.getAnchorTypeAndNumberMatches($paragraph[0].id).number;
+    this.changeSiblingAnchorSelect(this.elements.paragraphSelect[0], paragraphNumber, 'chapter');
   }
 
-  var onParagraphSelectChange = function(e) {
+  App.prototype.onParagraphSelectChange = function(e) {
     var value, chapterNumber, $chapter, $paragraph;
 
     value = e.currentTarget.value;
     $paragraph = $('#paragraph-' + value);
     $chapter = $paragraph.parent('');
 
-    chapterNumber = getAnchorTypeAndNumberMatches($chapter[0].id).number;
-    changeSiblingAnchorSelect(elements.chapterSelect[0], chapterNumber, 'paragraph');
+    chapterNumber = this.getAnchorTypeAndNumberMatches($chapter[0].id).number;
+    this.changeSiblingAnchorSelect(this.elements.chapterSelect[0], chapterNumber, 'paragraph');
   }
 
-  var changeSiblingAnchorSelect = function(siblingAnchorSelect, anchorNumber, anchorType) {
-    siblingAnchorSelect.options.selectedIndex = anchorNumber - 1;
-
-    options.forceChapterChange = true;
-    options.forceParagraphChange = true;
-
-    options.lastAnchorTypeChanged = anchorType;
-  }
-
-  var onAnchorsButtonClick = function(e) {
+  App.prototype.onAnchorsButtonClick = function(e) {
     var anchorNumber, $select;
 
-    $select = elements[options.lastAnchorTypeChanged + 'Select'];
+    $select = this.elements[this.options.lastAnchorTypeChanged + 'Select'];
     anchorNumber = $select.val();
 
-    replaceState(options.lastAnchorTypeChanged, anchorNumber, true);
+    this.replaceState(this.options.lastAnchorTypeChanged, anchorNumber, true);
   }
 
-return pro })();
+  // Anchors management
+  App.prototype.getAnchorTypeAndNumberMatches = function(string) {
+    var matches = string.match(/(paragraph|chapter|preface|foreword)(-|\/)([0-9]+)/);
+    if (matches == null) { return null }
+
+    return { type: matches[1], number: matches[3] }
+  }
+
+  App.prototype.gotoAnchor = function(anchorType, anchorNumber) {
+    var id, $elem, offset;
+
+    id = '#' + anchorType + '-' + anchorNumber;
+    $elem = $(id);
+    offset = $elem.offset().top;
+
+    this.elements.window.scrollTop(offset);
+    document.title = this.options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
+  }
+
+  App.prototype.gotoAnchorFromMatches = function(matches) {
+    if (matches == null) { return }
+    this.gotoAnchor(matches.type, matches.number);
+  }
+
+  App.prototype.gotoCurrentAnchor = function() {
+    var currentHref, matches;
+
+    currentHref = window.location.href;
+    matches = this.getAnchorTypeAndNumberMatches(currentHref);
+
+    if (matches == null) { return }
+    this.gotoAnchorFromMatches(matches);
+  }
+
+  // History management
+  App.prototype.replaceState = function(anchorType, anchorNumber, scrollToAnchor) {
+    if (this.options.currentState && this.options.currentState.type == anchorType && this.options.currentState.number == anchorNumber) { return }
+
+    var state, title, url;
+
+    state = { type: anchorType, number: anchorNumber };
+    title = this.options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
+    url = '/' + anchorType + '/' + anchorNumber;
+
+    window.history.replaceState(state, title, url);
+    this.options.currentState = state;
+
+    if (scrollToAnchor) {
+      this.gotoAnchor(anchorType, anchorNumber);
+    } else {
+      document.title = title;
+    }
+  }
+
+  App.prototype.replaceStateFromMatches = function(matches, scrollToAnchor) {
+    if (matches == null) { return }
+    this.replaceState(matches.type, matches.number, scrollToAnchor);
+  }
+
+  App.prototype.clearState = function() {
+    if (this.options.currentState == null) { return }
+    this.options.currentState = null;
+
+    var state, title, url;
+
+    state = {};
+    title = this.options.defaultTitle;
+    url = '/';
+
+    window.history.replaceState(state, title, url);
+    document.title = title;
+  }
+
+  // Sections and chapters management
+  App.prototype.setCurrentSection = function(anchor) {
+    var sameType, sameNumner;
+    sameType = anchor.type == this.options.currentSection.type;
+    sameNumner = anchor.number == this.options.currentSection.number;
+
+    if (sameType && sameNumner) { return }
+    this.options.currentSection = anchor;
+
+    this.elements.sectionName.html(anchor.type.capitalize());
+
+    if (anchor.type == 'chapter') { this.setCurrentChapter(anchor.number) }
+    else { this.setCurrentChapter(1) }
+  }
+
+  App.prototype.setCurrentChapter = function(chapterNumber) {
+    var sameNumber = chapterNumber == this.options.currentChapter;
+    if (sameNumber && !this.options.forceChapterChange) { return }
+
+    this.options.currentChapter = chapterNumber;
+    this.options.forceChapterChange = false;
+
+    this.elements.currentChapter.html(chapterNumber);
+    this.elements.chapterSelect[0].options.selectedIndex = chapterNumber - 1;
+  }
+
+  App.prototype.setCurrentParagraph = function(paragraphNumber) {
+    var sameNumber = paragraphNumber == this.options.currentParagraph;
+    if (sameNumber && !this.options.forceParagraphChange) { return }
+
+    this.options.currentParagraph = paragraphNumber;
+    this.options.forceParagraphChange = false;
+
+    this.elements.currentParagraph.html(paragraphNumber);
+    this.elements.paragraphSelect[0].options.selectedIndex = paragraphNumber - 1;
+  }
+
+  App.prototype.setParagraphCount = function(count) {
+    if (count == null) { count = $('.paragraph').length }
+    if (count == this.options.paragraphCount) { return }
+
+    this.options.paragraphCount = count;
+    this.setAnchorSelect('paragraph');
+
+    this.elements.paragraphCount.html(count);
+  }
+
+  App.prototype.setChapterCount = function(count) {
+    if (count == null) { count = $('.chapter').length }
+    if (count == this.options.chapterCount) { return }
+
+    this.options.chapterCount = count;
+    this.setAnchorSelect('chapter');
+  }
+
+  App.prototype.setAnchorSelect = function(anchorType) {
+    var $select, anchorCount;
+
+    anchorCount = this.options[anchorType + 'Count'];
+    $select = this.elements[anchorType + 'Select'];
+
+    for (var i=1; i <= anchorCount; i++) {
+      $select.append('<option value="' + i + '">' + i + '</option>')
+    }
+  }
+
+  App.prototype.changeSiblingAnchorSelect = function(siblingAnchorSelect, anchorNumber, anchorType) {
+    siblingAnchorSelect.options.selectedIndex = anchorNumber - 1;
+
+    this.options.forceChapterChange = true;
+    this.options.forceParagraphChange = true;
+
+    this.options.lastAnchorTypeChanged = anchorType;
+  }
+
+  return App;
+
+})();
 
 // Singleton
 window.App = new App();

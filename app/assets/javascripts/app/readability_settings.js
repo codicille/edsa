@@ -1,189 +1,192 @@
-var ReadabilitySettings = function() { this.initialize.apply(this, arguments) };
-ReadabilitySettings.prototype = (function() { var pro = {};
+var ReadabilitySettings,
+    __bind = function(fn, me) { return function() { return fn.apply(me, arguments) }};
 
-  // Global variables
-  var options = {
-    submenuOpened: false,
-    fontSize: {
-      default: 0,
-      current: 0
-    },
-    lineHeight: {
-      default: 0,
-      current: 0
-    },
-    theme: {
-      default: null,
-      current: null
-    },
-    fontFamily: {
-      default: null,
-      current: null
+ReadabilitySettings = (function() {
+  function ReadabilitySettings() {
+    // Scope callback functions to instance
+    this.closeSubmenu = __bind(this.closeSubmenu, this);
+    this.setTheme     = __bind(this.setTheme, this);
+
+    // Global variables
+    this.options = {
+      submenuOpened: false,
+      fontSize: { default: 0, current: 0 },
+      lineHeight: { default: 0, current: 0 },
+      theme: { default: null, current: null },
+      fontFamily: { default: null, current: null }
     }
-  }
 
-  // jQuery cached elements
-  var elements = {
-    body: $('body'),
-    main: $('[role="main"]'),
-    paragraphCountLinks: $('.paragraph-count'),
-    veil: $('.veil')
-  }
+    // jQuery cached elements
+    this.elements = {
+      body: $('body'),
+      main: $('[role="main"]'),
+      paragraphCountLinks: $('.paragraph-count'),
+      veil: $('.veil')
+    }
 
-  // Public scope --------------------------------------------------------------
-  pro.initialize = function(args) {
-    var mainComputedStyle = window.getComputedStyle(elements.main[0]);
+    // Initialization
+    var mainComputedStyle = window.getComputedStyle(this.elements.main[0]);
 
-    setFontSizeOptions(mainComputedStyle);
-    setLineHeightOptions(mainComputedStyle);
-    setThemeOptions();
-    setFontFamilyOptions();
+    this.setFontSizeOptions(mainComputedStyle);
+    this.setLineHeightOptions(mainComputedStyle);
+    this.setThemeOptions();
+    this.setFontFamilyOptions();
 
-    initFontFamilyButtonsGroup();
-    initThemeSlider();
+    this.initFontFamilyButtonsGroup();
+    this.initThemeSlider();
 
     if (UA.IS_TOUCH_DEVICE) {
-      elements.veil.onTap(closeSubmenu);
+      this.elements.veil.onTap(this.closeSubmenu);
     } else {
-      elements.veil.on('click', closeSubmenu);
+      this.elements.veil.on('click', this.closeSubmenu);
     }
   }
 
-  pro.toggleSubmenu = function() {
-    options.submenuOpened ? closeSubmenu() : openSubmenu();
+  ReadabilitySettings.prototype.get = function(option) {
+    return this.options[option];
   }
 
-  pro.openSubmenu = function() { openSubmenu() }
-  pro.closeSubmenu = function() { closeSubmenu() }
-
-  pro.largerFontSize  = function() { changeFontSize(1) }
-  pro.smallerFontSize = function() { changeFontSize(-1) }
-  pro.normalFontSize  = function() { setFontSize(options.fontSize.default) }
-
-  pro.largerLineHeight  = function() { changeLineHeight(1) }
-  pro.smallerLineHeight = function() { changeLineHeight(-1) }
-  pro.normalLineHeight  = function() { setLineHeight(options.lineHeight.default) }
-
-  pro.fontFamily = function(fontFamily) { setFontFamily(fontFamily) }
-
-  pro.get = function(option) {
-    return options[option]
+  // Submenu Management
+  ReadabilitySettings.prototype.toggleSubmenu = function() {
+    this.options.submenuOpened ? this.closeSubmenu() : this.openSubmenu();
   }
 
-  // Private scope -------------------------------------------------------------
-  var openSubmenu = function() {
-    if (options.submenuOpened) { return }
-    options.submenuOpened = true;
+  ReadabilitySettings.prototype.openSubmenu = function() {
+    if (this.options.submenuOpened) { return }
+    this.options.submenuOpened = true;
 
-    elements.body.addClass('show-readability-settings');
+    this.elements.body.addClass('show-readability-settings');
   }
 
-  var closeSubmenu = function() {
-    if (!options.submenuOpened) { return }
-    options.submenuOpened = false;
+  ReadabilitySettings.prototype.closeSubmenu = function() {
+    if (!this.options.submenuOpened) { return }
+    this.options.submenuOpened = false;
 
-    elements.body.removeClass('show-readability-settings');
+    this.elements.body.removeClass('show-readability-settings');
   }
 
   // Font-size Management
-  var setFontSizeOptions = function(mainComputedStyle) {
+  ReadabilitySettings.prototype.largerFontSize  = function() { this.changeFontSize(1) }
+  ReadabilitySettings.prototype.smallerFontSize = function() { this.changeFontSize(-1) }
+  ReadabilitySettings.prototype.normalFontSize  = function() { this.setFontSize(this.options.fontSize.default) }
+
+  ReadabilitySettings.prototype.setFontSizeOptions = function(mainComputedStyle) {
     var mainFontSize = parseInt(mainComputedStyle.getPropertyValue('font-size'));
 
-    options.fontSize.default = mainFontSize;
-    options.fontSize.current = mainFontSize;
+    this.options.fontSize.default = mainFontSize;
+    this.options.fontSize.current = mainFontSize;
   }
 
-  var changeFontSize = function(increment) {
-    var newFontSize = options.fontSize.current + increment;
-    setFontSize(newFontSize);
+  ReadabilitySettings.prototype.changeFontSize = function(increment) {
+    var newFontSize = this.options.fontSize.current + increment;
+    this.setFontSize(newFontSize);
   }
 
-  var setFontSize = function(fontSize) {
-    if (options.fontSize.current == fontSize) { return }
-    options.fontSize.current = fontSize;
+  ReadabilitySettings.prototype.setFontSize = function(fontSize) {
+    if (this.options.fontSize.current == fontSize) { return }
+    this.options.fontSize.current = fontSize;
 
-    elements.main.css('font-size', fontSize + 'px');
+    this.elements.main.css('font-size', fontSize + 'px');
   }
 
   // Line-height Management
-  var setLineHeightOptions = function(mainComputedStyle) {
+  ReadabilitySettings.prototype.largerLineHeight  = function() { this.changeLineHeight(1) }
+  ReadabilitySettings.prototype.smallerLineHeight = function() { this.changeLineHeight(-1) }
+  ReadabilitySettings.prototype.normalLineHeight  = function() { this.setLineHeight(this.options.lineHeight.default) }
+
+  ReadabilitySettings.prototype.setLineHeightOptions = function(mainComputedStyle) {
     var mainLineHeight, lineHeight, roundedLineHeight;
 
     mainLineHeight = parseInt(mainComputedStyle.getPropertyValue('line-height'));
-    lineHeight = mainLineHeight / options.fontSize.default;
+    lineHeight = mainLineHeight / this.options.fontSize.default;
     roundedLineHeight = Math.round(lineHeight * 10) / 10;
 
-    options.lineHeight.default = roundedLineHeight;
-    options.lineHeight.current = roundedLineHeight;
+    this.options.lineHeight.default = roundedLineHeight;
+    this.options.lineHeight.current = roundedLineHeight;
   }
 
-  var changeLineHeight = function(increment) {
-    var newLineHeight = (options.lineHeight.current * 10 + increment) / 10;
-    setLineHeight(newLineHeight);
+  ReadabilitySettings.prototype.changeLineHeight = function(increment) {
+    var newLineHeight = (this.options.lineHeight.current * 10 + increment) / 10;
+    this.setLineHeight(newLineHeight);
   }
 
-  var setLineHeight = function(lineHeight) {
-    if (options.lineHeight.current == lineHeight) { return }
-    options.lineHeight.current = lineHeight;
+  ReadabilitySettings.prototype.setLineHeight = function(lineHeight) {
+    if (this.options.lineHeight.current == lineHeight) { return }
+    this.options.lineHeight.current = lineHeight;
 
-    elements.main.css('line-height', lineHeight);
-    elements.paragraphCountLinks.css('line-height', lineHeight * 1.5);
+    this.elements.main.css('line-height', lineHeight);
+    this.elements.paragraphCountLinks.css('line-height', lineHeight * 1.5);
   }
 
   // Themes Management
-  var setThemeOptions = function() {
-    var theme = elements.body[0].className.match(/theme-(.+)/)[1];
+  ReadabilitySettings.prototype.setThemeOptions = function() {
+    var theme = this.elements.body[0].className.match(/theme-(.+)/)[1];
 
-    options.theme.default = theme;
-    options.theme.current = theme;
+    this.options.theme.default = theme;
+    this.options.theme.current = theme;
   }
 
-  var initThemeSlider = function() {
+  ReadabilitySettings.prototype.initThemeSlider = function() {
+    var callback = this.setTheme;
+
     $(".slider-container .slider").slider({
-      value: options.theme.default,
+      value: this.options.theme.default,
       min: 1,
       max: 5,
       step: 1,
-      slide: function(e, ui) { setTheme(ui.value) }
+      slide: function(e, ui) { callback(ui.value) }
     });
   }
 
-  var setTheme = function(theme) {
-    if (options.theme.current == theme) { return }
-    var previousTheme = options.theme.current;
-    options.theme.current = theme;
+  ReadabilitySettings.prototype.setTheme = function(theme) {
+    if (this.options.theme.current == theme) { return }
 
-    elements.body.removeClass('theme-' + previousTheme);
-    elements.body.addClass('theme-' + theme);
+    var previousTheme = this.options.theme.current;
+    this.options.theme.current = theme;
+
+    this.elements.body.removeClass('theme-' + previousTheme);
+    this.elements.body.addClass('theme-' + theme);
   }
 
   // Font family Management
-  var initFontFamilyButtonsGroup = function() {
-    var buttonsGroup, $buttonsGroup, defaultButton;
+  ReadabilitySettings.prototype.fontFamily = function(fontFamily) {
+    this.setFontFamily(fontFamily);
+  }
 
+  ReadabilitySettings.prototype.initFontFamilyButtonsGroup = function() {
+    var _this, buttonsGroup, $buttonsGroup, defaultButton;
+
+    _this = this;
     $buttonsGroup = $('.buttons-group.fonts');
-    defaultButton = $buttonsGroup.find('.font-' + options.fontFamily.default);
+    defaultButton = $buttonsGroup.find('.font-' + this.options.fontFamily.default);
+
+    $buttonsGroup.on('selectChange', function(e, fontFamily) {
+      _this.fontFamily(fontFamily);
+    });
 
     buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
   }
 
-  var setFontFamilyOptions = function() {
-    var fontName = elements.main[0].className.match(/font-(.+)/)[1];
+  ReadabilitySettings.prototype.setFontFamilyOptions = function() {
+    var fontName = this.elements.main[0].className.match(/font-(.+)/)[1];
 
-    options.fontFamily.default = fontName;
-    options.fontFamily.current = fontName;
+    this.options.fontFamily.default = fontName;
+    this.options.fontFamily.current = fontName;
   }
 
-  var setFontFamily = function(fontFamily) {
-    if (options.fontFamily.current == fontFamily) { return }
-    var previousFontFamily = options.fontFamily.current;
-    options.fontFamily.current = fontFamily;
+  ReadabilitySettings.prototype.setFontFamily = function(fontFamily) {
+    if (this.options.fontFamily.current == fontFamily) { return }
 
-    elements.main.removeClass('font-' + previousFontFamily);
-    elements.main.addClass('font-' + fontFamily);
+    var previousFontFamily = this.options.fontFamily.current;
+    this.options.fontFamily.current = fontFamily;
+
+    this.elements.main.removeClass('font-' + previousFontFamily);
+    this.elements.main.addClass('font-' + fontFamily);
   }
 
-return pro })();
+  return ReadabilitySettings;
+
+})();
 
 // Singleton
 window.ReadabilitySettings = new ReadabilitySettings();

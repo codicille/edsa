@@ -1,61 +1,58 @@
-var ButtonsGroup = function() { this.initialize.apply(this, arguments) };
-ButtonsGroup.prototype = (function() { var pro = {};
+var ButtonsGroup,
+    __bind = function(fn, me) { return function() { return fn.apply(me, arguments) }};
 
-  // jQuery cached elements
-  var elements = {
-    group: null,
-    buttons: null,
-    select: null,
-    selectedButton: null
-  }
+ButtonsGroup = (function() {
+  function ButtonsGroup($elem, $defaultSelectedButton) {
+    // Scope callback functions to instance
+    this.onButtonClick = __bind(this.onButtonClick, this);
 
-  // Public scope --------------------------------------------------------------
-  pro.initialize = function($elem, $defaultSelectedButton) {
-    elements.group = $elem;
-
-    elements.select = $elem.children('select');
-
-    elements.buttons = $elem.find('.simple-button');
-    elements.buttons.on('click', onButtonClick);
-
-    if ($defaultSelectedButton) {
-      select($defaultSelectedButton[0]);
+    // jQuery cached elements
+    this.elements = {
+      group: $elem,
+      buttons: $elem.find('.simple-button'),
+      select: $elem.children('select'),
+      selectedButton: null
     }
 
-    if (elements.select.length) { initSelect(); }
+    this.elements.buttons.on('click', this.onButtonClick);
+
+    if (this.elements.select.length) { this.initSelect() }
+    if ($defaultSelectedButton) { this.select($defaultSelectedButton[0]) }
   }
 
-  // Private scope -------------------------------------------------------------
-  var onButtonClick = function(e) {
-    select(e.currentTarget);
+  ButtonsGroup.prototype.onButtonClick = function(e) {
+    this.select(e.currentTarget);
   }
 
-  var select = function(button, updateSelect) {
+  ButtonsGroup.prototype.select = function(button, updateSelect) {
     if (updateSelect == null) { updateSelect = true }
-    if (elements.selectedButton == button) { return }
+    if (this.elements.selectedButton == button) { return }
 
-    unselect();
+    this.unselect();
 
-    elements.selectedButton = button;
+    this.elements.selectedButton = button;
     $(button).addClass('selected');
 
-    if (updateSelect && elements.select.length) {
+    if (updateSelect && this.elements.select.length) {
       var selectedIndex = $(button).index();
-      elements.select[0].selectedIndex = selectedIndex;
+      this.elements.select[0].selectedIndex = selectedIndex;
     }
   }
 
-  var unselect = function() {
-    $(elements.selectedButton).removeClass('selected');
+  ButtonsGroup.prototype.unselect = function() {
+    $(this.elements.selectedButton).removeClass('selected');
   }
 
-  var initSelect = function() {
-    elements.select.on('change', function(e){
-      var $button = elements.buttons.eq(this.selectedIndex);
-      select($button[0], false);
+  ButtonsGroup.prototype.initSelect = function() {
+    var _this = this;
 
-      if (ReadabilitySettings) { ReadabilitySettings.fontFamily(this.value) }
+    this.elements.select.on('change', function(e) {
+      var $button = _this.elements.buttons.eq(this.selectedIndex);
+      _this.select($button[0], false);
+      _this.elements.group.trigger('selectChange', this.value);
     });
   }
 
-return pro })();
+  return ButtonsGroup;
+
+})();
