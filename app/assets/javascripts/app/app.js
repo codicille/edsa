@@ -59,10 +59,22 @@ App = (function() {
     if (UA.IS_TOUCH_DEVICE) {
       var App = this;
       window.scrollTo(0, 1);
+
+      this.elements.anchorsButton = $('.anchors')
       this.elements.allLinks.on('click', function(e) { return false });
       this.elements.allLinks.onTap(function(e) {
         action = this.href.match(/javascript:(.+)/)[1];
         eval(action);
+      });
+
+      this.elements.anchorsButton.onTap(function(e) {
+        $(e.currentTarget).addClass('opened');
+        App.elements.body.addClass('submenu-opened');
+      });
+
+      $('.veil').onTap(function(e) {
+        App.elements.anchorsButton.removeClass('opened')
+        App.elements.body.removeClass('submenu-opened');
       });
     }
   }

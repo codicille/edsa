@@ -57,7 +57,7 @@ a { color: $blueColor }
   top: 0; left: 0;
   bottom: 0; right: 0;
 
-  .show-readability-settings & { display: block }
+  .submenu-opened & { display: block }
 }
 
 // Fonts ---------------------------------------------------------------------
@@ -525,6 +525,7 @@ a.paragraph-count {
 
 // Footer --------------------------------------------------------------------
 footer {
+  z-index: 1;
   position: fixed;
   bottom: 0; left: 0;
   width: 100%;
@@ -579,8 +580,10 @@ footer {
   }
 }
 
-.anchors:hover {
+.no-touch .anchors:hover,
+.anchors.opened, {
   .popup {
+    z-index: 2;
     opacity: 1;
     pointer-events: all;
   }

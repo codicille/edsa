@@ -58,14 +58,14 @@ ReadabilitySettings = (function() {
     if (this.options.submenuOpened) { return }
     this.options.submenuOpened = true;
 
-    this.elements.body.addClass('show-readability-settings');
+    this.elements.body.addClass('show-readability-settings submenu-opened');
   }
 
   ReadabilitySettings.prototype.closeSubmenu = function() {
     if (!this.options.submenuOpened) { return }
     this.options.submenuOpened = false;
 
-    this.elements.body.removeClass('show-readability-settings');
+    this.elements.body.removeClass('show-readability-settings submenu-opened');
   }
 
   // Font-size Management
