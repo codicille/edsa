@@ -57,6 +57,7 @@ App = (function() {
 
     // Mobile
     if (UA.IS_TOUCH_DEVICE) {
+      var App = this;
       window.scrollTo(0, 1);
       this.elements.allLinks.on('click', function(e) { return false });
       this.elements.allLinks.onTap(function(e) {
