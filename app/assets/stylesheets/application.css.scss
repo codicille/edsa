@@ -523,6 +523,11 @@ a.paragraph-count {
   &:before { content: "§" }
 }
 
+.align-justify {
+  text-align: justify;
+  @include vendor-prefixes(hyphens, auto);
+}
+
 // Footer --------------------------------------------------------------------
 footer {
   z-index: 1;

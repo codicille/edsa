@@ -143,9 +143,12 @@ ReadabilitySettings = (function() {
 
   ReadabilitySettings.prototype.setAlignment = function(alignment) {
     if (this.options.alignment.current == alignment) { return }
+
+    var previousAlignment = this.options.alignment.current;
     this.options.alignment.current = alignment;
 
-    this.elements.main.css('text-align', alignment);
+    this.elements.main.removeClass('align-' + previousAlignment);
+    this.elements.main.addClass('align-' + alignment);
   }
 
   // Themes Management
