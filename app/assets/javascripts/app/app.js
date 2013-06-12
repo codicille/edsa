@@ -31,6 +31,7 @@ App = (function() {
     this.elements = {
       body: $('body'),
       window: $(window),
+      sections: $('.section'),
       sectionName: $('[data-hook="section-name"]'),
       currentChapter: $('[data-hook="current-chapter"]'),
       currentParagraph: $('[data-hook="current-paragraph"]'),
@@ -138,7 +139,7 @@ App = (function() {
     currentAnchor = null;
 
     // Change history state to current section & paragraph
-    $('.section').each(function(i, section) {
+    this.elements.sections.each(function(i, section) {
       if (!_this.isInTheFold(section)) { return true }
       currentAnchor = section;
       _this.setCurrentSection(_this.getAnchorTypeAndNumberMatches(section.id));
