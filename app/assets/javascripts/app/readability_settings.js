@@ -25,6 +25,8 @@ ReadabilitySettings = (function() {
       veil: $('.veil')
     }
 
+    this.savedOptions = JSON.parse(localStorage.getItem("readabilitySettings"));
+
     // Initialization
     var mainComputedStyle = window.getComputedStyle(this.elements.main[0]);
 
@@ -88,6 +90,7 @@ ReadabilitySettings = (function() {
   ReadabilitySettings.prototype.setFontSize = function(fontSize) {
     if (this.options.fontSize.current == fontSize) { return }
     this.options.fontSize.current = fontSize;
+    this.updateLocalStorage('fontSize', fontSize);
 
     this.elements.main.css('font-size', fontSize + 'px');
   }
@@ -116,6 +119,7 @@ ReadabilitySettings = (function() {
   ReadabilitySettings.prototype.setLineHeight = function(lineHeight) {
     if (this.options.lineHeight.current == lineHeight) { return }
     this.options.lineHeight.current = lineHeight;
+    this.updateLocalStorage('lineHeight', lineHeight);
 
     this.elements.main.css('line-height', lineHeight);
     this.elements.paragraphCountLinks.css('line-height', lineHeight * 1.5);
@@ -146,9 +150,17 @@ ReadabilitySettings = (function() {
 
     var previousAlignment = this.options.alignment.current;
     this.options.alignment.current = alignment;
+    this.updateLocalStorage('alignment', alignment);
 
     this.elements.main.removeClass('align-' + previousAlignment);
     this.elements.main.addClass('align-' + alignment);
+  }
+
+  ReadabilitySettings.prototype.updateLocalStorage = function(property, value) {
+    var settings = JSON.parse(localStorage.getItem('readabilitySettings')) || {};
+
+    settings[property] = value;
+    localStorage.setItem('readabilitySettings', JSON.stringify(settings));
   }
 
   // Themes Management
@@ -176,6 +188,7 @@ ReadabilitySettings = (function() {
 
     var previousTheme = this.options.theme.current;
     this.options.theme.current = theme;
+    this.updateLocalStorage('theme', theme);
 
     this.elements.body.removeClass('theme-' + previousTheme);
     this.elements.body.addClass('theme-' + theme);
@@ -212,6 +225,7 @@ ReadabilitySettings = (function() {
 
     var previousFontFamily = this.options.fontFamily.current;
     this.options.fontFamily.current = fontFamily;
+    this.updateLocalStorage('fontFamily', fontFamily);
 
     this.elements.main.removeClass('font-' + previousFontFamily);
     this.elements.main.addClass('font-' + fontFamily);
