@@ -220,6 +220,12 @@ header li {
 }
 
 // Advanced Menus ------------------------------------------------------------
+
+.close-advanced-menus > span,
+.font-sizes-wrap {
+  text-indent: -0.3em;
+}
+
 .advanced-menu, .button-advanced-menus {
   @include transform-transition(.2s)
 }
@@ -447,7 +453,7 @@ header li {
   vertical-align: middle;
 }
 
-.icon-fonts { font-size: 0 }
+.icon-fonts { font-size: 0; text-indent: 0; }
 .icon-fonts > span { display: inline-block }
 .icon-fonts > .icon-big-font {
   position: relative;
