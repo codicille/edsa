@@ -201,7 +201,7 @@ ReadabilitySettings = (function() {
   }
 
   ReadabilitySettings.prototype.setFontFamilyOptions = function() {
-    var fontName = this.elements.main[0].className.match(/font-(.+)/)[1];
+    var fontName = this.elements.main[0].className.match(/font-([a-z]+)/)[1];
 
     this.options.fontFamily.default = fontName;
     this.options.fontFamily.current = fontName;
