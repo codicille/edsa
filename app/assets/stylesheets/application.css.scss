@@ -13,9 +13,11 @@
 }
 body { @include vendor-prefixes(user-select, none) }
 
+html { font-size: $baseFontSize; }
+
 body, button, input, legend, textarea {
   font-family: 'Open sans', 'sans-serif';
-  font-size: $baseFontSize;
+  font-size: 1em;
   line-height: 1.5;
   color: $mainTextColor;
 }
@@ -491,7 +493,7 @@ header li {
 // Main ----------------------------------------------------------------------
 [role="main"] {
   margin: 7em 0;
-  font-size: 21px;
+  font-size: 1.25em;
   line-height: 1.8;
   text-align: left;
   counter-reset: paragraph;
