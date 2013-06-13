@@ -4,6 +4,7 @@ var ReadabilitySettings,
 ReadabilitySettings = (function() {
   function ReadabilitySettings() {
     // Scope callback functions to instance
+    var _this = this;
     this.closeSubmenu = __bind(this.closeSubmenu, this);
     this.setTheme     = __bind(this.setTheme, this);
 
@@ -36,11 +37,9 @@ ReadabilitySettings = (function() {
     }
 
     // Initialization
-    this.setFontSizeOptions(this.initialStyles.fontSize);
-    this.setLineHeightOptions(this.initialStyles.lineHeight);
-    this.setAlignmentOptions(this.initialStyles.alignment);
-    this.setThemeOptions(this.initialStyles.theme);
-    this.setFontFamilyOptions(this.initialStyles.fontFamily);
+    $.each(this.initialStyles, function(property, value) {
+      _this.setInitialOption(property, value)
+    })
 
     this.applySavedSettings();
 
@@ -72,6 +71,14 @@ ReadabilitySettings = (function() {
     return this.options[option];
   }
 
+  ReadabilitySettings.prototype.setInitialOption = function(option, value) {
+    if(!value) return;
+    if(option == 'lineHeight') value = this.getRoundedLineHeight(value);
+
+    this.options[option].default = value;
+    this.options[option].current = value;
+  }
+
   // Submenu Management
   ReadabilitySettings.prototype.toggleSubmenu = function() {
     this.options.submenuOpened ? this.closeSubmenu() : this.openSubmenu();
@@ -96,12 +103,6 @@ ReadabilitySettings = (function() {
   ReadabilitySettings.prototype.smallerFontSize = function() { this.changeFontSize(-1) }
   ReadabilitySettings.prototype.normalFontSize  = function() { this.setFontSize(this.options.fontSize.default) }
 
-  ReadabilitySettings.prototype.setFontSizeOptions = function(fontSize) {
-    if(!fontSize) return;
-    this.options.fontSize.default = fontSize;
-    this.options.fontSize.current = fontSize;
-  }
-
   ReadabilitySettings.prototype.changeFontSize = function(increment) {
     var newFontSize = this.options.fontSize.current + increment;
     this.setFontSize(newFontSize);
@@ -120,14 +121,13 @@ ReadabilitySettings = (function() {
   ReadabilitySettings.prototype.smallerLineHeight = function() { this.changeLineHeight(-1) }
   ReadabilitySettings.prototype.normalLineHeight  = function() { this.setLineHeight(this.options.lineHeight.default) }
 
-  ReadabilitySettings.prototype.setLineHeightOptions = function(mainLineHeight) {
-    var lineHeight, roundedLineHeight;
+  ReadabilitySettings.prototype.getRoundedLineHeight = function(lineHeight) {
+    var roundedLineHeight;
 
-    lineHeight = mainLineHeight / this.options.fontSize.default;
+    lineHeight = lineHeight / this.options.fontSize.default;
     roundedLineHeight = Math.round(lineHeight * 10) / 10;
 
-    this.options.lineHeight.default = roundedLineHeight;
-    this.options.lineHeight.current = roundedLineHeight;
+    return roundedLineHeight;
   }
 
   ReadabilitySettings.prototype.changeLineHeight = function(increment) {
@@ -157,12 +157,6 @@ ReadabilitySettings = (function() {
     buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
   }
 
-  ReadabilitySettings.prototype.setAlignmentOptions = function(alignment) {
-    if(!alignment) return;
-    this.options.alignment.default = alignment;
-    this.options.alignment.current = alignment;
-  }
-
   ReadabilitySettings.prototype.setAlignment = function(alignment) {
     if (!alignment || this.options.alignment.current == alignment) return;
 
@@ -179,13 +173,6 @@ ReadabilitySettings = (function() {
 
     settings[property] = value;
     localStorage.setItem('readabilitySettings', JSON.stringify(settings));
-  }
-
-  // Themes Management
-  ReadabilitySettings.prototype.setThemeOptions = function(theme) {
-    if(!theme) return;
-    this.options.theme.default = theme;
-    this.options.theme.current = theme;
   }
 
   ReadabilitySettings.prototype.initThemeSlider = function() {
@@ -228,12 +215,6 @@ ReadabilitySettings = (function() {
     });
 
     buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
-  }
-
-  ReadabilitySettings.prototype.setFontFamilyOptions = function(fontName) {
-    if(!fontName) return;
-    this.options.fontFamily.default = fontName;
-    this.options.fontFamily.current = fontName;
   }
 
   ReadabilitySettings.prototype.setFontFamily = function(fontFamily) {
