@@ -537,6 +537,11 @@ header li {
     @include vendor-prefixes(user-select, none);
     @include vendor-prefixes(transition, opacity .2s);
   }
+
+  &.exclude {
+    counter-increment: paragraph 0;
+    &:before { display: none; }
+  }
 }
 
 .align-justify {
