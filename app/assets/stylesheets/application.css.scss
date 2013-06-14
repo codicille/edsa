@@ -234,9 +234,9 @@ header li {
 
 .show-advanced-menus {
   header, footer { pointer-events: all }
-  a.paragraph-count { opacity: 1 }
   header:before { height: 5em; }
   footer:before { height: 4em; }
+  .paragraph:before { opacity: 1 }
   .advanced-menu { @include vendor-prefixes(transform, translateY(0)) }
   .button-advanced-menus { @include vendor-prefixes(transform, translateY(-25%) scale(0)) }
 }
@@ -519,17 +519,21 @@ header li {
   }
 }
 
-a.paragraph-count {
-  position: absolute;
-  right: 105%;
-  display: inline-block;
-  font-size: .6em;
-  line-height: 2.7;
-  opacity: 0;
-  @include vendor-prefixes(user-select, none);
-  @include vendor-prefixes(transition, opacity .2s);
+.paragraph {
+  counter-increment: paragraph;
 
-  &:before { content: "§" }
+  &:before {
+    color: $blueColor;
+    content: "§" counter(paragraph);
+    position: absolute;
+    right: 105%;
+    display: inline-block;
+    font-size: .6em;
+    line-height: 2.7;
+    opacity: 0;
+    @include vendor-prefixes(user-select, none);
+    @include vendor-prefixes(transition, opacity .2s);
+  }
 }
 
 .align-justify {

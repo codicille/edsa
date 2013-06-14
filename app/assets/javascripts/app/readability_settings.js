@@ -22,7 +22,6 @@ ReadabilitySettings = (function() {
     this.elements = {
       body: $('body'),
       main: $('[role="main"]'),
-      paragraphCountLinks: $('.paragraph-count'),
       veil: $('.veil')
     }
 
@@ -141,7 +140,6 @@ ReadabilitySettings = (function() {
     this.updateLocalStorage('lineHeight', lineHeight);
 
     this.elements.main.css('line-height', lineHeight);
-    this.elements.paragraphCountLinks.css('line-height', lineHeight * 1.5);
   }
 
   // Alignment Management

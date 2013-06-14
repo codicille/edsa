@@ -5,7 +5,6 @@ App = (function() {
   function App() {
     // Scope callback functions to instance
     this.handleKeyup             = __bind(this.handleKeyup, this);
-    this.onParagraphCountClick   = __bind(this.onParagraphCountClick, this);
     this.onWindowScroll          = __bind(this.onWindowScroll, this);
     this.onChapterSelectChange   = __bind(this.onChapterSelectChange, this);
     this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
@@ -44,7 +43,6 @@ App = (function() {
 
     // Events
     $(document).on('keyup', this.handleKeyup);
-    $('.paragraph-count').on('click', this.onParagraphCountClick);
     this.elements.window.on('scroll', this.onWindowScroll);
     this.elements.window.on('resize', this.onWindowScroll);
     this.elements.chapterSelect.on('change', this.onChapterSelectChange);
@@ -122,13 +120,6 @@ App = (function() {
     } else {
       this.hideAdvancedMenus();
     }
-  }
-
-  App.prototype.onParagraphCountClick = function(e) {
-    e.preventDefault();
-
-    var matches = this.getAnchorTypeAndNumberMatches(e.currentTarget.getAttribute('href'));
-    this.replaceStateFromMatches(matches, true);
   }
 
   App.prototype.onWindowScroll = function(e) {
