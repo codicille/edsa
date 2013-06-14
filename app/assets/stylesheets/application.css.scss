@@ -505,7 +505,10 @@ header li {
   h2 { font-size: 1.5em }
   h3 { margin: 3em 0 0 }
 
-  .wrap { max-width: 25.7em }
+  .wrap {
+    max-width: 31em;
+    max-width: 60ch;
+  }
 
   .section:before {
     content: '';
