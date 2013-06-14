@@ -124,7 +124,7 @@ header {
 
   h1 {
     margin: 0;
-    padding: 1em 0;
+    padding: 0.75em 0;
     color: #b3b3b3;
     font-size: 1.4em;
     border-bottom: 1px solid #c4c4c4;
@@ -165,9 +165,9 @@ header {
 
   .button-advanced-menus {
     position: absolute;
-    top: 6px; right: 8px;
+    top: 5px; right: 8px;
     display: block;
-    width: 60px; height: 60px;
+    width: 54px; height: 54px;
     background-color: #f9f9f9;
     border-radius: 100%;
     text-align: center;
@@ -463,9 +463,9 @@ header li {
   top: -1px; left: 1px;
 }
 
-.icon-big-font:before { font-size: 28px }
-.icon-close:before { font-size: 26px }
-.icon-glasses:before { font-size: 20px }
+.icon-big-font:before { font-size: 24px }
+.icon-close:before { font-size: 22px }
+.icon-glasses:before { font-size: 18px }
 .icon-books:before { font-size: 28px }
 
 .icon-moon,
