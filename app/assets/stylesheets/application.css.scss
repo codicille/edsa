@@ -234,8 +234,9 @@ header li {
 
 .show-advanced-menus {
   header, footer { pointer-events: all }
-  header:before, footer:before { height: 200px }
   a.paragraph-count { opacity: 1 }
+  header:before { height: 5em; }
+  footer:before { height: 4em; }
   .advanced-menu { @include vendor-prefixes(transform, translateY(0)) }
   .button-advanced-menus { @include vendor-prefixes(transform, translateY(-25%) scale(0)) }
 }
