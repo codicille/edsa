@@ -9,6 +9,8 @@ App = (function() {
     this.onChapterSelectChange   = __bind(this.onChapterSelectChange, this);
     this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
     this.onAnchorsButtonClick    = __bind(this.onAnchorsButtonClick, this);
+    this.hideAdvancedMenus       = __bind(this.hideAdvancedMenus, this);
+    //@todo handle tap equivalent of click events on touch devices
 
     // Global variables
     this.options = {
@@ -37,7 +39,8 @@ App = (function() {
       paragraphCount: $('[data-hook="paragraph-count"]'),
       chapterSelect: $('select[name="chapter"]'),
       paragraphSelect: $('select[name="paragraph"]'),
-      anchorsButton: $('.anchors button'),
+      anchorsWrap: $('.anchors'),
+      anchorsButton: $('.anchors .button'),
       allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])')
     }
 
@@ -48,6 +51,7 @@ App = (function() {
     this.elements.chapterSelect.on('change', this.onChapterSelectChange);
     this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
     this.elements.anchorsButton.on('click', this.onAnchorsButtonClick);
+    $('.veil').on('click', this.hideAdvancedMenus);
 
     // Onload
     this.gotoCurrentAnchor();
@@ -64,16 +68,6 @@ App = (function() {
       this.elements.allLinks.onTap(function(e) {
         action = this.href.match(/javascript:(.+)/)[1];
         eval(action);
-      });
-
-      this.elements.anchorsButton.onTap(function(e) {
-        $(e.currentTarget).addClass('opened');
-        App.elements.body.addClass('submenu-opened');
-      });
-
-      $('.veil').onTap(function(e) {
-        App.elements.anchorsButton.removeClass('opened')
-        App.elements.body.removeClass('submenu-opened');
       });
     }
   }
@@ -103,7 +97,8 @@ App = (function() {
     this.options.advancedMenusOpened = false;
 
     if (ReadabilitySettings) { ReadabilitySettings.closeSubmenu() }
-    this.elements.body.removeClass('show-advanced-menus');
+    this.elements.body.removeClass('show-advanced-menus submenu-opened');
+    this.elements.anchorsWrap.removeClass('opened');
   }
 
   // Events callback
@@ -153,6 +148,11 @@ App = (function() {
     this.replaceStateFromMatches(matches, false);
   }
 
+  App.prototype.onAnchorsButtonClick = function(e) {
+    this.elements.anchorsWrap.toggleClass('opened');
+    this.elements.body.toggleClass('submenu-opened');
+  }
+
   App.prototype.onChapterSelectChange = function(e) {
     var value, paragraphNumber, $chapter, $paragraph;
 
@@ -162,6 +162,8 @@ App = (function() {
 
     paragraphNumber = this.getAnchorTypeAndNumberMatches($paragraph[0].id).number;
     this.changeSiblingAnchorSelect(this.elements.paragraphSelect[0], paragraphNumber, 'chapter');
+
+    this.replaceState(this.options.lastAnchorTypeChanged, value, true);
   }
 
   App.prototype.onParagraphSelectChange = function(e) {
@@ -173,15 +175,8 @@ App = (function() {
 
     chapterNumber = this.getAnchorTypeAndNumberMatches($chapter[0].id).number;
     this.changeSiblingAnchorSelect(this.elements.chapterSelect[0], chapterNumber, 'paragraph');
-  }
 
-  App.prototype.onAnchorsButtonClick = function(e) {
-    var anchorNumber, $select;
-
-    $select = this.elements[this.options.lastAnchorTypeChanged + 'Select'];
-    anchorNumber = $select.val();
-
-    this.replaceState(this.options.lastAnchorTypeChanged, anchorNumber, true);
+    this.replaceState(this.options.lastAnchorTypeChanged, value, true);
   }
 
   // Anchors management

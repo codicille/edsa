@@ -59,7 +59,7 @@ a { color: $blueColor }
   top: 0; left: 0;
   bottom: 0; right: 0;
 
-  .submenu-opened & { display: block }
+  .show-advanced-menus & { display: block }
 }
 
 // Fonts ---------------------------------------------------------------------
@@ -107,7 +107,7 @@ a { color: $blueColor }
 
 // Header --------------------------------------------------------------------
 header {
-  z-index: 1;
+  z-index: 10;
   position: fixed;
   top: 0; left: 2.5%; right: 2.5%;
   font-size: 14px;
@@ -296,6 +296,7 @@ header li {
 
 // UI ------------------------------------------------------------------------
 .button {
+  cursor: pointer;
   padding: .4em .6em;
   text-align: center;
   border: 1px solid #d8d8d8;
@@ -599,20 +600,13 @@ footer {
     width: 100%;
     display: block;
   }
-
-  button {
-    margin-top: .8em;
-    display: block;
-    width: 100%;
-  }
 }
 
-.no-touch .anchors:hover,
-.anchors.opened, {
+.anchors.opened {
   .popup {
     z-index: 2;
     opacity: 1;
-    pointer-events: all;
+    .column { pointer-events: all; }
   }
 }
 
