@@ -252,11 +252,11 @@ header li {
 }
 
 .submenu {
-  z-index: 2;
+  z-index: 20;
   display: none;
   position: fixed;
-  top: 65px; right: 2.5%;
-  margin-right: 72px;
+  top: 55px; right: 2.5%;
+  margin-right: 66px;
   width: 100%;
   max-width: 424px;
   color: #545454;
@@ -634,8 +634,8 @@ footer:before { bottom: 0; }
   }
 
   .submenu {
-    top: 55px;
-    margin-right: 65px;
+    top: 47px;
+    margin-right: 60px;
   }
 }
 
