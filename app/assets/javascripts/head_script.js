@@ -6,6 +6,7 @@ window.UA = {};
 
 // Touch
 UA.IS_TOUCH_DEVICE = window.ontouchend !== void 0;
+UA.CLICK = (UA.IS_TOUCH_DEVICE) ? 'touchend' : 'click';
 
 // Transition
 UA.HAS_TRANSITIONS = false;

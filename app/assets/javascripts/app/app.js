@@ -10,7 +10,6 @@ App = (function() {
     this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
     this.onAnchorsButtonClick    = __bind(this.onAnchorsButtonClick, this);
     this.hideAdvancedMenus       = __bind(this.hideAdvancedMenus, this);
-    //@todo handle tap equivalent of click events on touch devices
 
     // Global variables
     this.options = {
@@ -50,8 +49,8 @@ App = (function() {
     this.elements.window.on('resize', this.onWindowScroll);
     this.elements.chapterSelect.on('change', this.onChapterSelectChange);
     this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
-    this.elements.anchorsButton.on('click', this.onAnchorsButtonClick);
-    $('.veil').on('click', this.hideAdvancedMenus);
+    this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick);
+    $('.veil').on(UA.CLICK, this.hideAdvancedMenus);
 
     // Onload
     this.gotoCurrentAnchor();
