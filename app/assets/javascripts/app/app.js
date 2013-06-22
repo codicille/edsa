@@ -6,7 +6,6 @@ App = (function() {
     // Scope callback functions to instance
     this.handleKeyup             = __bind(this.handleKeyup, this);
     this.onWindowScroll          = __bind(this.onWindowScroll, this);
-    this.onChapterSelectChange   = __bind(this.onChapterSelectChange, this);
     this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
     this.onAnchorsButtonClick    = __bind(this.onAnchorsButtonClick, this);
     this.hideAdvancedMenus       = __bind(this.hideAdvancedMenus, this);
@@ -36,7 +35,6 @@ App = (function() {
       currentChapter: $('[data-hook="current-chapter"]'),
       currentParagraph: $('[data-hook="current-paragraph"]'),
       paragraphCount: $('[data-hook="paragraph-count"]'),
-      chapterSelect: $('select[name="chapter"]'),
       paragraphSelect: $('select[name="paragraph"]'),
       anchorsWrap: $('.anchors'),
       anchorsButton: $('.anchors .button'),
@@ -46,7 +44,6 @@ App = (function() {
     // Events
     $(document).on('keyup', this.handleKeyup);
     this.elements.window.on('scroll resize', this.onWindowScroll);
-    this.elements.chapterSelect.on('change', this.onChapterSelectChange);
     this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
     this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick);
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus);
@@ -151,29 +148,8 @@ App = (function() {
     this.elements.body.toggleClass('submenu-opened');
   }
 
-  App.prototype.onChapterSelectChange = function(e) {
-    var value, paragraphNumber, $chapter, $paragraph;
-
-    value = e.currentTarget.value;
-    $chapter = $('#chapter-' + value);
-    $paragraph = $chapter.children('.paragraph:first-of-type');
-
-    paragraphNumber = this.getAnchorTypeAndNumberMatches($paragraph[0].id).number;
-    this.changeSiblingAnchorSelect(this.elements.paragraphSelect[0], paragraphNumber, 'chapter');
-
-    this.replaceState(this.options.lastAnchorTypeChanged, value, true);
-  }
-
   App.prototype.onParagraphSelectChange = function(e) {
-    var value, chapterNumber, $chapter, $paragraph;
-
-    value = e.currentTarget.value;
-    $paragraph = $('#paragraph-' + value);
-    $chapter = $paragraph.parent('');
-
-    chapterNumber = this.getAnchorTypeAndNumberMatches($chapter[0].id).number;
-    this.changeSiblingAnchorSelect(this.elements.chapterSelect[0], chapterNumber, 'paragraph');
-
+    var value = e.currentTarget.value;
     this.replaceState(this.options.lastAnchorTypeChanged, value, true);
   }
 
@@ -266,14 +242,20 @@ App = (function() {
   }
 
   App.prototype.setCurrentChapter = function(chapterNumber) {
-    var sameNumber = chapterNumber == this.options.currentChapter;
+    var sameNumber, paragraphNumber, $optgroup;
+    sameNumber = chapterNumber == this.options.currentChapter;
+
     if (sameNumber && !this.options.forceChapterChange) { return }
+
+    $optgroup = $(this.elements.paragraphSelect.find('optgroup')[parseInt(chapterNumber)+1]);
+    paragraphNumber = $optgroup.find('option').first().val();
 
     this.options.currentChapter = chapterNumber;
     this.options.forceChapterChange = false;
 
     this.elements.currentChapter.html(chapterNumber);
-    this.elements.chapterSelect[0].options.selectedIndex = chapterNumber - 1;
+
+    this.setCurrentParagraph(paragraphNumber);
   }
 
   App.prototype.setCurrentParagraph = function(paragraphNumber) {
@@ -288,11 +270,11 @@ App = (function() {
   }
 
   App.prototype.setParagraphCount = function(count) {
-    if (count == null) { count = $('.paragraph').length }
+    if (count == null) { count = $('.paragraph').not('.exclude').length }
     if (count == this.options.paragraphCount) { return }
 
     this.options.paragraphCount = count;
-    this.setAnchorSelect('paragraph');
+    this.setAnchorSelect();
 
     this.elements.paragraphCount.html(count);
   }
@@ -302,18 +284,30 @@ App = (function() {
     if (count == this.options.chapterCount) { return }
 
     this.options.chapterCount = count;
-    this.setAnchorSelect('chapter');
   }
 
-  App.prototype.setAnchorSelect = function(anchorType) {
-    var $select, anchorCount;
+  App.prototype.setAnchorSelect = function() {
+    var $sections = $('.section'),
+        options = "",
+        i = 1;
 
-    anchorCount = this.options[anchorType + 'Count'];
-    $select = this.elements[anchorType + 'Select'];
+    $sections.each(function(index, el) {
+      var currentChapter = $(el),
+          title = currentChapter.find('h1, h2, h3').first().text(),
+          paragraphsCount = currentChapter.find('.paragraph').not('.exclude').length,
+          j = 0;
 
-    for (var i=1; i <= anchorCount; i++) {
-      $select.append('<option value="' + i + '">' + i + '</option>')
-    }
+      options += '<optgroup label="' + title + '">';
+
+      while(j < paragraphsCount) {
+        options += '<option value="' + i + '">' + i + '</option>'
+        j++; i++;
+      }
+
+      options += '</optgroup>';
+    })
+
+    this.elements.paragraphSelect.html(options);
   }
 
   App.prototype.changeSiblingAnchorSelect = function(siblingAnchorSelect, anchorNumber, anchorType) {

@@ -35,6 +35,22 @@ a { color: $blueColor }
   color: lighten($blueColor, 10%);
 }
 
+optgroup {
+  color: #808080;
+  font-style: normal;
+  font-weight: normal;
+  text-indent: 0.75em;
+  padding-top: 0.35em;
+
+  option:first-child { margin-top: 0.35em; }
+  &:last-child { padding-bottom: 0.35em; }
+}
+
+option {
+  color: $mainTextColor;
+  text-indent: 0;
+}
+
 // Layout --------------------------------------------------------------------
 .wrap {
   width: 78%;
