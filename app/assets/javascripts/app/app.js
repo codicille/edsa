@@ -45,8 +45,7 @@ App = (function() {
 
     // Events
     $(document).on('keyup', this.handleKeyup);
-    this.elements.window.on('scroll', this.onWindowScroll);
-    this.elements.window.on('resize', this.onWindowScroll);
+    this.elements.window.on('scroll resize', this.onWindowScroll);
     this.elements.chapterSelect.on('change', this.onChapterSelectChange);
     this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
     this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick);
