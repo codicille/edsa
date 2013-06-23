@@ -8,6 +8,8 @@ App = (function() {
     this.onWindowScroll          = __bind(this.onWindowScroll, this);
     this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
     this.onAnchorsButtonClick    = __bind(this.onAnchorsButtonClick, this);
+    this.onSummaryButtonClick    = __bind(this.onSummaryButtonClick, this);
+    this.onHeadingClick          = __bind(this.onHeadingClick, this);
     this.hideAdvancedMenus       = __bind(this.hideAdvancedMenus, this);
 
     // Global variables
@@ -15,6 +17,7 @@ App = (function() {
       defaultTitle: document.title,
       currentState: null,
       advancedMenusOpened: false,
+      summaryOpened: false,
       currentScrollTop: 0,
       currentSection: {},
       currentChapter: 1,
@@ -23,7 +26,8 @@ App = (function() {
       chapterCount: 1,
       forceChapterChange: false,
       forceParagraphChange: false,
-      lastAnchorTypeChanged: 'paragraph'
+      lastAnchorTypeChanged: 'paragraph',
+      scrollPosition: 0
     }
 
     // jQuery cached elements
@@ -38,7 +42,8 @@ App = (function() {
       paragraphSelect: $('select[name="paragraph"]'),
       anchorsWrap: $('.anchors'),
       anchorsButton: $('.anchors .button'),
-      allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])')
+      allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])'),
+      summaryButton: $('[data-hook="toggle-summary"]')
     }
 
     // Events
@@ -46,6 +51,8 @@ App = (function() {
     this.elements.window.on('scroll resize', this.onWindowScroll);
     this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
     this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick);
+    this.elements.summaryButton.on(UA.CLICK, this.onSummaryButtonClick);
+    this.elements.sections.find('h3:first').on(UA.CLICK, this.onHeadingClick);
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus);
 
     // Onload
@@ -97,6 +104,41 @@ App = (function() {
   }
 
   // Events callback
+  App.prototype.onSummaryButtonClick = function(e) {
+    this.options.summaryOpened ? this.closeSummary() : this.openSummary();
+  }
+
+  App.prototype.openSummary = function() {
+    this.options.scrollPosition = this.getScrollTop();
+    this.elements.body.addClass('show-summary');
+    this.options.summaryOpened = true;
+    this.elements.window.scrollTop(0);
+  }
+
+  App.prototype.closeSummary = function() {
+    this.elements.body.removeClass('show-summary');
+    this.options.summaryOpened = false;
+    this.elements.window.scrollTop(this.options.scrollPosition);
+  }
+
+  App.prototype.onHeadingClick = function(e) {
+    var $el, $section, number, matches;
+
+    if(!this.options.summaryOpened) return;
+
+    $el = $(e.currentTarget);
+    $section = $el.parents('.section');
+    number = this.elements.sections.index($section);
+    matches = this.getAnchorTypeAndNumberMatches($section[0].id);
+
+    this.closeSummary();
+
+    //@todo make a decision about whether the advanced menus should close or not
+    this.hideAdvancedMenus();
+
+    this.gotoAnchorFromMatches(matches);
+  }
+
   App.prototype.handleKeyup = function(e) {
     var keys, key;
 
