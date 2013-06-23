@@ -631,6 +631,8 @@ footer {
 // Summary
 
 .show-summary {
+  .anchors { display: none; }
+
   [role="main"] {
     p, blockquote, ul, ol { display: none; }
 
