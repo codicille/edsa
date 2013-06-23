@@ -75,7 +75,8 @@ option {
   top: 0; left: 0;
   bottom: 0; right: 0;
 
-  .show-advanced-menus & { display: block }
+  .show-advanced-menus & { display: block; }
+  .show-summary & { display: none; }
 }
 
 // Fonts ---------------------------------------------------------------------
@@ -624,6 +625,26 @@ footer {
     z-index: 2;
     opacity: 1;
     .column { pointer-events: all; }
+  }
+}
+
+// Summary
+
+.show-summary {
+  [role="main"] {
+    p, blockquote, ul, ol { display: none; }
+
+    .section:first-of-type { margin-top: 2em; }
+
+    h3 {
+      cursor: pointer;
+      font-size: 18px;
+      margin: 0.5em 0;
+    }
+  }
+
+  .touch &, .no-touch &, {
+    .book { background-color: #f2f2f2; }
   }
 }
 

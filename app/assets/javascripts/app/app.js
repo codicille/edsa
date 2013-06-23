@@ -8,6 +8,7 @@ App = (function() {
     this.onWindowScroll          = __bind(this.onWindowScroll, this);
     this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
     this.onAnchorsButtonClick    = __bind(this.onAnchorsButtonClick, this);
+    this.onSummaryButtonClick    = __bind(this.onSummaryButtonClick, this);
     this.hideAdvancedMenus       = __bind(this.hideAdvancedMenus, this);
 
     // Global variables
@@ -15,6 +16,7 @@ App = (function() {
       defaultTitle: document.title,
       currentState: null,
       advancedMenusOpened: false,
+      summaryOpened: false,
       currentScrollTop: 0,
       currentSection: {},
       currentChapter: 1,
@@ -23,7 +25,8 @@ App = (function() {
       chapterCount: 1,
       forceChapterChange: false,
       forceParagraphChange: false,
-      lastAnchorTypeChanged: 'paragraph'
+      lastAnchorTypeChanged: 'paragraph',
+      scrollPosition: 0
     }
 
     // jQuery cached elements
@@ -38,7 +41,8 @@ App = (function() {
       paragraphSelect: $('select[name="paragraph"]'),
       anchorsWrap: $('.anchors'),
       anchorsButton: $('.anchors .button'),
-      allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])')
+      allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])'),
+      summaryButton: $('[data-hook="toggle-summary"]')
     }
 
     // Events
@@ -46,6 +50,7 @@ App = (function() {
     this.elements.window.on('scroll resize', this.onWindowScroll);
     this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
     this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick);
+    this.elements.summaryButton.on(UA.CLICK, this.onSummaryButtonClick);
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus);
 
     // Onload
@@ -97,6 +102,23 @@ App = (function() {
   }
 
   // Events callback
+  App.prototype.onSummaryButtonClick = function(e) {
+    this.options.summaryOpened ? this.closeSummary() : this.openSummary();
+    this.options.summaryOpened = !this.options.summaryOpened;
+    $(e.currentTarget).toggleClass('active');
+  }
+
+  App.prototype.openSummary = function() {
+    this.options.scrollPosition = this.getScrollTop();
+    this.elements.body.addClass('show-summary');
+    this.elements.window.scrollTop(0);
+  }
+
+  App.prototype.closeSummary = function() {
+    this.elements.body.removeClass('show-summary');
+    this.elements.window.scrollTop(this.options.scrollPosition);
+  }
+
   App.prototype.handleKeyup = function(e) {
     var keys, key;
 
