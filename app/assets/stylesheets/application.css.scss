@@ -639,7 +639,10 @@ footer {
     h3 {
       cursor: pointer;
       font-size: 18px;
-      margin: 0.5em 0;
+      margin: 0;
+      padding: 0.45em 0;
+
+      &:hover { color: #01b3df; }
     }
   }
 

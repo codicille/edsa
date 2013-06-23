@@ -9,6 +9,7 @@ App = (function() {
     this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
     this.onAnchorsButtonClick    = __bind(this.onAnchorsButtonClick, this);
     this.onSummaryButtonClick    = __bind(this.onSummaryButtonClick, this);
+    this.onHeadingClick          = __bind(this.onHeadingClick, this);
     this.hideAdvancedMenus       = __bind(this.hideAdvancedMenus, this);
 
     // Global variables
@@ -51,6 +52,7 @@ App = (function() {
     this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
     this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick);
     this.elements.summaryButton.on(UA.CLICK, this.onSummaryButtonClick);
+    this.elements.sections.find('h3:first').on(UA.CLICK, this.onHeadingClick);
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus);
 
     // Onload
@@ -104,19 +106,37 @@ App = (function() {
   // Events callback
   App.prototype.onSummaryButtonClick = function(e) {
     this.options.summaryOpened ? this.closeSummary() : this.openSummary();
-    this.options.summaryOpened = !this.options.summaryOpened;
-    $(e.currentTarget).toggleClass('active');
   }
 
   App.prototype.openSummary = function() {
     this.options.scrollPosition = this.getScrollTop();
     this.elements.body.addClass('show-summary');
+    this.options.summaryOpened = true;
     this.elements.window.scrollTop(0);
   }
 
   App.prototype.closeSummary = function() {
     this.elements.body.removeClass('show-summary');
+    this.options.summaryOpened = false;
     this.elements.window.scrollTop(this.options.scrollPosition);
+  }
+
+  App.prototype.onHeadingClick = function(e) {
+    var $el, $section, number, matches;
+
+    if(!this.options.summaryOpened) return;
+
+    $el = $(e.currentTarget);
+    $section = $el.parents('.section');
+    number = this.elements.sections.index($section);
+    matches = this.getAnchorTypeAndNumberMatches($section[0].id);
+
+    this.closeSummary();
+
+    //@todo make a decision about whether the advanced menus should close or not
+    this.hideAdvancedMenus();
+
+    this.gotoAnchorFromMatches(matches);
   }
 
   App.prototype.handleKeyup = function(e) {
