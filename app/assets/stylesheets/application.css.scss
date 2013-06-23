@@ -707,6 +707,9 @@ footer:before { bottom: 0; }
 
 // Book title under header --------------------------------------------------- 600px
 @media (max-width: 600px) {
+
+  [role="main"] { margin-top: 5em; }
+
   header {
     left: 0; right: 0;
 
