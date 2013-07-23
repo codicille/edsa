@@ -181,21 +181,19 @@ header {
   }
 
   .button-advanced-menus {
+    color: $blueColor;
     position: absolute;
     top: 5px; right: 8px;
     display: block;
     width: 54px; height: 54px;
-    background-color: #f9f9f9;
-    border-radius: 100%;
     text-align: center;
     pointer-events: all;
 
     span {
       position: relative;
-      top: -2px;
     }
 
-    &:before { content: ''; height: 100%; }
+    &:before { content: ''; height: 100%;}
     &:before, span {
       display: inline-block;
       vertical-align: middle;
@@ -206,8 +204,7 @@ header {
 .no-touch header .button-advanced-menus:hover,
 .no-touch header .button-advanced-menus:focus,
 .touch header .button-advanced-menus:active {
-  color: inherit;
-  background-color: darken(#f9f9f9, 5%);
+  color: lighten($blueColor, 10%);
 }
 
 header li + li { border-left: 1px solid #c4c4c4 }
@@ -483,6 +480,7 @@ header li {
 }
 
 .icon-big-font:before { font-size: 24px }
+.icon-more:before { font-size: 36px }
 .icon-close:before { font-size: 22px }
 .icon-glasses:before { font-size: 18px }
 .icon-books:before { font-size: 28px }
@@ -498,6 +496,10 @@ header li {
 .icon-sun {
   margin-left: -40px;
   &:before { font-size: 40px }
+}
+
+.icon-more  {
+  margin-top:-20px;
 }
 
 .contrast-colors span {
