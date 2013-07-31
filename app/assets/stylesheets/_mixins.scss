@@ -19,3 +19,11 @@
   -ms-transition: -ms-transform $options;
   transition: transform $options;
 }
+
+@mixin clearfix {
+  &:after {
+    content:"";
+    display:table;
+    clear:both;
+  }
+}
