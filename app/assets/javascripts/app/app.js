@@ -1,17 +1,5 @@
-var App,
-    __bind = function(fn, me) { return function() { return fn.apply(me, arguments) }};
-
-App = (function() {
+var App = (function() {
   function App() {
-    // Scope callback functions to instance
-    this.handleKeyup             = __bind(this.handleKeyup, this);
-    this.onWindowScroll          = __bind(this.onWindowScroll, this);
-    this.onParagraphSelectChange = __bind(this.onParagraphSelectChange, this);
-    this.onAnchorsButtonClick    = __bind(this.onAnchorsButtonClick, this);
-    this.onSummaryButtonClick    = __bind(this.onSummaryButtonClick, this);
-    this.onHeadingClick          = __bind(this.onHeadingClick, this);
-    this.hideAdvancedMenus       = __bind(this.hideAdvancedMenus, this);
-
     // Global variables
     this.options = {
       defaultTitle: document.title,
@@ -47,13 +35,13 @@ App = (function() {
     }
 
     // Events
-    $(document).on('keyup', this.handleKeyup);
-    this.elements.window.on('scroll resize', this.onWindowScroll);
-    this.elements.paragraphSelect.on('change', this.onParagraphSelectChange);
-    this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick);
-    this.elements.summaryButton.on(UA.CLICK, this.onSummaryButtonClick);
-    this.elements.sections.find('h3:first').on(UA.CLICK, this.onHeadingClick);
-    $('.veil').on(UA.CLICK, this.hideAdvancedMenus);
+    $(document).on('keyup', this.handleKeyup.bind(this));
+    this.elements.window.on('scroll resize', this.onWindowScroll.bind(this));
+    this.elements.paragraphSelect.on('change', this.onParagraphSelectChange.bind(this));
+    this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick.bind(this));
+    this.elements.summaryButton.on(UA.CLICK, this.onSummaryButtonClick.bind(this));
+    this.elements.sections.find('h3:first').on(UA.CLICK, this.onHeadingClick.bind(this));
+    $('.veil').on(UA.CLICK, this.hideAdvancedMenus.bind(this));
 
     // Onload
     this.gotoCurrentAnchor();
