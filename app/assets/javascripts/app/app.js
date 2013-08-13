@@ -15,6 +15,7 @@ var App = (function() {
       forceChapterChange: false,
       forceParagraphChange: false,
       lastAnchorTypeChanged: 'paragraph',
+      gestureTime: 220, // Max allowable time before a gesture stops being a quick swipe
       scrollPosition: 0
     }
 
@@ -22,6 +23,7 @@ var App = (function() {
     this.elements = {
       body: $('body'),
       window: $(window),
+      wrap: $('.wrap'),
       sections: $('.section'),
       sectionName: $('[data-hook="section-name"]'),
       currentChapter: $('[data-hook="current-chapter"]'),
@@ -59,12 +61,19 @@ var App = (function() {
         action = this.href.match(/javascript:(.+)/)[1];
         eval(action);
       });
+
+      this.elements.wrap.on('touchstart', this.onContentTouchStart.bind(this));
+      this.elements.wrap.on('touchend', this.onContentTouchEnd.bind(this));
     }
   }
 
   // Utils
   App.prototype.getScrollTop = function() {
     return window.pageYOffset || (typeof this.elements.window.scrollTop === "function" ? this.elements.window.scrollTop() : 0);
+  }
+
+  App.prototype.smoothScrollTo = function(offset) {
+    this.elements.body.animate(offset, 300,'swing');
   }
 
   App.prototype.isInTheFold = function(elem) {
@@ -92,6 +101,37 @@ var App = (function() {
   }
 
   // Events callback
+  App.prototype.onContentTouchStart = function(e) {
+    this.gestureStartTime = new Date();
+    this.gestureStartPosition = e.originalEvent.changedTouches[0].screenY;
+  }
+
+  App.prototype.onContentTouchEnd = function(e) {
+    this.gestureEndTime = new Date();
+    this.gestureEndPosition = e.originalEvent.changedTouches[0].screenY;
+
+    var elapsedTime = this.gestureEndTime - this.gestureStartTime,
+        positionDelta = this.gestureEndPosition - this.gestureStartPosition,
+        speed = positionDelta / elapsedTime;
+
+    if(elapsedTime <= this.options.gestureTime) {
+      console.log(speed + "px/ms environ")
+
+      var screenIncrement = window.innerHeight * 0.82;
+
+      // Negative speed means going down the page
+
+      if(!speed) {
+        this.showAdvancedMenus();
+      } else if (speed >= 0.6) {
+        this.smoothScrollTo(this.gestureStartPosition - screenIncrement);
+      } else if (speed <= -0.6) {
+        console.log("Smooth scrolling down!");
+        this.smoothScrollTo(this.gestureStartPosition + screenIncrement);
+      }
+    }
+  }
+
   App.prototype.onSummaryButtonClick = function(e) {
     this.options.summaryOpened ? this.closeSummary() : this.openSummary();
   }
