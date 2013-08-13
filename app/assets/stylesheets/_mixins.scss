@@ -20,6 +20,14 @@
   transition: transform $options;
 }
 
+@mixin clearfix {
+  &:after {
+    content:"";
+    display:table;
+    clear:both;
+  }
+}
+
 @mixin vendor-keyframes( $animationName )
 {
     @-webkit-keyframes $animationName {
