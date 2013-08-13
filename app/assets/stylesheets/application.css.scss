@@ -570,6 +570,26 @@ header li {
   @include vendor-prefixes(hyphens, auto);
 }
 
+// Paging visual clue --------------------------------------------------------
+
+.pageswipe-hint{
+  bottom: 0;
+  height: 3em;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+
+  @include gradient(rgba(#01b3df, 0), #01b3df);
+  @include vendor-prefixes( animation-duration, 0.7s );
+  @include vendor-prefixes( animation-name, opacity-flash );
+}
+
+@include vendor-keyframes(opacity-flash) {
+  0% { opacity: 0.5; }
+  20% { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
 // Footer --------------------------------------------------------------------
 footer {
   z-index: 1;
