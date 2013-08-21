@@ -24,7 +24,7 @@ var App = (function() {
     this.elements = {
       body: $('body'),
       window: $(window),
-      wrap: $('.wrap').eq(1),
+      contentWrap: $('section[role=main]'),
       sections: $('.section'),
       sectionName: $('[data-hook="section-name"]'),
       currentChapter: $('[data-hook="current-chapter"]'),
@@ -64,8 +64,8 @@ var App = (function() {
       });
 
       // Handle touch events, leave don't block clicks
-      this.elements.wrap.on('touchstart', this.onContentTouchStart.bind(this));
-      this.elements.wrap.on('touchend', this.onContentTouchEnd.bind(this));
+      this.elements.contentWrap.on('touchstart', this.onContentTouchStart.bind(this));
+      this.elements.contentWrap.on('touchend', this.onContentTouchEnd.bind(this));
     }
   }
 
@@ -90,7 +90,7 @@ var App = (function() {
   App.prototype.showNextPageHint = function() {
     var nextPageHint = document.createElement("div");
     nextPageHint.className = "pageswipe-hint";
-    this.elements.wrap.after(nextPageHint);
+    this.elements.contentWrap.after(nextPageHint);
     $(nextPageHint).one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend', this.onPageChangeEnded.bind(this));
   }
 
