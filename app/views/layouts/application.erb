@@ -9,7 +9,7 @@
   <%= stylesheet_link_tag :application %>
   <%= inline_script_tag :head_script %>
 </head>
-<body class="theme-5">
+<body class="theme-5 show-advanced-menus show-readability-settings submenu-opened">
   <header>
     <div class="advanced-menu">
       <ul class="left">
@@ -46,29 +46,6 @@
   <div class="submenu readability-settings">
     <div class="columns">
       <div class="column column-1">
-        <section>
-          <span class="submenu-title">Taille de la police</span>
-          <div class="columns">
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.smallerFontSize()" class="simple-button"><span data-icon="a" class="icon-small-font"></span></a></div>
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.normalFontSize()" class="simple-button"><span>Normal</span></a></div>
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.largerFontSize()" class="simple-button"><span data-icon="a" class="icon-big-font"></span></a></div>
-          </div>
-        </section>
-        <section>
-          <span class="submenu-title">Taille de l’interlignage</span>
-          <div class="columns">
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.smallerLineHeight()" class="simple-button"><span data-icon="-"></span></a></div>
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.normalLineHeight()" class="simple-button"><span>Normal</span></a></div>
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.largerLineHeight()" class="simple-button"><span data-icon="+"></span></a></div>
-          </div>
-        </section>
-        <section>
-          <span class="submenu-title">Alignement</span>
-          <div class="columns alignments">
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.leftAlignment()" class="simple-button alignment-left"><span data-icon="l"></span></a></div>
-            <div class="column column-3"><a href="javascript:ReadabilitySettings.justifyAlignment()" class="simple-button alignment-justify"><span data-icon="j"></span></a></div>
-          </div>
-        </section>
         <section class="contrast">
           <span class="submenu-title">Contraste texte/fond</span>
           <div class="columns">
@@ -88,24 +65,39 @@
             <span class="icon-sun contrast-icon" data-icon="s"></span>
           </div>
         </section>
-      </div>
-      <div class="column column-1">
-        <section>
-          <span class="submenu-title">Police</span>
-          <div class="buttons-group fonts">
-            <select name="fonts">
-              <option value="helvetica">Helvetica</option>
-              <option value="times">Times</option>
-              <option value="source-code">Source Code</option>
-              <option value="pt-serif">PT Serif</option>
-              <option value="open-sans">Open Sans</option>
-            </select>
-            <div>
-              <a href="javascript:ReadabilitySettings.fontFamily('helvetica')" class="simple-button font-helvetica"><span>Helvetica</span></a>
-              <a href="javascript:ReadabilitySettings.fontFamily('times')" class="simple-button font-times"><span>Times</span></a>
-              <a href="javascript:ReadabilitySettings.fontFamily('source-code')" class="simple-button font-source-code"><span>Source Code</span></a>
-              <a href="javascript:ReadabilitySettings.fontFamily('pt-serif')" class="simple-button font-pt-serif"><span>PT Serif</span></a>
-              <a href="javascript:ReadabilitySettings.fontFamily('open-sans')" class="simple-button font-open-sans"><span>Open Sans</span></a>
+
+        <section class="text-options">
+          <span class="submenu-title">Texte</span>
+          <div class="extruded">
+            <ul class="text-options-menu">
+              <li><a href="#font-size">Taille</a></li>
+              <li><a href="#line-height">Interligne</a></li>
+              <li><a href="#font-family" class="active">Police</a></li>
+            </ul>
+
+            <div class="toggleable-content buttons-list font-size">
+              <a href="#" style="font-size: 15px;">A</a>
+              <a href="#" style="font-size: 19px;">A</a>
+              <a href="#" style="font-size: 23px;" class="active">A</a>
+              <a href="#" style="font-size: 27px;">A</a>
+              <a href="#" style="font-size: 31px;">A</a>
+            </div>
+
+            <div class="toggleable-content buttons-list line-height">
+              <a href="#">&#xe001;</a>
+              <a href="#">&#xe002;</a>
+              <a href="#" class="active">&#xe003;</a>
+              <a href="#">&#xe004;</a>
+              <a href="#">&#xe005;</a>
+            </div>
+
+            <div class="toggleable-content active buttons-list font-family">
+              <a href="#"><span class="left-triangle"></span></a>
+              <div class="font-preview">
+                <span class="example">Aa</span>
+                <span class="font-name">Open Sans</span>
+              </div>
+              <a href="#"><span class="right-triangle"></span></a>
             </div>
           </div>
         </section>
