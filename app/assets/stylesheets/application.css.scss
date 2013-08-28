@@ -687,23 +687,13 @@ footer:before { bottom: 0; }
 
 // Two columns submenu ------------------------------------------------------- 760px
 @media (max-height: 914px) and (min-width: 601px) {
-  .submenu { max-width: 848px }
-  .submenu .column-1 { width: 50% }
 
-  .submenu section + section,
-  .submenu .column + .column section { border-top: 0 }
 }
 
 @media (max-height: 914px) and (max-width: 968px) {
   header {
     left: 0; right: 0;
     .advanced-menu { border-width: 0 }
-  }
-
-  .submenu {
-    width: 100%;
-    margin-right: 0;
-    right: 0;
   }
 }
 
@@ -734,46 +724,5 @@ footer:before { bottom: 0; }
 
   .show-advanced-menus {
     .book-title { opacity: 1 }
-  }
-
-  .submenu {
-    right: 0;
-    margin-right: 0;
-
-    .column { font-size: 10px }
-    section { padding-top: 1em }
-    .submenu-title { padding-top: 0 }
-    .simple-button { height: 40px }
-
-    .icon-big-font:before { font-size: 20px }
-    .icon-small-font:before { font-size: 12px }
-  }
-
-  .ui-slider-handle {
-    width: 24px; height: 24px;
-    top: 5px;
-  }
-
-  .icon-moon {
-    margin-right: -16px;
-    &:before { font-size: 20px }
-  }
-
-  .icon-sun {
-    margin-left: -28px;
-    &:before { font-size: 28px }
-  }
-
-  .submenu .buttons-group {
-    select { display: block }
-
-    .simple-button {
-      display: none;
-
-      &.selected {
-        display: block;
-        border-radius: 3px;
-      }
-    }
   }
 }
