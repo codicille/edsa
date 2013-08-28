@@ -327,13 +327,8 @@ header li {
       vertical-align: middle;
       width: 100%;
 
-      &:hover,
-      &.active {
-        @include gradient(#fafafa, #ededed);
-        color: $mainTextColor;
-      }
-
-      &.active {
+      &:hover {
+        color: #565656;
         font-weight: bold;
       }
     }
@@ -389,6 +384,23 @@ header li {
   }
 }
 
+.show-font-size-menu .font-size,
+.show-line-height-menu .line-height,
+.show-font-family-menu .font-family {
+  display: table;
+}
+
+.show-font-size-menu .font-size-switcher,
+.show-line-height-menu .line-height-switcher,
+.show-font-family-menu .font-family-switcher {
+  @include gradient(#fafafa, #ededed);
+  font-weight: bold;
+}
+
+@each $fontSize in 15, 19, 23, 27, 31 {
+  .font-size-#{$fontSize} { font-size: $fontSize + px }
+}
+
 .font-preview {
   border-right: 1px solid #e2e2e2;
   display: table-cell;
@@ -422,6 +434,11 @@ header li {
   border-right-color: #808080;
   display: inline-block;
   width: 0; height: 0;
+
+  a:hover & {
+    border-right-color: #01b3df;
+    border-left-color: #01b3df;
+  }
 }
 
 .right-triangle {

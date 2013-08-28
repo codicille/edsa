@@ -91,6 +91,20 @@ var App = (function() {
     this.elements.anchorsWrap.removeClass('opened');
   }
 
+  App.prototype.hideTextSettingsMenus = function() {
+    this.elements.body.removeClass('show-font-size-menu show-line-height-menu show-font-family-menu');
+    this.options.textInfosOpened = false;
+  }
+
+  App.prototype.showTextSettingsMenu = function(menu) {
+    var isToggle = this.options.textInfosOpened == menu;
+    this.hideTextSettingsMenus();
+
+    if(isToggle) return;
+    this.options.textInfosOpened = menu;
+    this.elements.body.addClass('show-' + menu + '-menu');
+  }
+
   // Events callback
   App.prototype.onSummaryButtonClick = function(e) {
     this.options.summaryOpened ? this.closeSummary() : this.openSummary();

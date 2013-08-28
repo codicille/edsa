@@ -9,7 +9,7 @@
   <%= stylesheet_link_tag :application %>
   <%= inline_script_tag :head_script %>
 </head>
-<body class="theme-5 show-advanced-menus show-readability-settings submenu-opened">
+<body class="theme-5 show-font-size-menu">
   <header>
     <div class="advanced-menu">
       <ul class="left">
@@ -70,34 +70,42 @@
           <span class="submenu-title">Texte</span>
           <div class="extruded">
             <ul class="text-options-menu">
-              <li><a href="#font-size">Taille</a></li>
-              <li><a href="#line-height">Interligne</a></li>
-              <li><a href="#font-family" class="active">Police</a></li>
+              <li><a href="javascript:App.showTextSettingsMenu('font-size')" class="font-size-switcher">Taille</a></li>
+              <li><a href="javascript:App.showTextSettingsMenu('line-height')" class="line-height-switcher">Interligne</a></li>
+              <li><a href="javascript:App.showTextSettingsMenu('font-family')" class="font-family-switcher">Police</a></li>
             </ul>
 
             <div class="toggleable-content buttons-list font-size">
-              <a href="#" style="font-size: 15px;">A</a>
-              <a href="#" style="font-size: 19px;">A</a>
-              <a href="#" style="font-size: 23px;" class="active">A</a>
-              <a href="#" style="font-size: 27px;">A</a>
-              <a href="#" style="font-size: 31px;">A</a>
+              <a href="javascript:ReadabilitySettings.setFontSize(15)" class="font-size-15">A</a>
+              <a href="javascript:ReadabilitySettings.setFontSize(19)" class="font-size-19">A</a>
+              <a href="javascript:ReadabilitySettings.setFontSize(23)" class="font-size-23">A</a>
+              <a href="javascript:ReadabilitySettings.setFontSize(27)" class="font-size-27">A</a>
+              <a href="javascript:ReadabilitySettings.setFontSize(31)" class="font-size-31">A</a>
             </div>
 
             <div class="toggleable-content buttons-list line-height">
-              <a href="#">&#xe001;</a>
-              <a href="#">&#xe002;</a>
-              <a href="#" class="active">&#xe003;</a>
-              <a href="#">&#xe004;</a>
-              <a href="#">&#xe005;</a>
+              <a href="javascript:ReadabilitySettings.setLineHeight(1.4)" class="line-height-14">&#xe001;</a>
+              <a href="javascript:ReadabilitySettings.setLineHeight(1.5)" class="line-height-15">&#xe002;</a>
+              <a href="javascript:ReadabilitySettings.setLineHeight(1.6)" class="line-height-16">&#xe003;</a>
+              <a href="javascript:ReadabilitySettings.setLineHeight(1.7)" class="line-height-17">&#xe004;</a>
+              <a href="javascript:ReadabilitySettings.setLineHeight(1.8)" class="line-height-18">&#xe005;</a>
             </div>
 
-            <div class="toggleable-content active buttons-list font-family">
-              <a href="#"><span class="left-triangle"></span></a>
+            <div class="toggleable-content buttons-list font-family">
+              <a href="javascript:ReadabilitySettings.prevFont()" class="js-next-font"><span class="left-triangle"></span></a>
               <div class="font-preview">
-                <span class="example">Aa</span>
-                <span class="font-name">Open Sans</span>
+                <span class="example js-font-example font-times">Aa</span>
+                <span class="font-name js-font-name">Times</span>
               </div>
-              <a href="#"><span class="right-triangle"></span></a>
+              <a href="javascript:ReadabilitySettings.nextFont()" class="js-previous-font"><span class="right-triangle"></span></a>
+
+              <select name="fonts" class="js-font-choices hidden">
+                <option value="helvetica">Helvetica</option>
+                <option value="times">Times</option>
+                <option value="source-code">Source Code</option>
+                <option value="pt-serif">PT Serif</option>
+                <option value="open-sans">Open Sans</option>
+              </select>
             </div>
           </div>
         </section>

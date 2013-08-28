@@ -22,7 +22,14 @@ ReadabilitySettings = (function() {
     this.elements = {
       body: $('body'),
       main: $('[role="main"]'),
-      veil: $('.veil')
+      veil: $('.veil'),
+      fontSizeButtons: $('.font-size a'),
+      lineHeightButtons: $('.line-height a'),
+      fontFamilyPrev: $('.js-prev-font'),
+      fontFamilyNext: $('.js-next-font'),
+      fontFamilyExample: $('.js-font-example'),
+      fontFamilyName: $('.js-font-name'),
+      fontFamilyChoices: $('.js-font-choices')
     }
 
     var mainComputedStyle = window.getComputedStyle(this.elements.main[0]);
@@ -43,7 +50,6 @@ ReadabilitySettings = (function() {
     this.applySavedSettings();
 
     this.initAlignmentButtonsGroup();
-    this.initFontFamilyButtonsGroup();
     this.initThemeSlider();
 
     if (UA.IS_TOUCH_DEVICE) {
@@ -51,7 +57,6 @@ ReadabilitySettings = (function() {
     } else {
       this.elements.veil.on('click', this.closeSubmenu);
     }
-
   }
 
   ReadabilitySettings.prototype.applySavedSettings = function() {
@@ -108,7 +113,11 @@ ReadabilitySettings = (function() {
   }
 
   ReadabilitySettings.prototype.setFontSize = function(fontSize) {
-    if (!fontSize || this.options.fontSize.current == fontSize) { return }
+    if (!fontSize) return;
+    this.elements.fontSizeButtons.removeClass('active');
+    this.elements.fontSizeButtons.filter('.font-size-' + fontSize).addClass('active');
+
+    if (this.options.fontSize.current == fontSize) return;
     this.options.fontSize.current = fontSize;
     this.updateLocalStorage('fontSize', fontSize);
 
@@ -135,9 +144,14 @@ ReadabilitySettings = (function() {
   }
 
   ReadabilitySettings.prototype.setLineHeight = function(lineHeight) {
-    if (!lineHeight || this.options.lineHeight.current == lineHeight) { return }
+    if (!lineHeight) return;
+    this.elements.lineHeightButtons.removeClass('active');
+    this.elements.lineHeightButtons.filter('.line-height-' + lineHeight * 10).addClass('active');
+
+    if (this.options.lineHeight.current == lineHeight) { return }
     this.options.lineHeight.current = lineHeight;
     this.updateLocalStorage('lineHeight', lineHeight);
+
 
     this.elements.main.css('line-height', lineHeight);
   }
@@ -216,14 +230,47 @@ ReadabilitySettings = (function() {
   }
 
   ReadabilitySettings.prototype.setFontFamily = function(fontFamily) {
-    if (!fontFamily || this.options.fontFamily.current == fontFamily) { return }
-
+    if (!fontFamily) return;
     var previousFontFamily = this.options.fontFamily.current;
     this.options.fontFamily.current = fontFamily;
-    this.updateLocalStorage('fontFamily', fontFamily);
+    this.updateFontFamilyPreviewer(previousFontFamily, fontFamily);
 
+    if (previousFontFamily == fontFamily) return;
+    this.updateLocalStorage('fontFamily', fontFamily);
     this.elements.main.removeClass('font-' + previousFontFamily);
     this.elements.main.addClass('font-' + fontFamily);
+  }
+
+  ReadabilitySettings.prototype.cycleFont = function(increment){
+    // data should not be stored in dom
+    // @todo improve it to not rely on DOM node for font family data
+    this.retrieveFontFamilyNode(this.options.fontFamily.current);
+
+    var currentIndex = this.retrieveFontFamilyNode(this.options.fontFamily.current).index(),
+        $familyChoicesOptions = this.elements.fontFamilyChoices.find('option'),
+        desiredTargetIndex = currentIndex + increment
+        targetIndex = (desiredTargetIndex > $familyChoicesOptions.length - 1) ? 0 : desiredTargetIndex,
+        targetOption = $familyChoicesOptions.eq(targetIndex);
+
+    this.setFontFamily(targetOption.attr('value'));
+  }
+
+  ReadabilitySettings.prototype.nextFont = function(){ this.cycleFont(1); }
+  ReadabilitySettings.prototype.prevFont = function(){ this.cycleFont(-1); }
+
+  ReadabilitySettings.prototype.retrieveFontFamilyNode = function(value){
+    var currentOption = 'option[value="' + value + '"]';
+    return this.elements.fontFamilyChoices.find(currentOption);
+  }
+
+  ReadabilitySettings.prototype.retrieveFontFamilyDisplayName = function(fontName){
+    return this.retrieveFontFamilyNode(fontName).text();
+  }
+
+  ReadabilitySettings.prototype.updateFontFamilyPreviewer = function(previousFont, newFont){
+    this.elements.fontFamilyExample.removeClass('font-' + previousFont);
+    this.elements.fontFamilyExample.addClass('font-' + newFont);
+    this.elements.fontFamilyName.text(this.retrieveFontFamilyDisplayName(newFont));
   }
 
   return ReadabilitySettings;
