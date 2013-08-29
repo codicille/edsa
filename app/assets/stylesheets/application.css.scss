@@ -774,18 +774,51 @@ footer {
   .anchors { display: none; }
 
   [role="main"] {
-    p, blockquote, ul, ol { display: none; }
+    blockquote, ul, ol { display: none; }
 
     .section:first-of-type { margin-top: 2em; }
+
+    .section {
+      @include clearfix;
+
+      border-left: 10px solid #eaeaea;
+      padding: 0 0 10px 30px;
+
+      &:first-of-type h3:before { display: none; }
+    }
 
     h3 {
       cursor: pointer;
       display: inline-block;
+      float: left;
       font-size: 18px;
       margin: 0;
-      padding: 0.45em 0;
+      padding: 0;
+      position: relative;
+      width: 100%;
 
-      &:hover { color: #01b3df; }
+      &:before {
+        background-color: #c0c0c0;
+        content: "";
+        height: 1px;
+        position: absolute;
+        left: -40px;
+        top: 0.5em;
+        width: 10px;
+      }
+
+      &:hover {
+        color: #01b3df;
+        &:before { background-color: #01b3df; }
+      }
+    }
+
+    p {
+      font-size: 0;
+      height: 3px;
+      margin: 0 0 0 -30px;
+      visibility: hidden;
+      width: 1px;
     }
   }
 
