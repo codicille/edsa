@@ -15,6 +15,9 @@ var App = (function() {
       forceChapterChange: false,
       forceParagraphChange: false,
       lastAnchorTypeChanged: 'paragraph',
+      gestureTime: 220, // Max allowable time before a gesture stops being a quick swipe
+      nextPageTapZone: 25, // percentage
+      maxTapZone: 150, // pixels
       scrollPosition: 0
     }
 
@@ -22,6 +25,7 @@ var App = (function() {
     this.elements = {
       body: $('body'),
       window: $(window),
+      contentWrap: $('section[role=main]'),
       sections: $('.section'),
       sectionName: $('[data-hook="section-name"]'),
       currentChapter: $('[data-hook="current-chapter"]'),
@@ -59,6 +63,10 @@ var App = (function() {
         action = this.href.match(/javascript:(.+)/)[1];
         eval(action);
       });
+
+      // Handle touch events, leave don't block clicks
+      this.elements.contentWrap.on('touchstart', this.onContentTouchStart.bind(this));
+      this.elements.contentWrap.on('touchend', this.onContentTouchEnd.bind(this));
     }
   }
 
@@ -67,10 +75,24 @@ var App = (function() {
     return window.pageYOffset || (typeof this.elements.window.scrollTop === "function" ? this.elements.window.scrollTop() : 0);
   }
 
+  App.prototype.smoothScrollTo = function(offset) {
+    this.elements.body.animate({
+      scrollTop: offset,
+      duration: 400
+    });
+  }
+
   App.prototype.isInTheFold = function(elem) {
     var rect = elem.getBoundingClientRect();
     if (rect.top <= 0 && rect.bottom > 0) { return true }
     return false;
+  }
+
+  App.prototype.showNextPageHint = function() {
+    var nextPageHint = document.createElement("div");
+    nextPageHint.className = "pageswipe-hint";
+    this.elements.contentWrap.after(nextPageHint);
+    $(nextPageHint).one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend', this.onPageChangeEnded.bind(this));
   }
 
   // Advanced menus management
@@ -106,6 +128,54 @@ var App = (function() {
   }
 
   // Events callback
+  App.prototype.onContentTouchStart = function(e) {
+    this.gestureStartTime = new Date();
+    this.gestureStartPosition = e.originalEvent.changedTouches[0].clientY;
+    this.gestureStartScreenPosition = this.elements.window.scrollTop();
+
+    this.elements.body.stop(); // In case the body is scrolling via jQuery
+  }
+
+  App.prototype.onContentTouchEnd = function(e) {
+    this.gestureEndTime = new Date();
+    this.gestureEndPosition = e.originalEvent.changedTouches[0].clientY;
+
+    var elapsedTime = this.gestureEndTime - this.gestureStartTime,
+        positionDelta = this.gestureEndPosition - this.gestureStartPosition,
+        speed = positionDelta / elapsedTime;
+
+    if(elapsedTime <= this.options.gestureTime) {
+      var pageIncrement = window.innerHeight * 0.75,
+          tapZone = this.getTapZone();
+
+      // Note: Negative speed means going *down* the page
+      //       Also, no more swipe detection for now
+
+      if(!speed){
+        if(this.gestureEndPosition >= tapZone && !this.options.summaryOpened){
+          this.showNextPageHint();
+          this.smoothScrollTo(this.gestureStartScreenPosition + pageIncrement);
+        }
+        else {
+          this.showAdvancedMenus();
+        }
+      }
+    }
+  }
+
+  App.prototype.getTapZone = function(){
+    var wHeight = window.innerHeight,
+        tapZoneHeight = wHeight * (this.options.nextPageTapZone/100),
+        maxTapZone = this.options.maxTapZone,
+        limitedTapZoneHeight = ((tapZoneHeight > maxTapZone) ? maxTapZone : tapZoneHeight);
+
+    return wHeight - limitedTapZoneHeight;
+  }
+
+  App.prototype.onPageChangeEnded = function(e) {
+    $('.pageswipe-hint').remove();
+  }
+
   App.prototype.onSummaryButtonClick = function(e) {
     this.options.summaryOpened ? this.closeSummary() : this.openSummary();
   }
