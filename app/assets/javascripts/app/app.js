@@ -16,7 +16,8 @@ var App = (function() {
       forceParagraphChange: false,
       lastAnchorTypeChanged: 'paragraph',
       gestureTime: 220, // Max allowable time before a gesture stops being a quick swipe
-      nextPageTapZone: 20,
+      nextPageTapZone: 25, // percentage
+      maxTapZone: 150, // pixels
       scrollPosition: 0
     }
 
@@ -130,18 +131,31 @@ var App = (function() {
         speed = positionDelta / elapsedTime;
 
     if(elapsedTime <= this.options.gestureTime) {
-      var pageIncrement = window.innerHeight * 0.75; //
+      var pageIncrement = window.innerHeight * 0.75,
+          tapZone = this.getTapZone();
 
       // Note: Negative speed means going *down* the page
       //       Also, no more swipe detection for now
 
-      if(!speed && this.gestureEndPosition >= pageIncrement && !this.options.summaryOpened) {
-        this.showNextPageHint();
-        this.smoothScrollTo(this.gestureStartScreenPosition + pageIncrement);       
-      } else if (!speed) {
-        this.showAdvancedMenus();
-      };
+      if(!speed){
+        if(this.gestureEndPosition >= tapZone && !this.options.summaryOpened){
+          this.showNextPageHint();
+          this.smoothScrollTo(this.gestureStartScreenPosition + pageIncrement);
+        }
+        else {
+          this.showAdvancedMenus();
+        }
+      }
     }
+  }
+
+  App.prototype.getTapZone = function(){
+    var wHeight = window.innerHeight,
+        tapZoneHeight = wHeight * (this.options.nextPageTapZone/100),
+        maxTapZone = this.options.maxTapZone,
+        limitedTapZoneHeight = ((tapZoneHeight > maxTapZone) ? maxTapZone : tapZoneHeight);
+
+    return wHeight - limitedTapZoneHeight;
   }
 
   App.prototype.onPageChangeEnded = function(e) {
