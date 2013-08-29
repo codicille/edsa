@@ -75,7 +75,7 @@ var App = (function() {
   }
 
   App.prototype.smoothScrollTo = function(offset) {
-    $("body").animate({
+    this.elements.body.animate({
       scrollTop: offset,
       duration: 400
     });
@@ -118,7 +118,7 @@ var App = (function() {
     this.gestureStartPosition = e.originalEvent.changedTouches[0].clientY;
     this.gestureStartScreenPosition = this.elements.window.scrollTop();
 
-    $("body").stop(); // In case the body is scrolling via jQuery
+    this.elements.body.stop(); // In case the body is scrolling via jQuery
   }
 
   App.prototype.onContentTouchEnd = function(e) {
