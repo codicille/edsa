@@ -12,7 +12,7 @@ class Edsa::App < Sinatra::Base
   end
 
   get '/:anchor_type/:anchor_number' do
-    raise Sinatra::NotFound unless request.path_info.match(/(paragraph|chapter|preface|foreword)\/([0-9]+)$/)
+    raise Sinatra::NotFound unless request.path_info.match(/(lim|par|chap)\/([0-9]+)$/)
     erb :index
   end
 

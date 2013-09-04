@@ -271,7 +271,7 @@ var App = (function() {
 
   // Anchors management
   App.prototype.getAnchorTypeAndNumberMatches = function(string) {
-    var matches = string.match(/(paragraph|chapter|preface|foreword)(-|\/)([0-9]+)/);
+    var matches = string.match(/(lim|par|chap)(-|\/)([0-9]+)/);
     if (matches == null) { return null }
 
     return { type: matches[1], number: matches[3] }
