@@ -27,8 +27,6 @@ var App = (function() {
       window: $(window),
       contentWrap: $('section[role=main]'),
       sections: $('.section'),
-      sectionName: $('[data-hook="section-name"]'),
-      currentChapter: $('[data-hook="current-chapter"]'),
       currentParagraph: $('[data-hook="current-paragraph"]'),
       paragraphCount: $('[data-hook="paragraph-count"]'),
       paragraphSelect: $('select[name="paragraph"]'),
@@ -351,8 +349,6 @@ var App = (function() {
     if (sameType && sameNumner) { return }
     this.options.currentSection = anchor;
 
-    this.elements.sectionName.html(anchor.type.capitalize());
-
     if (anchor.type == 'chapter') { this.setCurrentChapter(anchor.number) }
     else { this.setCurrentChapter(1) }
   }
@@ -368,8 +364,6 @@ var App = (function() {
 
     this.options.currentChapter = chapterNumber;
     this.options.forceChapterChange = false;
-
-    this.elements.currentChapter.html(chapterNumber);
 
     this.setCurrentParagraph(paragraphNumber);
   }
