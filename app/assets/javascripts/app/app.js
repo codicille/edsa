@@ -44,7 +44,7 @@ var App = (function() {
     this.elements.paragraphSelect.on('change', this.onParagraphSelectChange.bind(this));
     this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick.bind(this));
     this.elements.summaryButton.on(UA.CLICK, this.onSummaryButtonClick.bind(this));
-    this.elements.sections.find('h3:first').on(UA.CLICK, this.onHeadingClick.bind(this));
+    this.elements.sections.find('h3:first').on('click', this.onHeadingClick.bind(this));
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus.bind(this));
 
     // Onload
@@ -67,6 +67,8 @@ var App = (function() {
       // Handle touch events, leave don't block clicks
       this.elements.contentWrap.on('touchstart', this.onContentTouchStart.bind(this));
       this.elements.contentWrap.on('touchend', this.onContentTouchEnd.bind(this));
+
+      this.elements.sections.find('h3:first').onTap(this.onHeadingClick.bind(this));
     }
   }
 
