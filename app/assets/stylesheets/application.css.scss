@@ -322,7 +322,7 @@ header li {
 
     text-align: center;
     vertical-align: middle;
-    width: 33.333%;
+    width: 24%;
 
     a {
       display: inline-block;
@@ -336,7 +336,10 @@ header li {
       }
     }
 
-    &:last-child { border-right: 0; }
+    &:last-child {
+      border-right: 0;
+      width: 28%;
+    }
   }
 }
 
@@ -374,7 +377,20 @@ header li {
     font-family: 'icomoon';
     line-height: 1.4;
 
-    a { font-size: 26px; padding-top: 5px; }
+    a {
+      font-size: 26px;
+      padding-top: 5px;
+    }
+  }
+
+  &.alignment {
+    font-family: 'icomoon';
+    line-height: 1.75;
+
+    a {
+      font-size: 22px;
+      padding-top: 3px;
+    }
   }
 
   &.font-family {
@@ -389,13 +405,15 @@ header li {
 
 .show-font-size-menu .font-size,
 .show-line-height-menu .line-height,
-.show-font-family-menu .font-family {
+.show-font-family-menu .font-family,
+.show-alignment-menu .alignment {
   display: table;
 }
 
 .show-font-size-menu .font-size-switcher,
 .show-line-height-menu .line-height-switcher,
-.show-font-family-menu .font-family-switcher {
+.show-font-family-menu .font-family-switcher,
+.show-alignment-menu .alignment-switcher {
   @include gradient(#fafafa, #ededed);
   font-weight: bold;
 }

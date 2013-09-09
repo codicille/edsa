@@ -73,6 +73,7 @@
               <li><a href="javascript:App.showTextSettingsMenu('font-size')" class="font-size-switcher">Taille</a></li>
               <li><a href="javascript:App.showTextSettingsMenu('line-height')" class="line-height-switcher">Interligne</a></li>
               <li><a href="javascript:App.showTextSettingsMenu('font-family')" class="font-family-switcher">Police</a></li>
+              <li><a href="javascript:App.showTextSettingsMenu('alignment')" class="alignment-switcher">Alignement</a></li>
             </ul>
 
             <div class="toggleable-content buttons-list font-size">
@@ -106,6 +107,11 @@
                 <option value="pt-serif">PT Serif</option>
                 <option value="open-sans">Open Sans</option>
               </select>
+            </div>
+
+            <div class="toggleable-content buttons-list alignment">
+              <a href="javascript:ReadabilitySettings.leftAlignment()" class="alignment-left active">l</a>
+              <a href="javascript:ReadabilitySettings.justifyAlignment()" class="alignment-justify">j</a>
             </div>
           </div>
         </section>

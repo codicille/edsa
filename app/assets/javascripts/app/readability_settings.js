@@ -25,6 +25,7 @@ ReadabilitySettings = (function() {
       veil: $('.veil'),
       fontSizeButtons: $('.font-size a'),
       lineHeightButtons: $('.line-height a'),
+      alignmentButtons: $('.alignment a'),
       fontFamilyPrev: $('.js-prev-font'),
       fontFamilyNext: $('.js-next-font'),
       fontFamilyExample: $('.js-font-example'),
@@ -170,8 +171,11 @@ ReadabilitySettings = (function() {
   }
 
   ReadabilitySettings.prototype.setAlignment = function(alignment) {
-    if (!alignment || this.options.alignment.current == alignment) return;
+    if (!alignment) return;
+    this.elements.alignmentButtons.removeClass('active');
+    this.elements.alignmentButtons.filter('.alignment-' + alignment).addClass('active');
 
+    if(this.options.alignment.current == alignment) return;
     var previousAlignment = this.options.alignment.current;
     this.options.alignment.current = alignment;
     this.updateLocalStorage('alignment', alignment);

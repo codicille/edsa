@@ -114,7 +114,7 @@ var App = (function() {
   }
 
   App.prototype.hideTextSettingsMenus = function() {
-    this.elements.body.removeClass('show-font-size-menu show-line-height-menu show-font-family-menu');
+    this.elements.body.removeClass('show-font-size-menu show-line-height-menu show-font-family-menu show-alignment-menu');
     this.options.textInfosOpened = false;
   }
 
