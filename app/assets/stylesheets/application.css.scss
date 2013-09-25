@@ -418,9 +418,11 @@ header li {
   font-weight: bold;
 }
 
-@each $fontSize in 15, 19, 23, 27, 31 {
-  .font-size-#{$fontSize} { font-size: $fontSize + px }
-}
+.font-size-1 { font-size: 1em; }
+.font-size-12 { font-size: 1.2em; }
+.font-size-14 { font-size: 1.4em; }
+.font-size-17 { font-size: 1.7em; }
+.font-size-19 { font-size: 1.9em; }
 
 .font-preview {
   border-right: 1px solid #e2e2e2;
@@ -914,6 +916,8 @@ footer:before { bottom: 0; }
 
 // Book title under header --------------------------------------------------- 600px
 @media (max-width: 600px) {
+
+  html { font-size: 85%; }
 
   [role="main"] { margin-top: 5em; }
 

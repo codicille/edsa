@@ -116,13 +116,13 @@ ReadabilitySettings = (function() {
   ReadabilitySettings.prototype.setFontSize = function(fontSize) {
     if (!fontSize) return;
     this.elements.fontSizeButtons.removeClass('active');
-    this.elements.fontSizeButtons.filter('.font-size-' + fontSize).addClass('active');
+    this.elements.fontSizeButtons.filter('.font-size-' + fontSize.toString().replace(/\./, "")).addClass('active');
 
     if (this.options.fontSize.current == fontSize) return;
     this.options.fontSize.current = fontSize;
     this.updateLocalStorage('fontSize', fontSize);
 
-    this.elements.main.css('font-size', fontSize + 'px');
+    this.elements.main.css('font-size', fontSize + 'em');
   }
 
   // Line-height Management
