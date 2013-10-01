@@ -25,6 +25,9 @@ var App = (function() {
     this.elements = {
       body: $('body'),
       window: $(window),
+      par: $('p, .paragraph').not('.exclude'),
+      chap: $('.chapter').not('.exclude'),
+      lim: $('.lim').not('.exclude'),
       contentWrap: $('section[role=main]'),
       sections: $('.section'),
       currentParagraph: $('[data-hook="current-paragraph"]'),
@@ -49,6 +52,7 @@ var App = (function() {
     this.gotoCurrentAnchor();
     this.setParagraphCount();
     this.setChapterCount();
+    this.setData();
 
     // Mobile
     if (UA.IS_TOUCH_DEVICE) {
@@ -201,7 +205,7 @@ var App = (function() {
     $el = $(e.currentTarget);
     $section = $el.parents('.section');
     number = this.elements.sections.index($section);
-    matches = this.getAnchorTypeAndNumberMatches($section[0].id);
+    matches = this.getAnchorTypeAndNumberMatchesFromEl($section[0]);
 
     this.closeSummary();
 
@@ -237,12 +241,12 @@ var App = (function() {
     this.elements.sections.each(function(i, section) {
       if (!_this.isInTheFold(section)) { return true }
       currentAnchor = section;
-      _this.setCurrentSection(_this.getAnchorTypeAndNumberMatches(section.id));
+      _this.setCurrentSection(_this.getAnchorTypeAndNumberMatchesFromEl(section));
 
-      $(section).children('.paragraph').each(function(ii, paragraph) {
+      $(section).children('p, .paragraph').not('.exclude').each(function(ii, paragraph) {
         if (!_this.isInTheFold(paragraph)) { return true }
         currentAnchor = paragraph;
-        _this.setCurrentParagraph(_this.getAnchorTypeAndNumberMatches(paragraph.id).number);
+        _this.setCurrentParagraph(_this.getAnchorTypeAndNumberMatchesFromEl(paragraph).number);
       });
     });
 
@@ -253,7 +257,7 @@ var App = (function() {
       return;
     }
 
-    matches = this.getAnchorTypeAndNumberMatches(currentAnchor.id);
+    matches = this.getAnchorTypeAndNumberMatchesFromEl(currentAnchor);
     this.replaceStateFromMatches(matches, false);
   }
 
@@ -268,18 +272,24 @@ var App = (function() {
   }
 
   // Anchors management
-  App.prototype.getAnchorTypeAndNumberMatches = function(string) {
-    var matches = string.match(/(lim|par|chap)(-|\/)([0-9]+)/);
+  App.prototype.getAnchorTypeAndNumberMatchesFromHref = function(string) {
+    var matches = string.match(/(lim|par|chap)(\/)([0-9]+)/);
     if (matches == null) { return null }
 
     return { type: matches[1], number: matches[3] }
   }
 
-  App.prototype.gotoAnchor = function(anchorType, anchorNumber) {
-    var id, $elem, offset;
+  App.prototype.getAnchorTypeAndNumberMatchesFromEl = function(el) {
+    var anchorType = $(el).data('type');
+    if(!anchorType) { return null }
 
-    id = '#' + anchorType + '-' + anchorNumber;
-    $elem = $(id);
+    return { type: anchorType, number: this.elements[anchorType].index(el) + 1 }
+  }
+
+  App.prototype.gotoAnchor = function(anchorType, anchorNumber) {
+    var $elem, offset;
+
+    $elem = $(this.elements[anchorType][anchorNumber - 1]);
     offset = $elem.offset().top;
 
     this.elements.window.scrollTop(offset);
@@ -295,7 +305,7 @@ var App = (function() {
     var currentHref, matches;
 
     currentHref = window.location.href;
-    matches = this.getAnchorTypeAndNumberMatches(currentHref);
+    matches = this.getAnchorTypeAndNumberMatchesFromHref(currentHref);
 
     if (matches == null) { return }
     this.gotoAnchorFromMatches(matches);
@@ -349,7 +359,7 @@ var App = (function() {
     if (sameType && sameNumner) { return }
     this.options.currentSection = anchor;
 
-    if (anchor.type == 'chapter') { this.setCurrentChapter(anchor.number) }
+    if (anchor.type == 'chap') { this.setCurrentChapter(anchor.number) }
     else { this.setCurrentChapter(1) }
   }
 
@@ -380,7 +390,7 @@ var App = (function() {
   }
 
   App.prototype.setParagraphCount = function(count) {
-    if (count == null) { count = $('.paragraph').not('.exclude').length }
+    if (count == null) { count = $('p, .paragraph').not('.exclude').length }
     if (count == this.options.paragraphCount) { return }
 
     this.options.paragraphCount = count;
@@ -390,7 +400,7 @@ var App = (function() {
   }
 
   App.prototype.setChapterCount = function(count) {
-    if (count == null) { count = $('.chapter').length }
+    if (count == null) { count = this.elements.chap.length }
     if (count == this.options.chapterCount) { return }
 
     this.options.chapterCount = count;
@@ -404,7 +414,7 @@ var App = (function() {
     $sections.each(function(index, el) {
       var currentChapter = $(el),
           title = currentChapter.find('h1, h2, h3').first().text(),
-          paragraphsCount = currentChapter.find('.paragraph').not('.exclude').length,
+          paragraphsCount = currentChapter.find('p, .paragraph').not('.exclude').length,
           j = 0;
 
       options += '<optgroup label="' + title + '">';
@@ -418,6 +428,14 @@ var App = (function() {
     })
 
     this.elements.paragraphSelect.html(options);
+  }
+
+  App.prototype.setData = function() {
+    var _this = this;
+
+    $.each(['lim', 'par', 'chap'], function(i, el){
+      _this.elements[el].data('type', el);
+    })
   }
 
   App.prototype.changeSiblingAnchorSelect = function(siblingAnchorSelect, anchorNumber, anchorType) {

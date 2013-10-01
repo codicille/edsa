@@ -253,7 +253,7 @@ header li {
   header, footer { pointer-events: all }
   header:before { height: 5em; }
   footer:before { height: 4em; }
-  .paragraph:before { opacity: 1 }
+  p, .paragraph { &:before { opacity: 1 } }
   .advanced-menu { @include vendor-prefixes(transform, translateY(0)) }
   .button-advanced-menus { @include vendor-prefixes(transform, translateY(-25%) scale(0)) }
 }
@@ -704,7 +704,7 @@ header li {
   }
 }
 
-.paragraph {
+p, .paragraph {
   counter-increment: paragraph;
 
   &:before {
