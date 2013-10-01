@@ -14,7 +14,7 @@ var App = (function() {
       chapterCount: 1,
       forceChapterChange: false,
       forceParagraphChange: false,
-      lastAnchorTypeChanged: 'paragraph',
+      lastAnchorTypeChanged: 'par',
       gestureTime: 220, // Max allowable time before a gesture stops being a quick swipe
       nextPageTapZone: 25, // percentage
       maxTapZone: 150, // pixels
@@ -29,7 +29,7 @@ var App = (function() {
       sections: $('.section'),
       currentParagraph: $('[data-hook="current-paragraph"]'),
       paragraphCount: $('[data-hook="paragraph-count"]'),
-      paragraphSelect: $('select[name="paragraph"]'),
+      paragraphSelect: $('select[name="par"]'),
       anchorsWrap: $('.anchors'),
       anchorsButton: $('.anchors .button'),
       allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])'),
