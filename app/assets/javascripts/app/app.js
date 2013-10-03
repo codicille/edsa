@@ -82,390 +82,393 @@ var App = (function() {
   }
 
   // Utils
-  App.prototype.getScrollTop = function() {
-    return window.pageYOffset || (typeof this.$els.window.scrollTop === "function" ? this.$els.window.scrollTop() : 0);
-  }
+  App.prototype = {
 
-  App.prototype.smoothScrollTo = function(offset) {
-    this.$els.body.animate({
-      scrollTop: offset,
-      duration: 400
-    });
-  }
+    getScrollTop: function() {
+      return window.pageYOffset || (typeof this.$els.window.scrollTop === "function" ? this.$els.window.scrollTop() : 0);
+    },
 
-  App.prototype.isInTheFold = function(elem) {
-    var rect = elem.getBoundingClientRect();
-    if (rect.top <= 0 && rect.bottom > 0) { return true }
-    return false;
-  }
-
-  App.prototype.showNextPageHint = function() {
-    var nextPageHint = document.createElement("div");
-    nextPageHint.className = "pageswipe-hint";
-    this.$els.contentWrap.after(nextPageHint);
-    $(nextPageHint).one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend', this.onPageChangeEnded.bind(this));
-  }
-
-  // Advanced menus management
-  App.prototype.showAdvancedMenus = function() {
-    if (this.options.advancedMenusOpened) { return }
-    this.options.advancedMenusOpened = true;
-    this.options.currentScrollTop = this.getScrollTop();
-
-    this.$els.body.addClass('show-advanced-menus');
-  }
-
-  App.prototype.hideAdvancedMenus = function() {
-    if (!this.options.advancedMenusOpened) { return }
-    this.options.advancedMenusOpened = false;
-
-    if (ReadabilitySettings) { ReadabilitySettings.closeSubmenu() }
-    this.$els.body.removeClass('show-advanced-menus submenu-opened');
-    this.$els.anchorsWrap.removeClass('opened');
-  }
-
-  App.prototype.hideTextSettingsMenus = function() {
-    this.$els.body.removeClass('show-font-size-menu show-line-height-menu show-font-family-menu show-alignment-menu');
-    this.options.textInfosOpened = false;
-  }
-
-  App.prototype.showTextSettingsMenu = function(menu) {
-    var isToggle = this.options.textInfosOpened == menu;
-    this.hideTextSettingsMenus();
-
-    if(isToggle) return;
-    this.options.textInfosOpened = menu;
-    this.$els.body.addClass('show-' + menu + '-menu');
-  }
-
-  // Events callback
-  App.prototype.onContentTouchStart = function(e) {
-    this.gestureStartTime = new Date();
-    this.gestureStartPosition = e.originalEvent.changedTouches[0].clientY;
-    this.gestureStartScreenPosition = this.$els.window.scrollTop();
-
-    this.$els.body.stop(); // In case the body is scrolling via jQuery
-  }
-
-  App.prototype.onContentTouchEnd = function(e) {
-    this.gestureEndTime = new Date();
-    this.gestureEndPosition = e.originalEvent.changedTouches[0].clientY;
-
-    var elapsedTime = this.gestureEndTime - this.gestureStartTime,
-        positionDelta = this.gestureEndPosition - this.gestureStartPosition,
-        speed = positionDelta / elapsedTime;
-
-    if(elapsedTime <= this.options.gestureTime) {
-      var pageIncrement = window.innerHeight * 0.75,
-          tapZone = this.getTapZone();
-
-      // Note: Negative speed means going *down* the page
-      //       Also, no more swipe detection for now
-
-      if(!speed){
-        if(this.gestureEndPosition >= tapZone && !this.options.summaryOpened){
-          this.showNextPageHint();
-          this.smoothScrollTo(this.gestureStartScreenPosition + pageIncrement);
-        }
-        else {
-          this.showAdvancedMenus();
-        }
-      }
-    }
-  }
-
-  App.prototype.getTapZone = function(){
-    var wHeight = window.innerHeight,
-        tapZoneHeight = wHeight * (this.options.nextPageTapZone/100),
-        maxTapZone = this.options.maxTapZone,
-        limitedTapZoneHeight = ((tapZoneHeight > maxTapZone) ? maxTapZone : tapZoneHeight);
-
-    return wHeight - limitedTapZoneHeight;
-  }
-
-  App.prototype.onPageChangeEnded = function(e) {
-    $('.pageswipe-hint').remove();
-  }
-
-  App.prototype.onSummaryButtonClick = function(e) {
-    this.options.summaryOpened ? this.closeSummary() : this.openSummary();
-  }
-
-  App.prototype.openSummary = function() {
-    this.options.scrollPosition = this.getScrollTop();
-    this.$els.body.addClass('show-summary');
-    this.options.summaryOpened = true;
-    this.$els.window.scrollTop(0);
-  }
-
-  App.prototype.closeSummary = function() {
-    this.$els.body.removeClass('show-summary');
-    this.options.summaryOpened = false;
-    this.$els.window.scrollTop(this.options.scrollPosition);
-  }
-
-  App.prototype.onHeadingClick = function(e) {
-    var $el, $section, number, matches;
-
-    if(!this.options.summaryOpened) return;
-
-    $el = $(e.currentTarget);
-    $section = $el.parents('.section');
-    number = this.$els.sections.index($section);
-    matches = this.getAnchorTypeAndNumberMatchesFromEl($section[0]);
-
-    this.closeSummary();
-
-    //@todo make a decision about whether the advanced menus should close or not
-    this.hideAdvancedMenus();
-
-    this.gotoAnchorFromMatches(matches);
-  }
-
-  App.prototype.handleKeyup = function(e) {
-    var keys, key;
-
-    keys = { escape: 27 };
-    key = e.keyCode ? e.keyCode : e.which;
-
-    if (key != keys.escape) { return }
-
-    if (ReadabilitySettings.get('submenuOpened')) {
-      ReadabilitySettings.closeSubmenu();
-    } else {
-      this.hideAdvancedMenus();
-    }
-  }
-
-  App.prototype.onWindowScroll = function(e) {
-    var _this, scrollTop, currentAnchor;
-
-    _this = this;
-    scrollTop = this.getScrollTop();
-    currentAnchor = null;
-
-    // Change history state to current section & paragraph
-    this.$els.sections.each(function(i, section) {
-      if (!_this.isInTheFold(section)) { return true }
-      currentAnchor = section;
-      _this.setCurrentSection(_this.getAnchorTypeAndNumberMatchesFromEl(section));
-
-      $(section).children('p, .paragraph').not('.exclude').each(function(ii, paragraph) {
-        if (!_this.isInTheFold(paragraph)) { return true }
-        currentAnchor = paragraph;
-        _this.setCurrentParagraph(_this.getAnchorTypeAndNumberMatchesFromEl(paragraph).number);
+    smoothScrollTo: function(offset) {
+      this.$els.body.animate({
+        scrollTop: offset,
+        duration: 400
       });
-    });
+    },
 
-    if (currentAnchor == null) {
-      this.clearState();
-      this.setCurrentChapter(1);
-      this.setCurrentParagraph(1);
-      return;
-    }
+    isInTheFold: function(elem) {
+      var rect = elem.getBoundingClientRect();
+      if (rect.top <= 0 && rect.bottom > 0) { return true }
+      return false;
+    },
 
-    matches = this.getAnchorTypeAndNumberMatchesFromEl(currentAnchor);
-    this.replaceStateFromMatches(matches, false);
-  }
+    showNextPageHint: function() {
+      var nextPageHint = document.createElement("div");
+      nextPageHint.className = "pageswipe-hint";
+      this.$els.contentWrap.after(nextPageHint);
+      $(nextPageHint).one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend', this.onPageChangeEnded.bind(this));
+    },
 
-  App.prototype.onAnchorsButtonClick = function(e) {
-    this.$els.anchorsWrap.toggleClass('opened');
-    this.$els.body.toggleClass('submenu-opened');
-  }
+    // Advanced menus management
+    showAdvancedMenus: function() {
+      if (this.options.advancedMenusOpened) { return }
+      this.options.advancedMenusOpened = true;
+      this.options.currentScrollTop = this.getScrollTop();
 
-  App.prototype.onParagraphSelectChange = function(e) {
-    var value = e.currentTarget.value;
-    this.replaceState(this.options.lastAnchorTypeChanged, value, true);
-  }
+      this.$els.body.addClass('show-advanced-menus');
+    },
 
-  // Anchors management
-  App.prototype.getAnchorTypeAndNumberMatchesFromHref = function(string) {
-    var matches = string.match(/(lim|par|chap)(\/)([0-9]+)/);
-    if (matches == null) { return null }
+    hideAdvancedMenus: function() {
+      if (!this.options.advancedMenusOpened) { return }
+      this.options.advancedMenusOpened = false;
 
-    return { type: matches[1], number: matches[3] }
-  }
+      if (ReadabilitySettings) { ReadabilitySettings.closeSubmenu() }
+      this.$els.body.removeClass('show-advanced-menus submenu-opened');
+      this.$els.anchorsWrap.removeClass('opened');
+    },
 
-  App.prototype.getAnchorTypeAndNumberMatchesFromEl = function(el) {
-    var anchorType = $(el).data('type');
-    if(!anchorType) { return null }
+    hideTextSettingsMenus: function() {
+      this.$els.body.removeClass('show-font-size-menu show-line-height-menu show-font-family-menu show-alignment-menu');
+      this.options.textInfosOpened = false;
+    },
 
-    return { type: anchorType, number: this.$els[anchorType].index(el) + 1 }
-  }
+    showTextSettingsMenu: function(menu) {
+      var isToggle = this.options.textInfosOpened == menu;
+      this.hideTextSettingsMenus();
 
-  App.prototype.gotoAnchor = function(anchorType, anchorNumber) {
-    var $elem, offset;
+      if(isToggle) return;
+      this.options.textInfosOpened = menu;
+      this.$els.body.addClass('show-' + menu + '-menu');
+    },
 
-    $elem = $(this.$els[anchorType][anchorNumber - 1]);
-    offset = $elem.offset().top;
+    // Events callback
+    onContentTouchStart: function(e) {
+      this.gestureStartTime = new Date();
+      this.gestureStartPosition = e.originalEvent.changedTouches[0].clientY;
+      this.gestureStartScreenPosition = this.$els.window.scrollTop();
 
-    this.$els.window.scrollTop(offset);
-    document.title = this.options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
-  }
+      this.$els.body.stop(); // In case the body is scrolling via jQuery
+    },
 
-  App.prototype.gotoAnchorFromMatches = function(matches) {
-    if (matches == null) { return }
-    this.gotoAnchor(matches.type, matches.number);
-  }
+    onContentTouchEnd: function(e) {
+      this.gestureEndTime = new Date();
+      this.gestureEndPosition = e.originalEvent.changedTouches[0].clientY;
 
-  App.prototype.gotoCurrentAnchor = function() {
-    var currentHref, matches;
+      var elapsedTime = this.gestureEndTime - this.gestureStartTime,
+          positionDelta = this.gestureEndPosition - this.gestureStartPosition,
+          speed = positionDelta / elapsedTime;
 
-    currentHref = window.location.href;
-    matches = this.getAnchorTypeAndNumberMatchesFromHref(currentHref);
+      if(elapsedTime <= this.options.gestureTime) {
+        var pageIncrement = window.innerHeight * 0.75,
+            tapZone = this.getTapZone();
 
-    if (matches == null) { return }
-    this.gotoAnchorFromMatches(matches);
-  }
+        // Note: Negative speed means going *down* the page
+        //       Also, no more swipe detection for now
 
-  // History management
-  App.prototype.replaceState = function(anchorType, anchorNumber, scrollToAnchor) {
-    if (this.options.currentState && this.options.currentState.type == anchorType && this.options.currentState.number == anchorNumber) { return }
+        if(!speed){
+          if(this.gestureEndPosition >= tapZone && !this.options.summaryOpened){
+            this.showNextPageHint();
+            this.smoothScrollTo(this.gestureStartScreenPosition + pageIncrement);
+          }
+          else {
+            this.showAdvancedMenus();
+          }
+        }
+      }
+    },
 
-    var state, title, url;
+    getTapZone: function(){
+      var wHeight = window.innerHeight,
+          tapZoneHeight = wHeight * (this.options.nextPageTapZone/100),
+          maxTapZone = this.options.maxTapZone,
+          limitedTapZoneHeight = ((tapZoneHeight > maxTapZone) ? maxTapZone : tapZoneHeight);
 
-    state = { type: anchorType, number: anchorNumber };
-    title = this.options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
-    url = '/' + anchorType + '/' + anchorNumber;
+      return wHeight - limitedTapZoneHeight;
+    },
 
-    window.history.replaceState(state, title, url);
-    this.options.currentState = state;
+    onPageChangeEnded: function(e) {
+      $('.pageswipe-hint').remove();
+    },
 
-    if (scrollToAnchor) {
-      this.gotoAnchor(anchorType, anchorNumber);
-    } else {
-      document.title = title;
-    }
-  }
+    onSummaryButtonClick: function(e) {
+      this.options.summaryOpened ? this.closeSummary() : this.openSummary();
+    },
 
-  App.prototype.replaceStateFromMatches = function(matches, scrollToAnchor) {
-    if (matches == null) { return }
-    this.replaceState(matches.type, matches.number, scrollToAnchor);
-  }
+    openSummary: function() {
+      this.options.scrollPosition = this.getScrollTop();
+      this.$els.body.addClass('show-summary');
+      this.options.summaryOpened = true;
+      this.$els.window.scrollTop(0);
+    },
 
-  App.prototype.clearState = function() {
-    if (this.options.currentState == null) { return }
-    this.options.currentState = null;
+    closeSummary: function() {
+      this.$els.body.removeClass('show-summary');
+      this.options.summaryOpened = false;
+      this.$els.window.scrollTop(this.options.scrollPosition);
+    },
 
-    var state, title, url;
+    onHeadingClick: function(e) {
+      var $el, $section, number, matches;
 
-    state = {};
-    title = this.options.defaultTitle;
-    url = '/';
+      if(!this.options.summaryOpened) return;
 
-    window.history.replaceState(state, title, url);
-    document.title = title;
-  }
+      $el = $(e.currentTarget);
+      $section = $el.parents('.section');
+      number = this.$els.sections.index($section);
+      matches = this.getAnchorTypeAndNumberMatchesFromEl($section[0]);
 
-  // Sections and chapters management
-  App.prototype.setCurrentSection = function(anchor) {
-    var sameType, sameNumner;
-    sameType = anchor.type == this.options.currentSection.type;
-    sameNumner = anchor.number == this.options.currentSection.number;
+      this.closeSummary();
 
-    if (sameType && sameNumner) { return }
-    this.options.currentSection = anchor;
+      //@todo make a decision about whether the advanced menus should close or not
+      this.hideAdvancedMenus();
 
-    if (anchor.type == 'chap') { this.setCurrentChapter(anchor.number) }
-    else { this.setCurrentChapter(1) }
-  }
+      this.gotoAnchorFromMatches(matches);
+    },
 
-  App.prototype.setCurrentChapter = function(chapterNumber) {
-    var sameNumber, paragraphNumber, $optgroup;
-    sameNumber = chapterNumber == this.options.currentChapter;
+    handleKeyup: function(e) {
+      var keys, key;
 
-    if (sameNumber && !this.options.forceChapterChange) { return }
+      keys = { escape: 27 };
+      key = e.keyCode ? e.keyCode : e.which;
 
-    $optgroup = $(this.$els.paragraphSelect.find('optgroup')[parseInt(chapterNumber)+1]);
-    paragraphNumber = $optgroup.find('option').first().val();
+      if (key != keys.escape) { return }
 
-    this.options.currentChapter = chapterNumber;
-    this.options.forceChapterChange = false;
+      if (ReadabilitySettings.get('submenuOpened')) {
+        ReadabilitySettings.closeSubmenu();
+      } else {
+        this.hideAdvancedMenus();
+      }
+    },
 
-    this.setCurrentParagraph(paragraphNumber);
-  }
+    onWindowScroll: function(e) {
+      var _this, scrollTop, currentAnchor;
 
-  App.prototype.setCurrentParagraph = function(paragraphNumber) {
-    var sameNumber = paragraphNumber == this.options.currentParagraph;
-    if (sameNumber && !this.options.forceParagraphChange) { return }
+      _this = this;
+      scrollTop = this.getScrollTop();
+      currentAnchor = null;
 
-    this.options.currentParagraph = paragraphNumber;
-    this.options.forceParagraphChange = false;
+      // Change history state to current section & paragraph
+      this.$els.sections.each(function(i, section) {
+        if (!_this.isInTheFold(section)) { return true }
+        currentAnchor = section;
+        _this.setCurrentSection(_this.getAnchorTypeAndNumberMatchesFromEl(section));
 
-    this.$els.currentParagraph.html(paragraphNumber);
-    this.$els.paragraphSelect[0].options.selectedIndex = paragraphNumber - 1;
-  }
+        $(section).children('p, .paragraph').not('.exclude').each(function(ii, paragraph) {
+          if (!_this.isInTheFold(paragraph)) { return true }
+          currentAnchor = paragraph;
+          _this.setCurrentParagraph(_this.getAnchorTypeAndNumberMatchesFromEl(paragraph).number);
+        });
+      });
 
-  App.prototype.setParagraphCount = function(count) {
-    if (count == null) { count = $('p, .paragraph').not('.exclude').length }
-    if (count == this.options.paragraphCount) { return }
-
-    this.options.paragraphCount = count;
-    this.setAnchorSelect();
-
-    this.$els.paragraphCount.html(count);
-  }
-
-  App.prototype.setChapterCount = function(count) {
-    if (count == null) { count = this.$els.chap.length }
-    if (count == this.options.chapterCount) { return }
-
-    this.options.chapterCount = count;
-  }
-
-  App.prototype.setAnchorSelect = function() {
-    var $sections = $('.section'),
-        options = "",
-        i = 1;
-
-    $sections.each(function(index, el) {
-      var currentChapter = $(el),
-          title = currentChapter.find('h1, h2, h3').first().text(),
-          paragraphsCount = currentChapter.find('p, .paragraph').not('.exclude').length,
-          j = 0;
-
-      options += '<optgroup label="' + title + '">';
-
-      while(j < paragraphsCount) {
-        options += '<option value="' + i + '">' + i + '</option>'
-        j++; i++;
+      if (currentAnchor == null) {
+        this.clearState();
+        this.setCurrentChapter(1);
+        this.setCurrentParagraph(1);
+        return;
       }
 
-      options += '</optgroup>';
-    })
+      matches = this.getAnchorTypeAndNumberMatchesFromEl(currentAnchor);
+      this.replaceStateFromMatches(matches, false);
+    },
 
-    this.$els.paragraphSelect.html(options);
-  }
+    onAnchorsButtonClick: function(e) {
+      this.$els.anchorsWrap.toggleClass('opened');
+      this.$els.body.toggleClass('submenu-opened');
+    },
 
-  App.prototype.setData = function() {
-    var _this = this;
+    onParagraphSelectChange: function(e) {
+      var value = e.currentTarget.value;
+      this.replaceState(this.options.lastAnchorTypeChanged, value, true);
+    },
 
-    $.each(['lim', 'par', 'chap'], function(i, el){
-      _this.$els[el].data('type', el);
-    })
-  }
+    // Anchors management
+    getAnchorTypeAndNumberMatchesFromHref: function(string) {
+      var matches = string.match(/(lim|par|chap)(\/)([0-9]+)/);
+      if (matches == null) { return null }
 
-  App.prototype.setTitle = function() {
-    var author = this.$els.contentWrap.find('.author').text(),
-        textTitle = this.$els.contentWrap.find('.title').text();
+      return { type: matches[1], number: matches[3] }
+    },
 
-    this.defaultTitle = author + " - " + textTitle;
-    document.title = this.defaultTitle;
-    this.$els.authorWrap.text(author);
-    this.$els.titleWrap.text(textTitle);
-  }
+    getAnchorTypeAndNumberMatchesFromEl: function(el) {
+      var anchorType = $(el).data('type');
+      if(!anchorType) { return null }
 
-  App.prototype.changeSiblingAnchorSelect = function(siblingAnchorSelect, anchorNumber, anchorType) {
-    siblingAnchorSelect.options.selectedIndex = anchorNumber - 1;
+      return { type: anchorType, number: this.$els[anchorType].index(el) + 1 }
+    },
 
-    this.options.forceChapterChange = true;
-    this.options.forceParagraphChange = true;
+    gotoAnchor: function(anchorType, anchorNumber) {
+      var $elem, offset;
 
-    this.options.lastAnchorTypeChanged = anchorType;
-  }
+      $elem = $(this.$els[anchorType][anchorNumber - 1]);
+      offset = $elem.offset().top;
 
-  App.prototype.initClasses = function() {
-    if(this.options.relativeSummary) { this.$els.body.addClass('relative-summary') }
+      this.$els.window.scrollTop(offset);
+      document.title = this.options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
+    },
+
+    gotoAnchorFromMatches: function(matches) {
+      if (matches == null) { return }
+      this.gotoAnchor(matches.type, matches.number);
+    },
+
+    gotoCurrentAnchor: function() {
+      var currentHref, matches;
+
+      currentHref = window.location.href;
+      matches = this.getAnchorTypeAndNumberMatchesFromHref(currentHref);
+
+      if (matches == null) { return }
+      this.gotoAnchorFromMatches(matches);
+    },
+
+    // History management
+    replaceState: function(anchorType, anchorNumber, scrollToAnchor) {
+      if (this.options.currentState && this.options.currentState.type == anchorType && this.options.currentState.number == anchorNumber) { return }
+
+      var state, title, url;
+
+      state = { type: anchorType, number: anchorNumber };
+      title = this.options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
+      url = '/' + anchorType + '/' + anchorNumber;
+
+      window.history.replaceState(state, title, url);
+      this.options.currentState = state;
+
+      if (scrollToAnchor) {
+        this.gotoAnchor(anchorType, anchorNumber);
+      } else {
+        document.title = title;
+      }
+    },
+
+    replaceStateFromMatches: function(matches, scrollToAnchor) {
+      if (matches == null) { return }
+      this.replaceState(matches.type, matches.number, scrollToAnchor);
+    },
+
+    clearState: function() {
+      if (this.options.currentState == null) { return }
+      this.options.currentState = null;
+
+      var state, title, url;
+
+      state = {};
+      title = this.options.defaultTitle;
+      url = '/';
+
+      window.history.replaceState(state, title, url);
+      document.title = title;
+    },
+
+    // Sections and chapters management
+    setCurrentSection: function(anchor) {
+      var sameType, sameNumner;
+      sameType = anchor.type == this.options.currentSection.type;
+      sameNumner = anchor.number == this.options.currentSection.number;
+
+      if (sameType && sameNumner) { return }
+      this.options.currentSection = anchor;
+
+      if (anchor.type == 'chap') { this.setCurrentChapter(anchor.number) }
+      else { this.setCurrentChapter(1) }
+    },
+
+    setCurrentChapter: function(chapterNumber) {
+      var sameNumber, paragraphNumber, $optgroup;
+      sameNumber = chapterNumber == this.options.currentChapter;
+
+      if (sameNumber && !this.options.forceChapterChange) { return }
+
+      $optgroup = $(this.$els.paragraphSelect.find('optgroup')[parseInt(chapterNumber)+1]);
+      paragraphNumber = $optgroup.find('option').first().val();
+
+      this.options.currentChapter = chapterNumber;
+      this.options.forceChapterChange = false;
+
+      this.setCurrentParagraph(paragraphNumber);
+    },
+
+    setCurrentParagraph: function(paragraphNumber) {
+      var sameNumber = paragraphNumber == this.options.currentParagraph;
+      if (sameNumber && !this.options.forceParagraphChange) { return }
+
+      this.options.currentParagraph = paragraphNumber;
+      this.options.forceParagraphChange = false;
+
+      this.$els.currentParagraph.html(paragraphNumber);
+      this.$els.paragraphSelect[0].options.selectedIndex = paragraphNumber - 1;
+    },
+
+    setParagraphCount: function(count) {
+      if (count == null) { count = $('p, .paragraph').not('.exclude').length }
+      if (count == this.options.paragraphCount) { return }
+
+      this.options.paragraphCount = count;
+      this.setAnchorSelect();
+
+      this.$els.paragraphCount.html(count);
+    },
+
+    setChapterCount: function(count) {
+      if (count == null) { count = this.$els.chap.length }
+      if (count == this.options.chapterCount) { return }
+
+      this.options.chapterCount = count;
+    },
+
+    setAnchorSelect: function() {
+      var $sections = $('.section'),
+          options = "",
+          i = 1;
+
+      $sections.each(function(index, el) {
+        var currentChapter = $(el),
+            title = currentChapter.find('h1, h2, h3').first().text(),
+            paragraphsCount = currentChapter.find('p, .paragraph').not('.exclude').length,
+            j = 0;
+
+        options += '<optgroup label="' + title + '">';
+
+        while(j < paragraphsCount) {
+          options += '<option value="' + i + '">' + i + '</option>'
+          j++; i++;
+        }
+
+        options += '</optgroup>';
+      })
+
+      this.$els.paragraphSelect.html(options);
+    },
+
+    setData: function() {
+      var _this = this;
+
+      $.each(['lim', 'par', 'chap'], function(i, el){
+        _this.$els[el].data('type', el);
+      })
+    },
+
+    setTitle: function() {
+      var author = this.$els.contentWrap.find('.author').text(),
+          textTitle = this.$els.contentWrap.find('.title').text();
+
+      this.defaultTitle = author + " - " + textTitle;
+      document.title = this.defaultTitle;
+      this.$els.authorWrap.text(author);
+      this.$els.titleWrap.text(textTitle);
+    },
+
+    changeSiblingAnchorSelect: function(siblingAnchorSelect, anchorNumber, anchorType) {
+      siblingAnchorSelect.options.selectedIndex = anchorNumber - 1;
+
+      this.options.forceChapterChange = true;
+      this.options.forceParagraphChange = true;
+
+      this.options.lastAnchorTypeChanged = anchorType;
+    },
+
+    initClasses: function() {
+      if(this.options.relativeSummary) { this.$els.body.addClass('relative-summary') }
+    }
   }
 
   return App;

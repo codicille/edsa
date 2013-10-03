@@ -60,221 +60,224 @@ ReadabilitySettings = (function() {
     }
   }
 
-  ReadabilitySettings.prototype.applySavedSettings = function() {
-    var savedSettings = JSON.parse(localStorage.getItem("readabilitySettings"));
+  ReadabilitySettings.prototype = {
 
-    if(!savedSettings) return;
+    applySavedSettings: function() {
+      var savedSettings = JSON.parse(localStorage.getItem("readabilitySettings"));
 
-    this.setFontSize(savedSettings.fontSize);
-    this.setLineHeight(savedSettings.lineHeight);
-    this.setAlignment(savedSettings.alignment);
-    this.setFontFamily(savedSettings.fontFamily);
-    this.setTheme(savedSettings.theme);
-  }
+      if(!savedSettings) return;
 
-  ReadabilitySettings.prototype.get = function(option) {
-    return this.options[option];
-  }
+      this.setFontSize(savedSettings.fontSize);
+      this.setLineHeight(savedSettings.lineHeight);
+      this.setAlignment(savedSettings.alignment);
+      this.setFontFamily(savedSettings.fontFamily);
+      this.setTheme(savedSettings.theme);
+    },
 
-  ReadabilitySettings.prototype.setInitialOption = function(option, value) {
-    if(!value) return;
-    if(option == 'lineHeight') value = this.getRoundedLineHeight(value);
+    get: function(option) {
+      return this.options[option];
+    },
 
-    this.options[option].default = value;
-    this.options[option].current = value;
-  }
+    setInitialOption: function(option, value) {
+      if(!value) return;
+      if(option == 'lineHeight') value = this.getRoundedLineHeight(value);
 
-  // Submenu Management
-  ReadabilitySettings.prototype.toggleSubmenu = function() {
-    this.options.submenuOpened ? this.closeSubmenu() : this.openSubmenu();
-  }
+      this.options[option].default = value;
+      this.options[option].current = value;
+    },
 
-  ReadabilitySettings.prototype.openSubmenu = function() {
-    if (this.options.submenuOpened) { return }
-    this.options.submenuOpened = true;
+    // Submenu Management
+    toggleSubmenu: function() {
+      this.options.submenuOpened ? this.closeSubmenu() : this.openSubmenu();
+    },
 
-    this.$els.body.addClass('show-readability-settings submenu-opened');
-  }
+    openSubmenu: function() {
+      if (this.options.submenuOpened) { return }
+      this.options.submenuOpened = true;
 
-  ReadabilitySettings.prototype.closeSubmenu = function() {
-    if (!this.options.submenuOpened) { return }
-    this.options.submenuOpened = false;
+      this.$els.body.addClass('show-readability-settings submenu-opened');
+    },
 
-    this.$els.body.removeClass('show-readability-settings submenu-opened');
-  }
+    closeSubmenu: function() {
+      if (!this.options.submenuOpened) { return }
+      this.options.submenuOpened = false;
 
-  // Font-size Management
-  ReadabilitySettings.prototype.largerFontSize  = function() { this.changeFontSize(1) }
-  ReadabilitySettings.prototype.smallerFontSize = function() { this.changeFontSize(-1) }
-  ReadabilitySettings.prototype.normalFontSize  = function() { this.setFontSize(this.options.fontSize.default) }
+      this.$els.body.removeClass('show-readability-settings submenu-opened');
+    },
 
-  ReadabilitySettings.prototype.changeFontSize = function(increment) {
-    var newFontSize = this.options.fontSize.current + increment;
-    this.setFontSize(newFontSize);
-  }
+    // Font-size Management
+    largerFontSize : function() { this.changeFontSize(1) },
+    smallerFontSize: function() { this.changeFontSize(-1) },
+    normalFontSize : function() { this.setFontSize(this.options.fontSize.default) },
 
-  ReadabilitySettings.prototype.setFontSize = function(fontSize) {
-    if (!fontSize) return;
-    this.$els.fontSizeButtons.removeClass('active');
-    this.$els.fontSizeButtons.filter('.font-size-' + fontSize.toString().replace(/\./, "")).addClass('active');
+    changeFontSize: function(increment) {
+      var newFontSize = this.options.fontSize.current + increment;
+      this.setFontSize(newFontSize);
+    },
 
-    if (this.options.fontSize.current == fontSize) return;
-    this.options.fontSize.current = fontSize;
-    this.updateLocalStorage('fontSize', fontSize);
+    setFontSize: function(fontSize) {
+      if (!fontSize) return;
+      this.$els.fontSizeButtons.removeClass('active');
+      this.$els.fontSizeButtons.filter('.font-size-' + fontSize.toString().replace(/\./, "")).addClass('active');
 
-    this.$els.main.css('font-size', fontSize + 'em');
-  }
+      if (this.options.fontSize.current == fontSize) return;
+      this.options.fontSize.current = fontSize;
+      this.updateLocalStorage('fontSize', fontSize);
 
-  // Line-height Management
-  ReadabilitySettings.prototype.largerLineHeight  = function() { this.changeLineHeight(1) }
-  ReadabilitySettings.prototype.smallerLineHeight = function() { this.changeLineHeight(-1) }
-  ReadabilitySettings.prototype.normalLineHeight  = function() { this.setLineHeight(this.options.lineHeight.default) }
+      this.$els.main.css('font-size', fontSize + 'em');
+    },
 
-  ReadabilitySettings.prototype.getRoundedLineHeight = function(lineHeight) {
-    var roundedLineHeight;
+    // Line-height Management
+    largerLineHeight : function() { this.changeLineHeight(1) },
+    smallerLineHeight: function() { this.changeLineHeight(-1) },
+    normalLineHeight : function() { this.setLineHeight(this.options.lineHeight.default) },
 
-    lineHeight = lineHeight / this.options.fontSize.default;
-    roundedLineHeight = Math.round(lineHeight * 10) / 10;
+    getRoundedLineHeight: function(lineHeight) {
+      var roundedLineHeight;
 
-    return roundedLineHeight;
-  }
+      lineHeight = lineHeight / this.options.fontSize.default;
+      roundedLineHeight = Math.round(lineHeight * 10) / 10;
 
-  ReadabilitySettings.prototype.changeLineHeight = function(increment) {
-    var newLineHeight = (this.options.lineHeight.current * 10 + increment) / 10;
-    this.setLineHeight(newLineHeight);
-  }
+      return roundedLineHeight;
+    },
 
-  ReadabilitySettings.prototype.setLineHeight = function(lineHeight) {
-    if (!lineHeight) return;
-    this.$els.lineHeightButtons.removeClass('active');
-    this.$els.lineHeightButtons.filter('.line-height-' + lineHeight * 10).addClass('active');
+    changeLineHeight: function(increment) {
+      var newLineHeight = (this.options.lineHeight.current * 10 + increment) / 10;
+      this.setLineHeight(newLineHeight);
+    },
 
-    if (this.options.lineHeight.current == lineHeight) { return }
-    this.options.lineHeight.current = lineHeight;
-    this.updateLocalStorage('lineHeight', lineHeight);
+    setLineHeight: function(lineHeight) {
+      if (!lineHeight) return;
+      this.$els.lineHeightButtons.removeClass('active');
+      this.$els.lineHeightButtons.filter('.line-height-' + lineHeight * 10).addClass('active');
+
+      if (this.options.lineHeight.current == lineHeight) { return }
+      this.options.lineHeight.current = lineHeight;
+      this.updateLocalStorage('lineHeight', lineHeight);
 
 
-    this.$els.main.css('line-height', lineHeight);
-  }
+      this.$els.main.css('line-height', lineHeight);
+    },
 
-  // Alignment Management
-  ReadabilitySettings.prototype.leftAlignment    = function() { this.setAlignment('left') }
-  ReadabilitySettings.prototype.justifyAlignment = function() { this.setAlignment('justify') }
+    // Alignment Management
+    leftAlignment   : function() { this.setAlignment('left') },
+    justifyAlignment: function() { this.setAlignment('justify') },
 
-  ReadabilitySettings.prototype.initAlignmentButtonsGroup = function() {
-    var buttonsGroup, $buttonsGroup, defaultButton;
+    initAlignmentButtonsGroup: function() {
+      var buttonsGroup, $buttonsGroup, defaultButton;
 
-    $buttonsGroup = $('.alignments');
-    defaultButton = $buttonsGroup.find('.alignment-' + this.options.alignment.current);
+      $buttonsGroup = $('.alignments');
+      defaultButton = $buttonsGroup.find('.alignment-' + this.options.alignment.current);
 
-    buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
-  }
+      buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
+    },
 
-  ReadabilitySettings.prototype.setAlignment = function(alignment) {
-    if (!alignment) return;
-    this.$els.alignmentButtons.removeClass('active');
-    this.$els.alignmentButtons.filter('.alignment-' + alignment).addClass('active');
+    setAlignment: function(alignment) {
+      if (!alignment) return;
+      this.$els.alignmentButtons.removeClass('active');
+      this.$els.alignmentButtons.filter('.alignment-' + alignment).addClass('active');
 
-    if(this.options.alignment.current == alignment) return;
-    var previousAlignment = this.options.alignment.current;
-    this.options.alignment.current = alignment;
-    this.updateLocalStorage('alignment', alignment);
+      if(this.options.alignment.current == alignment) return;
+      var previousAlignment = this.options.alignment.current;
+      this.options.alignment.current = alignment;
+      this.updateLocalStorage('alignment', alignment);
 
-    this.$els.main.removeClass('align-' + previousAlignment);
-    this.$els.main.addClass('align-' + alignment);
-  }
+      this.$els.main.removeClass('align-' + previousAlignment);
+      this.$els.main.addClass('align-' + alignment);
+    },
 
-  ReadabilitySettings.prototype.updateLocalStorage = function(property, value) {
-    var settings = JSON.parse(localStorage.getItem('readabilitySettings')) || {};
+    updateLocalStorage: function(property, value) {
+      var settings = JSON.parse(localStorage.getItem('readabilitySettings')) || {};
 
-    settings[property] = value;
-    localStorage.setItem('readabilitySettings', JSON.stringify(settings));
-  }
+      settings[property] = value;
+      localStorage.setItem('readabilitySettings', JSON.stringify(settings));
+    },
 
-  ReadabilitySettings.prototype.initThemeSlider = function() {
-    var callback = this.setTheme;
+    initThemeSlider: function() {
+      var callback = this.setTheme;
 
-    $(".slider-container .slider").slider({
-      value: this.options.theme.current,
-      min: 1,
-      max: 5,
-      step: 1,
-      slide: function(e, ui) { callback(ui.value) }
-    });
-  }
+      $(".slider-container .slider").slider({
+        value: this.options.theme.current,
+        min: 1,
+        max: 5,
+        step: 1,
+        slide: function(e, ui) { callback(ui.value) }
+      });
+    },
 
-  ReadabilitySettings.prototype.setTheme = function(theme) {
-    if (!theme || this.options.theme.current == theme) { return }
+    setTheme: function(theme) {
+      if (!theme || this.options.theme.current == theme) { return }
 
-    var previousTheme = this.options.theme.current;
-    this.options.theme.current = theme;
-    this.updateLocalStorage('theme', theme);
+      var previousTheme = this.options.theme.current;
+      this.options.theme.current = theme;
+      this.updateLocalStorage('theme', theme);
 
-    this.$els.body.removeClass('theme-' + previousTheme);
-    this.$els.body.addClass('theme-' + theme);
-  }
+      this.$els.body.removeClass('theme-' + previousTheme);
+      this.$els.body.addClass('theme-' + theme);
+    },
 
-  // Font family Management
-  ReadabilitySettings.prototype.fontFamily = function(fontFamily) {
-    this.setFontFamily(fontFamily);
-  }
+    // Font family Management
+    fontFamily: function(fontFamily) {
+      this.setFontFamily(fontFamily);
+    },
 
-  ReadabilitySettings.prototype.initFontFamilyButtonsGroup = function() {
-    var _this, buttonsGroup, $buttonsGroup, defaultButton;
+    initFontFamilyButtonsGroup: function() {
+      var _this, buttonsGroup, $buttonsGroup, defaultButton;
 
-    _this = this;
-    $buttonsGroup = $('.buttons-group.fonts');
-    defaultButton = $buttonsGroup.find('.font-' + this.options.fontFamily.current);
+      _this = this;
+      $buttonsGroup = $('.buttons-group.fonts');
+      defaultButton = $buttonsGroup.find('.font-' + this.options.fontFamily.current);
 
-    $buttonsGroup.on('selectChange', function(e, fontFamily) {
-      _this.fontFamily(fontFamily);
-    });
+      $buttonsGroup.on('selectChange', function(e, fontFamily) {
+        _this.fontFamily(fontFamily);
+      });
 
-    buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
-  }
+      buttonsGroup = new ButtonsGroup($buttonsGroup, defaultButton);
+    },
 
-  ReadabilitySettings.prototype.setFontFamily = function(fontFamily) {
-    if (!fontFamily) return;
-    var previousFontFamily = this.options.fontFamily.current;
-    this.options.fontFamily.current = fontFamily;
-    this.updateFontFamilyPreviewer(previousFontFamily, fontFamily);
+    setFontFamily: function(fontFamily) {
+      if (!fontFamily) return;
+      var previousFontFamily = this.options.fontFamily.current;
+      this.options.fontFamily.current = fontFamily;
+      this.updateFontFamilyPreviewer(previousFontFamily, fontFamily);
 
-    if (previousFontFamily == fontFamily) return;
-    this.updateLocalStorage('fontFamily', fontFamily);
-    this.$els.main.removeClass('font-' + previousFontFamily);
-    this.$els.main.addClass('font-' + fontFamily);
-  }
+      if (previousFontFamily == fontFamily) return;
+      this.updateLocalStorage('fontFamily', fontFamily);
+      this.$els.main.removeClass('font-' + previousFontFamily);
+      this.$els.main.addClass('font-' + fontFamily);
+    },
 
-  ReadabilitySettings.prototype.cycleFont = function(increment){
-    // data should not be stored in dom
-    // @todo improve it to not rely on DOM node for font family data
-    this.retrieveFontFamilyNode(this.options.fontFamily.current);
+    cycleFont: function(increment){
+      // data should not be stored in dom
+      // @todo improve it to not rely on DOM node for font family data
+      this.retrieveFontFamilyNode(this.options.fontFamily.current);
 
-    var currentIndex = this.retrieveFontFamilyNode(this.options.fontFamily.current).index(),
-        $familyChoicesOptions = this.$els.fontFamilyChoices.find('option'),
-        desiredTargetIndex = currentIndex + increment
-        targetIndex = (desiredTargetIndex > $familyChoicesOptions.length - 1) ? 0 : desiredTargetIndex,
-        targetOption = $familyChoicesOptions.eq(targetIndex);
+      var currentIndex = this.retrieveFontFamilyNode(this.options.fontFamily.current).index(),
+          $familyChoicesOptions = this.$els.fontFamilyChoices.find('option'),
+          desiredTargetIndex = currentIndex + increment
+          targetIndex = (desiredTargetIndex > $familyChoicesOptions.length - 1) ? 0 : desiredTargetIndex,
+          targetOption = $familyChoicesOptions.eq(targetIndex);
 
-    this.setFontFamily(targetOption.attr('value'));
-  }
+      this.setFontFamily(targetOption.attr('value'));
+    },
 
-  ReadabilitySettings.prototype.nextFont = function(){ this.cycleFont(1); }
-  ReadabilitySettings.prototype.prevFont = function(){ this.cycleFont(-1); }
+    nextFont: function(){ this.cycleFont(1); },
+    prevFont: function(){ this.cycleFont(-1); },
 
-  ReadabilitySettings.prototype.retrieveFontFamilyNode = function(value){
-    var currentOption = 'option[value="' + value + '"]';
-    return this.$els.fontFamilyChoices.find(currentOption);
-  }
+    retrieveFontFamilyNode: function(value){
+      var currentOption = 'option[value="' + value + '"]';
+      return this.$els.fontFamilyChoices.find(currentOption);
+    },
 
-  ReadabilitySettings.prototype.retrieveFontFamilyDisplayName = function(fontName){
-    return this.retrieveFontFamilyNode(fontName).text();
-  }
+    retrieveFontFamilyDisplayName: function(fontName){
+      return this.retrieveFontFamilyNode(fontName).text();
+    },
 
-  ReadabilitySettings.prototype.updateFontFamilyPreviewer = function(previousFont, newFont){
-    this.$els.fontFamilyExample.removeClass('font-' + previousFont);
-    this.$els.fontFamilyExample.addClass('font-' + newFont);
-    this.$els.fontFamilyName.text(this.retrieveFontFamilyDisplayName(newFont));
+    updateFontFamilyPreviewer: function(previousFont, newFont){
+      this.$els.fontFamilyExample.removeClass('font-' + previousFont);
+      this.$els.fontFamilyExample.addClass('font-' + newFont);
+      this.$els.fontFamilyName.text(this.retrieveFontFamilyDisplayName(newFont));
+    }
   }
 
   return ReadabilitySettings;

@@ -20,37 +20,39 @@ ButtonsGroup = (function() {
     if ($defaultSelectedButton) { this.select($defaultSelectedButton[0]) }
   }
 
-  ButtonsGroup.prototype.onButtonClick = function(e) {
-    this.select(e.currentTarget);
-  }
+  ButtonsGroup.prototype = {
+    onButtonClick: function(e) {
+      this.select(e.currentTarget);
+    },
 
-  ButtonsGroup.prototype.select = function(button, updateSelect) {
-    if (updateSelect == null) { updateSelect = true }
-    if (this.$els.selectedButton == button) { return }
+    select: function(button, updateSelect) {
+      if (updateSelect == null) { updateSelect = true }
+      if (this.$els.selectedButton == button) { return }
 
-    this.unselect();
+      this.unselect();
 
-    this.$els.selectedButton = button;
-    $(button).addClass('selected');
+      this.$els.selectedButton = button;
+      $(button).addClass('selected');
 
-    if (updateSelect && this.$els.select.length) {
-      var selectedIndex = $(button).index();
-      this.$els.select[0].selectedIndex = selectedIndex;
+      if (updateSelect && this.$els.select.length) {
+        var selectedIndex = $(button).index();
+        this.$els.select[0].selectedIndex = selectedIndex;
+      }
+    },
+
+    unselect: function() {
+      $(this.$els.selectedButton).removeClass('selected');
+    },
+
+    initSelect: function() {
+      var _this = this;
+
+      this.$els.select.on('change', function(e) {
+        var $button = _this.$els.buttons.eq(this.selectedIndex);
+        _this.select($button[0], false);
+        _this.$els.group.trigger('selectChange', this.value);
+      });
     }
-  }
-
-  ButtonsGroup.prototype.unselect = function() {
-    $(this.$els.selectedButton).removeClass('selected');
-  }
-
-  ButtonsGroup.prototype.initSelect = function() {
-    var _this = this;
-
-    this.$els.select.on('change', function(e) {
-      var $button = _this.$els.buttons.eq(this.selectedIndex);
-      _this.select($button[0], false);
-      _this.$els.group.trigger('selectChange', this.value);
-    });
   }
 
   return ButtonsGroup;
