@@ -856,17 +856,20 @@ footer {
       }
     }
 
-    p {
-      font-size: 0;
-      height: 3px;
-      margin: 0 0 0 -30px;
-      visibility: hidden;
-      width: 1px;
-    }
+    p { display: none; }
   }
 
   .touch &, .no-touch &, {
     .book { background-color: #f2f2f2; }
+  }
+
+  &.relative-summary p {
+    display: block;
+    font-size: 0;
+    height: 3px;
+    margin: 0 0 0 -30px;
+    visibility: hidden;
+    width: 1px;
   }
 }
 

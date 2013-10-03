@@ -1,11 +1,12 @@
 var App = (function() {
-  function App() {
+  function App(opts) {
     // Global variables
     this.options = {
       defaultTitle: document.title,
       currentState: null,
       advancedMenusOpened: false,
       summaryOpened: false,
+      relativeSummary: false,
       currentScrollTop: 0,
       currentSection: {},
       currentChapter: 1,
@@ -20,6 +21,8 @@ var App = (function() {
       maxTapZone: 150, // pixels
       scrollPosition: 0
     }
+
+    $.extend(this.options, opts);
 
     // jQuery cached elements
     this.elements = {
@@ -56,6 +59,7 @@ var App = (function() {
     this.setParagraphCount();
     this.setChapterCount();
     this.setData();
+    this.initClasses();
 
     // Mobile
     if (UA.IS_TOUCH_DEVICE) {
@@ -458,6 +462,10 @@ var App = (function() {
     this.options.forceParagraphChange = true;
 
     this.options.lastAnchorTypeChanged = anchorType;
+  }
+
+  App.prototype.initClasses = function() {
+    if(this.options.relativeSummary) { this.elements.body.addClass('relative-summary') }
   }
 
   return App;
