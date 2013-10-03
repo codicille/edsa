@@ -19,7 +19,7 @@ ReadabilitySettings = (function() {
     }
 
     // jQuery cached elements
-    this.elements = {
+    this.$els = {
       body: $('body'),
       main: $('[role="main"]'),
       veil: $('.veil'),
@@ -33,14 +33,14 @@ ReadabilitySettings = (function() {
       fontFamilyChoices: $('.js-font-choices')
     }
 
-    var mainComputedStyle = window.getComputedStyle(this.elements.main[0]);
+    var mainComputedStyle = window.getComputedStyle(this.$els.main[0]);
 
     this.initialStyles = {
       fontSize: parseInt(mainComputedStyle.getPropertyValue('font-size')),
       lineHeight: parseInt(mainComputedStyle.getPropertyValue('line-height')),
       alignment: mainComputedStyle.getPropertyValue('text-align'),
-      theme: this.elements.body[0].className.match(/theme-([a-zA-Z0-9]+)/)[1],
-      fontFamily: this.elements.main[0].className.match(/font-([a-zA-Z0-9]+)/)[1]
+      theme: this.$els.body[0].className.match(/theme-([a-zA-Z0-9]+)/)[1],
+      fontFamily: this.$els.main[0].className.match(/font-([a-zA-Z0-9]+)/)[1]
     }
 
     // Initialization
@@ -54,9 +54,9 @@ ReadabilitySettings = (function() {
     this.initThemeSlider();
 
     if (UA.IS_TOUCH_DEVICE) {
-      this.elements.veil.onTap(this.closeSubmenu);
+      this.$els.veil.onTap(this.closeSubmenu);
     } else {
-      this.elements.veil.on('click', this.closeSubmenu);
+      this.$els.veil.on('click', this.closeSubmenu);
     }
   }
 
@@ -93,14 +93,14 @@ ReadabilitySettings = (function() {
     if (this.options.submenuOpened) { return }
     this.options.submenuOpened = true;
 
-    this.elements.body.addClass('show-readability-settings submenu-opened');
+    this.$els.body.addClass('show-readability-settings submenu-opened');
   }
 
   ReadabilitySettings.prototype.closeSubmenu = function() {
     if (!this.options.submenuOpened) { return }
     this.options.submenuOpened = false;
 
-    this.elements.body.removeClass('show-readability-settings submenu-opened');
+    this.$els.body.removeClass('show-readability-settings submenu-opened');
   }
 
   // Font-size Management
@@ -115,14 +115,14 @@ ReadabilitySettings = (function() {
 
   ReadabilitySettings.prototype.setFontSize = function(fontSize) {
     if (!fontSize) return;
-    this.elements.fontSizeButtons.removeClass('active');
-    this.elements.fontSizeButtons.filter('.font-size-' + fontSize.toString().replace(/\./, "")).addClass('active');
+    this.$els.fontSizeButtons.removeClass('active');
+    this.$els.fontSizeButtons.filter('.font-size-' + fontSize.toString().replace(/\./, "")).addClass('active');
 
     if (this.options.fontSize.current == fontSize) return;
     this.options.fontSize.current = fontSize;
     this.updateLocalStorage('fontSize', fontSize);
 
-    this.elements.main.css('font-size', fontSize + 'em');
+    this.$els.main.css('font-size', fontSize + 'em');
   }
 
   // Line-height Management
@@ -146,15 +146,15 @@ ReadabilitySettings = (function() {
 
   ReadabilitySettings.prototype.setLineHeight = function(lineHeight) {
     if (!lineHeight) return;
-    this.elements.lineHeightButtons.removeClass('active');
-    this.elements.lineHeightButtons.filter('.line-height-' + lineHeight * 10).addClass('active');
+    this.$els.lineHeightButtons.removeClass('active');
+    this.$els.lineHeightButtons.filter('.line-height-' + lineHeight * 10).addClass('active');
 
     if (this.options.lineHeight.current == lineHeight) { return }
     this.options.lineHeight.current = lineHeight;
     this.updateLocalStorage('lineHeight', lineHeight);
 
 
-    this.elements.main.css('line-height', lineHeight);
+    this.$els.main.css('line-height', lineHeight);
   }
 
   // Alignment Management
@@ -172,16 +172,16 @@ ReadabilitySettings = (function() {
 
   ReadabilitySettings.prototype.setAlignment = function(alignment) {
     if (!alignment) return;
-    this.elements.alignmentButtons.removeClass('active');
-    this.elements.alignmentButtons.filter('.alignment-' + alignment).addClass('active');
+    this.$els.alignmentButtons.removeClass('active');
+    this.$els.alignmentButtons.filter('.alignment-' + alignment).addClass('active');
 
     if(this.options.alignment.current == alignment) return;
     var previousAlignment = this.options.alignment.current;
     this.options.alignment.current = alignment;
     this.updateLocalStorage('alignment', alignment);
 
-    this.elements.main.removeClass('align-' + previousAlignment);
-    this.elements.main.addClass('align-' + alignment);
+    this.$els.main.removeClass('align-' + previousAlignment);
+    this.$els.main.addClass('align-' + alignment);
   }
 
   ReadabilitySettings.prototype.updateLocalStorage = function(property, value) {
@@ -210,8 +210,8 @@ ReadabilitySettings = (function() {
     this.options.theme.current = theme;
     this.updateLocalStorage('theme', theme);
 
-    this.elements.body.removeClass('theme-' + previousTheme);
-    this.elements.body.addClass('theme-' + theme);
+    this.$els.body.removeClass('theme-' + previousTheme);
+    this.$els.body.addClass('theme-' + theme);
   }
 
   // Font family Management
@@ -241,8 +241,8 @@ ReadabilitySettings = (function() {
 
     if (previousFontFamily == fontFamily) return;
     this.updateLocalStorage('fontFamily', fontFamily);
-    this.elements.main.removeClass('font-' + previousFontFamily);
-    this.elements.main.addClass('font-' + fontFamily);
+    this.$els.main.removeClass('font-' + previousFontFamily);
+    this.$els.main.addClass('font-' + fontFamily);
   }
 
   ReadabilitySettings.prototype.cycleFont = function(increment){
@@ -251,7 +251,7 @@ ReadabilitySettings = (function() {
     this.retrieveFontFamilyNode(this.options.fontFamily.current);
 
     var currentIndex = this.retrieveFontFamilyNode(this.options.fontFamily.current).index(),
-        $familyChoicesOptions = this.elements.fontFamilyChoices.find('option'),
+        $familyChoicesOptions = this.$els.fontFamilyChoices.find('option'),
         desiredTargetIndex = currentIndex + increment
         targetIndex = (desiredTargetIndex > $familyChoicesOptions.length - 1) ? 0 : desiredTargetIndex,
         targetOption = $familyChoicesOptions.eq(targetIndex);
@@ -264,7 +264,7 @@ ReadabilitySettings = (function() {
 
   ReadabilitySettings.prototype.retrieveFontFamilyNode = function(value){
     var currentOption = 'option[value="' + value + '"]';
-    return this.elements.fontFamilyChoices.find(currentOption);
+    return this.$els.fontFamilyChoices.find(currentOption);
   }
 
   ReadabilitySettings.prototype.retrieveFontFamilyDisplayName = function(fontName){
@@ -272,9 +272,9 @@ ReadabilitySettings = (function() {
   }
 
   ReadabilitySettings.prototype.updateFontFamilyPreviewer = function(previousFont, newFont){
-    this.elements.fontFamilyExample.removeClass('font-' + previousFont);
-    this.elements.fontFamilyExample.addClass('font-' + newFont);
-    this.elements.fontFamilyName.text(this.retrieveFontFamilyDisplayName(newFont));
+    this.$els.fontFamilyExample.removeClass('font-' + previousFont);
+    this.$els.fontFamilyExample.addClass('font-' + newFont);
+    this.$els.fontFamilyName.text(this.retrieveFontFamilyDisplayName(newFont));
   }
 
   return ReadabilitySettings;

@@ -25,7 +25,7 @@ var App = (function() {
     $.extend(this.options, opts);
 
     // jQuery cached elements
-    this.elements = {
+    this.$els = {
       body: $('body'),
       window: $(window),
       par: $('p, .paragraph').not('.exclude'),
@@ -46,11 +46,11 @@ var App = (function() {
 
     // Events
     $(document).on('keyup', this.handleKeyup.bind(this));
-    this.elements.window.on('scroll resize', this.onWindowScroll.bind(this));
-    this.elements.paragraphSelect.on('change', this.onParagraphSelectChange.bind(this));
-    this.elements.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick.bind(this));
-    this.elements.summaryButton.on(UA.CLICK, this.onSummaryButtonClick.bind(this));
-    this.elements.sections.find('h3:first').on('click', this.onHeadingClick.bind(this));
+    this.$els.window.on('scroll resize', this.onWindowScroll.bind(this));
+    this.$els.paragraphSelect.on('change', this.onParagraphSelectChange.bind(this));
+    this.$els.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick.bind(this));
+    this.$els.summaryButton.on(UA.CLICK, this.onSummaryButtonClick.bind(this));
+    this.$els.sections.find('h3:first').on('click', this.onHeadingClick.bind(this));
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus.bind(this));
 
     // Onload
@@ -66,28 +66,28 @@ var App = (function() {
       var App = this;
       window.scrollTo(0, 1);
 
-      this.elements.anchorsButton = $('.anchors')
-      this.elements.allLinks.on('click', function(e) { return false });
-      this.elements.allLinks.onTap(function(e) {
+      this.$els.anchorsButton = $('.anchors')
+      this.$els.allLinks.on('click', function(e) { return false });
+      this.$els.allLinks.onTap(function(e) {
         action = this.href.match(/javascript:(.+)/)[1];
         eval(action);
       });
 
       // Handle touch events, leave don't block clicks
-      this.elements.contentWrap.on('touchstart', this.onContentTouchStart.bind(this));
-      this.elements.contentWrap.on('touchend', this.onContentTouchEnd.bind(this));
+      this.$els.contentWrap.on('touchstart', this.onContentTouchStart.bind(this));
+      this.$els.contentWrap.on('touchend', this.onContentTouchEnd.bind(this));
 
-      this.elements.sections.find('h3:first').onTap(this.onHeadingClick.bind(this));
+      this.$els.sections.find('h3:first').onTap(this.onHeadingClick.bind(this));
     }
   }
 
   // Utils
   App.prototype.getScrollTop = function() {
-    return window.pageYOffset || (typeof this.elements.window.scrollTop === "function" ? this.elements.window.scrollTop() : 0);
+    return window.pageYOffset || (typeof this.$els.window.scrollTop === "function" ? this.$els.window.scrollTop() : 0);
   }
 
   App.prototype.smoothScrollTo = function(offset) {
-    this.elements.body.animate({
+    this.$els.body.animate({
       scrollTop: offset,
       duration: 400
     });
@@ -102,7 +102,7 @@ var App = (function() {
   App.prototype.showNextPageHint = function() {
     var nextPageHint = document.createElement("div");
     nextPageHint.className = "pageswipe-hint";
-    this.elements.contentWrap.after(nextPageHint);
+    this.$els.contentWrap.after(nextPageHint);
     $(nextPageHint).one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend', this.onPageChangeEnded.bind(this));
   }
 
@@ -112,7 +112,7 @@ var App = (function() {
     this.options.advancedMenusOpened = true;
     this.options.currentScrollTop = this.getScrollTop();
 
-    this.elements.body.addClass('show-advanced-menus');
+    this.$els.body.addClass('show-advanced-menus');
   }
 
   App.prototype.hideAdvancedMenus = function() {
@@ -120,12 +120,12 @@ var App = (function() {
     this.options.advancedMenusOpened = false;
 
     if (ReadabilitySettings) { ReadabilitySettings.closeSubmenu() }
-    this.elements.body.removeClass('show-advanced-menus submenu-opened');
-    this.elements.anchorsWrap.removeClass('opened');
+    this.$els.body.removeClass('show-advanced-menus submenu-opened');
+    this.$els.anchorsWrap.removeClass('opened');
   }
 
   App.prototype.hideTextSettingsMenus = function() {
-    this.elements.body.removeClass('show-font-size-menu show-line-height-menu show-font-family-menu show-alignment-menu');
+    this.$els.body.removeClass('show-font-size-menu show-line-height-menu show-font-family-menu show-alignment-menu');
     this.options.textInfosOpened = false;
   }
 
@@ -135,16 +135,16 @@ var App = (function() {
 
     if(isToggle) return;
     this.options.textInfosOpened = menu;
-    this.elements.body.addClass('show-' + menu + '-menu');
+    this.$els.body.addClass('show-' + menu + '-menu');
   }
 
   // Events callback
   App.prototype.onContentTouchStart = function(e) {
     this.gestureStartTime = new Date();
     this.gestureStartPosition = e.originalEvent.changedTouches[0].clientY;
-    this.gestureStartScreenPosition = this.elements.window.scrollTop();
+    this.gestureStartScreenPosition = this.$els.window.scrollTop();
 
-    this.elements.body.stop(); // In case the body is scrolling via jQuery
+    this.$els.body.stop(); // In case the body is scrolling via jQuery
   }
 
   App.prototype.onContentTouchEnd = function(e) {
@@ -193,15 +193,15 @@ var App = (function() {
 
   App.prototype.openSummary = function() {
     this.options.scrollPosition = this.getScrollTop();
-    this.elements.body.addClass('show-summary');
+    this.$els.body.addClass('show-summary');
     this.options.summaryOpened = true;
-    this.elements.window.scrollTop(0);
+    this.$els.window.scrollTop(0);
   }
 
   App.prototype.closeSummary = function() {
-    this.elements.body.removeClass('show-summary');
+    this.$els.body.removeClass('show-summary');
     this.options.summaryOpened = false;
-    this.elements.window.scrollTop(this.options.scrollPosition);
+    this.$els.window.scrollTop(this.options.scrollPosition);
   }
 
   App.prototype.onHeadingClick = function(e) {
@@ -211,7 +211,7 @@ var App = (function() {
 
     $el = $(e.currentTarget);
     $section = $el.parents('.section');
-    number = this.elements.sections.index($section);
+    number = this.$els.sections.index($section);
     matches = this.getAnchorTypeAndNumberMatchesFromEl($section[0]);
 
     this.closeSummary();
@@ -245,7 +245,7 @@ var App = (function() {
     currentAnchor = null;
 
     // Change history state to current section & paragraph
-    this.elements.sections.each(function(i, section) {
+    this.$els.sections.each(function(i, section) {
       if (!_this.isInTheFold(section)) { return true }
       currentAnchor = section;
       _this.setCurrentSection(_this.getAnchorTypeAndNumberMatchesFromEl(section));
@@ -269,8 +269,8 @@ var App = (function() {
   }
 
   App.prototype.onAnchorsButtonClick = function(e) {
-    this.elements.anchorsWrap.toggleClass('opened');
-    this.elements.body.toggleClass('submenu-opened');
+    this.$els.anchorsWrap.toggleClass('opened');
+    this.$els.body.toggleClass('submenu-opened');
   }
 
   App.prototype.onParagraphSelectChange = function(e) {
@@ -290,16 +290,16 @@ var App = (function() {
     var anchorType = $(el).data('type');
     if(!anchorType) { return null }
 
-    return { type: anchorType, number: this.elements[anchorType].index(el) + 1 }
+    return { type: anchorType, number: this.$els[anchorType].index(el) + 1 }
   }
 
   App.prototype.gotoAnchor = function(anchorType, anchorNumber) {
     var $elem, offset;
 
-    $elem = $(this.elements[anchorType][anchorNumber - 1]);
+    $elem = $(this.$els[anchorType][anchorNumber - 1]);
     offset = $elem.offset().top;
 
-    this.elements.window.scrollTop(offset);
+    this.$els.window.scrollTop(offset);
     document.title = this.options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
   }
 
@@ -376,7 +376,7 @@ var App = (function() {
 
     if (sameNumber && !this.options.forceChapterChange) { return }
 
-    $optgroup = $(this.elements.paragraphSelect.find('optgroup')[parseInt(chapterNumber)+1]);
+    $optgroup = $(this.$els.paragraphSelect.find('optgroup')[parseInt(chapterNumber)+1]);
     paragraphNumber = $optgroup.find('option').first().val();
 
     this.options.currentChapter = chapterNumber;
@@ -392,8 +392,8 @@ var App = (function() {
     this.options.currentParagraph = paragraphNumber;
     this.options.forceParagraphChange = false;
 
-    this.elements.currentParagraph.html(paragraphNumber);
-    this.elements.paragraphSelect[0].options.selectedIndex = paragraphNumber - 1;
+    this.$els.currentParagraph.html(paragraphNumber);
+    this.$els.paragraphSelect[0].options.selectedIndex = paragraphNumber - 1;
   }
 
   App.prototype.setParagraphCount = function(count) {
@@ -403,11 +403,11 @@ var App = (function() {
     this.options.paragraphCount = count;
     this.setAnchorSelect();
 
-    this.elements.paragraphCount.html(count);
+    this.$els.paragraphCount.html(count);
   }
 
   App.prototype.setChapterCount = function(count) {
-    if (count == null) { count = this.elements.chap.length }
+    if (count == null) { count = this.$els.chap.length }
     if (count == this.options.chapterCount) { return }
 
     this.options.chapterCount = count;
@@ -434,25 +434,25 @@ var App = (function() {
       options += '</optgroup>';
     })
 
-    this.elements.paragraphSelect.html(options);
+    this.$els.paragraphSelect.html(options);
   }
 
   App.prototype.setData = function() {
     var _this = this;
 
     $.each(['lim', 'par', 'chap'], function(i, el){
-      _this.elements[el].data('type', el);
+      _this.$els[el].data('type', el);
     })
   }
 
   App.prototype.setTitle = function() {
-    var author = this.elements.contentWrap.find('.author').text(),
-        textTitle = this.elements.contentWrap.find('.title').text();
+    var author = this.$els.contentWrap.find('.author').text(),
+        textTitle = this.$els.contentWrap.find('.title').text();
 
     this.defaultTitle = author + " - " + textTitle;
     document.title = this.defaultTitle;
-    this.elements.authorWrap.text(author);
-    this.elements.titleWrap.text(textTitle);
+    this.$els.authorWrap.text(author);
+    this.$els.titleWrap.text(textTitle);
   }
 
   App.prototype.changeSiblingAnchorSelect = function(siblingAnchorSelect, anchorNumber, anchorType) {
@@ -465,7 +465,7 @@ var App = (function() {
   }
 
   App.prototype.initClasses = function() {
-    if(this.options.relativeSummary) { this.elements.body.addClass('relative-summary') }
+    if(this.options.relativeSummary) { this.$els.body.addClass('relative-summary') }
   }
 
   return App;

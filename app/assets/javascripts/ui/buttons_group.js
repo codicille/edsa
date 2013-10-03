@@ -7,16 +7,16 @@ ButtonsGroup = (function() {
     this.onButtonClick = __bind(this.onButtonClick, this);
 
     // jQuery cached elements
-    this.elements = {
+    this.$els = {
       group: $elem,
       buttons: $elem.find('.simple-button'),
       select: $elem.children('select'),
       selectedButton: null
     }
 
-    this.elements.buttons.on('click', this.onButtonClick);
+    this.$els.buttons.on('click', this.onButtonClick);
 
-    if (this.elements.select.length) { this.initSelect() }
+    if (this.$els.select.length) { this.initSelect() }
     if ($defaultSelectedButton) { this.select($defaultSelectedButton[0]) }
   }
 
@@ -26,30 +26,30 @@ ButtonsGroup = (function() {
 
   ButtonsGroup.prototype.select = function(button, updateSelect) {
     if (updateSelect == null) { updateSelect = true }
-    if (this.elements.selectedButton == button) { return }
+    if (this.$els.selectedButton == button) { return }
 
     this.unselect();
 
-    this.elements.selectedButton = button;
+    this.$els.selectedButton = button;
     $(button).addClass('selected');
 
-    if (updateSelect && this.elements.select.length) {
+    if (updateSelect && this.$els.select.length) {
       var selectedIndex = $(button).index();
-      this.elements.select[0].selectedIndex = selectedIndex;
+      this.$els.select[0].selectedIndex = selectedIndex;
     }
   }
 
   ButtonsGroup.prototype.unselect = function() {
-    $(this.elements.selectedButton).removeClass('selected');
+    $(this.$els.selectedButton).removeClass('selected');
   }
 
   ButtonsGroup.prototype.initSelect = function() {
     var _this = this;
 
-    this.elements.select.on('change', function(e) {
-      var $button = _this.elements.buttons.eq(this.selectedIndex);
+    this.$els.select.on('change', function(e) {
+      var $button = _this.$els.buttons.eq(this.selectedIndex);
       _this.select($button[0], false);
-      _this.elements.group.trigger('selectChange', this.value);
+      _this.$els.group.trigger('selectChange', this.value);
     });
   }
 
