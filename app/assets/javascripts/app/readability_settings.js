@@ -1,12 +1,6 @@
-var ReadabilitySettings,
-    __bind = function(fn, me) { return function() { return fn.apply(me, arguments) }};
-
-ReadabilitySettings = (function() {
+var ReadabilitySettings = (function() {
   function ReadabilitySettings() {
-    // Scope callback functions to instance
     var _this = this;
-    this.closeSubmenu = __bind(this.closeSubmenu, this);
-    this.setTheme     = __bind(this.setTheme, this);
 
     // Global variables
     this.options = {
@@ -54,9 +48,9 @@ ReadabilitySettings = (function() {
     this.initThemeSlider();
 
     if (UA.IS_TOUCH_DEVICE) {
-      this.$els.veil.onTap(this.closeSubmenu);
+      this.$els.veil.onTap(this.closeSubmenu.bind(this));
     } else {
-      this.$els.veil.on('click', this.closeSubmenu);
+      this.$els.veil.on('click', this.closeSubmenu.bind(this));
     }
   }
 
@@ -194,7 +188,7 @@ ReadabilitySettings = (function() {
     },
 
     initThemeSlider: function() {
-      var callback = this.setTheme;
+      var callback = this.setTheme.bind(this);
 
       $(".slider-container .slider").slider({
         value: this.options.theme.current,

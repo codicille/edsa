@@ -1,11 +1,5 @@
-var ButtonsGroup,
-    __bind = function(fn, me) { return function() { return fn.apply(me, arguments) }};
-
-ButtonsGroup = (function() {
+var ButtonsGroup = (function() {
   function ButtonsGroup($elem, $defaultSelectedButton) {
-    // Scope callback functions to instance
-    this.onButtonClick = __bind(this.onButtonClick, this);
-
     // jQuery cached elements
     this.$els = {
       group: $elem,
@@ -14,7 +8,7 @@ ButtonsGroup = (function() {
       selectedButton: null
     }
 
-    this.$els.buttons.on('click', this.onButtonClick);
+    this.$els.buttons.on('click', this.onButtonClick.bind(this));
 
     if (this.$els.select.length) { this.initSelect() }
     if ($defaultSelectedButton) { this.select($defaultSelectedButton[0]) }
