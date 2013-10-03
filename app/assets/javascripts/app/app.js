@@ -451,8 +451,8 @@ var App = (function() {
       var author = this.$els.contentWrap.find('.author').text(),
           textTitle = this.$els.contentWrap.find('.title').text();
 
-      this.defaultTitle = author + " - " + textTitle;
-      document.title = this.defaultTitle;
+      this.options.defaultTitle = author + " - " + textTitle;
+      document.title = this.options.defaultTitle;
       this.$els.authorWrap.text(author);
       this.$els.titleWrap.text(textTitle);
     },
