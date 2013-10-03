@@ -36,7 +36,9 @@ var App = (function() {
       anchorsWrap: $('.anchors'),
       anchorsButton: $('.anchors .button'),
       allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])'),
-      summaryButton: $('[data-hook="toggle-summary"]')
+      summaryButton: $('[data-hook="toggle-summary"]'),
+      authorWrap: $('[data-hook="author"'),
+      titleWrap: $('[data-hook="textTitle"')
     }
 
     // Events
@@ -49,6 +51,7 @@ var App = (function() {
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus.bind(this));
 
     // Onload
+    this.setTitle();
     this.gotoCurrentAnchor();
     this.setParagraphCount();
     this.setChapterCount();
@@ -436,6 +439,16 @@ var App = (function() {
     $.each(['lim', 'par', 'chap'], function(i, el){
       _this.elements[el].data('type', el);
     })
+  }
+
+  App.prototype.setTitle = function() {
+    var author = this.elements.contentWrap.find('.author').text(),
+        textTitle = this.elements.contentWrap.find('.title').text();
+
+    this.defaultTitle = author + " - " + textTitle;
+    document.title = this.defaultTitle;
+    this.elements.authorWrap.text(author);
+    this.elements.titleWrap.text(textTitle);
   }
 
   App.prototype.changeSiblingAnchorSelect = function(siblingAnchorSelect, anchorNumber, anchorType) {
