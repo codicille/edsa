@@ -127,7 +127,7 @@ option {
 
 // Header --------------------------------------------------------------------
 header {
-  z-index: 10;
+  z-index: 2000;
   position: fixed;
   top: 0; left: 2.5%; right: 2.5%;
   font-size: 14px;
@@ -269,7 +269,7 @@ header li {
 }
 
 .submenu {
-  z-index: 20;
+  z-index: 2000;
   display: none;
   position: fixed;
   top: 55px; right: 2.5%;
@@ -491,6 +491,17 @@ header li {
   border: 0 solid #01b3df;
   border-bottom-width: 1px;
   @include gradient(#4ddafd, #02c9fb);
+}
+
+.flat-button {
+  @extend .blue-button;
+
+  background: #65d0eb;
+  border: none;
+  color: #000;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
 }
 
 .no-touch .blue-button:hover,
@@ -873,8 +884,158 @@ footer {
   }
 }
 
+// Modal - startup hint ----------------------------------------------------
+
+.show-startup-hint {
+  header:before { background: none !important; }
+  .button-advanced-menus {
+    span:before { text-shadow: 0 0px 7px #fff; }
+  }
+}
+
+.overlay {
+  background: rgba(#bfbfbf, 0.8);
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  box-shadow: 0 0 75px rgba(#000, 0.4);
+  padding: 10px;
+}
+
+.startup-hint {
+  @extend .overlay;
+
+  display: none;
+  font-size: 14px;
+  text-align: center;
+
+  strong { font-weight: 600; }
+
+  p {
+    border-bottom: 1px solid #d3d3d3;
+    margin: 0.8em 0;
+    padding: 0 4px 0.8em;
+
+    &:first-child { margin-top: 0; }
+  }
+
+  .modal-wrap {
+    display: table-cell;
+    position: relative;
+    vertical-align: middle;
+    z-index: 500;
+  }
+
+  .modal {
+    display: inline-block;
+    max-width: 250px;
+    margin-left: -20px;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .intro {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .icon-more:before {
+    color: #15D0FE;
+    font-size: 24px;
+    line-height: 19px;
+    vertical-align: bottom;
+  }
+
+  .flat-button {
+    font-size: 15px;
+    font-weight: 600;
+    height: 48px;
+    line-height: 48px;
+    padding: 0;
+    vertical-align: middle;
+  }
+
+  &:after {
+    background: #98b8c0;
+    content: "";
+    display: block;
+    height: 25%;
+    max-height: 150px;
+    position: relative;
+    width: 100%;
+    z-index: 250;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.settings-icon-preview {
+  font-size: 26px;
+  line-height: 18px;
+  letter-spacing: -1px;
+  vertical-align: bottom;
+}
+
+.hint-line {
+  border: 2px solid #00586e;
+  display: inline-block;
+  margin-left: 106px;
+  margin-right: 34px;
+
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  right: 2.5%;
+  top: 36px;
+  z-index: 3000;
+
+  &:before {
+    border-radius: 50%;
+    background: #00586e;
+    content: "";
+    display: inline-block;
+    height: 6px;
+    width: 6px;
+
+    position: absolute;
+    right: -4px;
+    top: -4px;
+  }
+}
+
+.settings-hint-line {
+  @extend .hint-line;
+
+  border-width: 0 2px 2px 0;
+  margin-bottom: 21px;
+}
+
+.scroll-hint-line {
+  @extend .hint-line;
+
+  border-width: 2px 2px 0 0;
+  bottom: 45px;
+  margin-bottom: 0;
+  margin-top: 55px;
+  top: 50%;
+
+  &:before {
+    top: auto;
+    bottom: -4px;
+  }
+}
+
 // Misc utils
-.hidden { display: none; }
+.hidden { display: none !important; }
+.nowrap { white-space: nowrap; }
 
 // Header & Footer fadeout ----------------------------------------------------
 header:before,
@@ -906,15 +1067,13 @@ footer:before { bottom: 0; }
 }
 
 // Two columns submenu ------------------------------------------------------- 760px
-@media (max-height: 914px) and (min-width: 601px) {
-
-}
-
 @media (max-height: 914px) and (max-width: 968px) {
   header {
     left: 0; right: 0;
     .advanced-menu { border-width: 0 }
   }
+  .startup-hint { display: table; }
+  .hint-line { right: 0; }
 }
 
 // Book title under header --------------------------------------------------- 600px
@@ -955,4 +1114,8 @@ footer:before { bottom: 0; }
     max-width: 100%;
     right: 0;
   }
+
+  .startup-hint { display: table; }
+  .hint-line { right: 0; }
+  .settings-hint-line { top: 13px; }
 }

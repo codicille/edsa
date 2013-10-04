@@ -40,8 +40,8 @@ var App = (function() {
       anchorsButton: $('.anchors .button'),
       allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])'),
       summaryButton: $('[data-hook="toggle-summary"]'),
-      authorWrap: $('[data-hook="author"'),
-      titleWrap: $('[data-hook="textTitle"')
+      authorWrap: $('[data-hook="author"]'),
+      titleWrap: $('[data-hook="textTitle"]')
     }
 
     // Events
@@ -53,16 +53,25 @@ var App = (function() {
     this.$els.sections.find('h3:first').on('click', this.onHeadingClick.bind(this));
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus.bind(this));
 
-    // Onload
-    this.setTitle();
-    this.gotoCurrentAnchor();
-    this.setParagraphCount();
-    this.setChapterCount();
-    this.setData();
-    this.initClasses();
+    this.init();
+  }
 
-    // Mobile
-    if (UA.IS_TOUCH_DEVICE) {
+  // Utils
+  App.prototype = {
+    init: function(){
+      // Onload
+      this.setTitle();
+      this.gotoCurrentAnchor();
+      this.setParagraphCount();
+      this.setChapterCount();
+      this.setData();
+      this.initClasses();
+      this.initStartupHint();
+    },
+
+    handleMobileDevices: function(){
+      // Mobile
+      if (!UA.IS_TOUCH_DEVICE) { return; }
       var App = this;
       window.scrollTo(0, 1);
 
@@ -78,11 +87,7 @@ var App = (function() {
       this.$els.contentWrap.on('touchend', this.onContentTouchEnd.bind(this));
 
       this.$els.sections.find('h3:first').onTap(this.onHeadingClick.bind(this));
-    }
-  }
-
-  // Utils
-  App.prototype = {
+    },
 
     getScrollTop: function() {
       return window.pageYOffset || (typeof this.$els.window.scrollTop === "function" ? this.$els.window.scrollTop() : 0);
@@ -468,12 +473,64 @@ var App = (function() {
 
     initClasses: function() {
       if(this.options.relativeSummary) { this.$els.body.addClass('relative-summary') }
+    },
+
+    initStartupHint: function(){
+      if(!UA.IS_TOUCH_DEVICE) { return; }
+
+      var savedSettings = $.parseJSON(localStorage.getItem('edsa'));
+      if($.isEmptyObject(savedSettings) || savedSettings.firstVisit == true){
+        localStorage.setItem('edsa', JSON.stringify({
+          firstVisit: false
+        }));
+
+        this.startupHint = new Modal(
+          $('.js-startup-hint'),
+          {
+            openCallback: function(){
+              this.$els.body.addClass('show-startup-hint');
+            }.bind(this),
+            closeCallback: function(){
+              this.$els.body.removeClass('show-startup-hint');
+            }.bind(this)
+          }
+        );
+      }
     }
   }
 
   return App;
 
 })();
+
+function Modal($modal, options){
+  this.opts = options;
+  this.$el = $modal;
+  this.$content = this.$el.find('.js-modal-content');
+  this.$close = this.$el.find('.js-modal-close');
+  this.init();
+}
+
+Modal.prototype = {
+  init: function(){
+    this.$close.on('click', function(){ this.close(); }.bind(this));
+    this.$el.on('click', function(){ this.close(); }.bind(this));
+
+    this.$content.on('click', function(e){
+      e.stopImmediatePropagation();
+    });
+
+    this.open();
+  },
+  close: function(){
+    this.$el.addClass('hidden');
+    if(this.opts.closeCallback) { this.opts.closeCallback(); }
+  },
+  open: function(){
+    this.$el.removeClass('hidden');
+    if(this.opts.openCallback) { this.opts.openCallback(); }
+  }
+}
 
 // Singleton
 window.App = new App();
