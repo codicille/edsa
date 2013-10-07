@@ -127,11 +127,11 @@ option {
 
 // Header --------------------------------------------------------------------
 header {
-  z-index: 2000;
   position: fixed;
   top: 0; left: 2.5%; right: 2.5%;
   font-size: 14px;
   pointer-events: none;
+  z-index: 2000;
 
   .advanced-menu {
     z-index: 1;
@@ -911,7 +911,7 @@ footer {
 .startup-hint {
   @extend .overlay;
 
-  display: none;
+  display: table;
   font-size: 14px;
   text-align: center;
 
@@ -929,6 +929,7 @@ footer {
     display: table-cell;
     position: relative;
     vertical-align: middle;
+    width: 100%;
     z-index: 500;
   }
 
@@ -988,7 +989,7 @@ footer {
   border: 2px solid #00586e;
   display: inline-block;
   margin-left: 106px;
-  margin-right: 34px;
+  margin-right: 33px;
 
   position: absolute;
   bottom: 50%;
