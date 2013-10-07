@@ -489,9 +489,11 @@ var App = (function() {
           {
             openCallback: function(){
               this.$els.body.addClass('show-startup-hint');
+              document.ontouchmove = function(e){ e.preventDefault(); }
             }.bind(this),
             closeCallback: function(){
               this.$els.body.removeClass('show-startup-hint');
+              document.ontouchmove = function(e){ return true; }
             }.bind(this)
           }
         );
