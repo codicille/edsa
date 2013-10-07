@@ -66,6 +66,7 @@ var App = (function() {
       this.setChapterCount();
       this.setData();
       this.initClasses();
+      this.handleMobileDevices();
       this.initStartupHint();
     },
 
