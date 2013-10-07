@@ -37,24 +37,36 @@ var ReadabilitySettings = (function() {
       fontFamily: this.$els.main[0].className.match(/font-([a-zA-Z0-9]+)/)[1]
     }
 
-    // Initialization
-    $.each(this.initialStyles, function(property, value) {
-      _this.setInitialOption(property, value)
-    })
-
-    this.applySavedSettings();
-
-    this.initAlignmentButtonsGroup();
-    this.initThemeSlider();
-
-    if (UA.IS_TOUCH_DEVICE) {
-      this.$els.veil.onTap(this.closeSubmenu.bind(this));
-    } else {
-      this.$els.veil.on('click', this.closeSubmenu.bind(this));
-    }
+    this.init();
   }
 
   ReadabilitySettings.prototype = {
+    init: function(){
+      // Initialization
+      $.each(this.initialStyles, function(property, value) {
+        this.setInitialOption(property, value)
+      }.bind(this))
+
+      this.applySavedSettings();
+
+      this.initAlignmentButtonsGroup();
+      this.initThemeSlider();
+      this.initFontSizeButtons();
+
+      if (UA.IS_TOUCH_DEVICE) {
+        this.$els.veil.onTap(this.closeSubmenu.bind(this));
+      } else {
+        this.$els.veil.on('click', this.closeSubmenu.bind(this));
+      }
+    },
+
+    initFontSizeButtons: function(){
+      $('[data-font-size]').on('click', function(e){
+        e.preventDefault();
+        var $this = $(e.currentTarget);
+        this.setFontSize($this.data('font-size'));
+      }.bind(this))
+    },
 
     applySavedSettings: function() {
       var savedSettings = JSON.parse(localStorage.getItem("readabilitySettings"));
@@ -112,7 +124,7 @@ var ReadabilitySettings = (function() {
     setFontSize: function(fontSize) {
       if (!fontSize) return;
       this.$els.fontSizeButtons.removeClass('active');
-      this.$els.fontSizeButtons.filter('.font-size-' + fontSize.toString().replace(/\./, "")).addClass('active');
+      this.$els.fontSizeButtons.filter('[data-font-size="' + fontSize.toString() +'"]').addClass('active');
 
       if (this.options.fontSize.current == fontSize) return;
       this.options.fontSize.current = fontSize;
