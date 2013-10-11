@@ -70,7 +70,6 @@ var ReadabilitySettings = (function() {
 
     applySavedSettings: function() {
       var savedSettings = JSON.parse(localStorage.getItem("readabilitySettings"));
-
       if(!savedSettings) return;
 
       this.setFontSize(savedSettings.fontSize);
@@ -126,7 +125,9 @@ var ReadabilitySettings = (function() {
       this.$els.fontSizeButtons.removeClass('active');
       this.$els.fontSizeButtons.filter('[data-font-size="' + fontSize.toString() +'"]').addClass('active');
 
-      if (this.options.fontSize.current == fontSize) return;
+      // fontSize > 3 is a tmp fix for users with old settings using px instead of em
+      if (this.options.fontSize.current == fontSize || fontSize > 3) return;
+
       this.options.fontSize.current = fontSize;
       this.updateLocalStorage('fontSize', fontSize);
 
