@@ -32,7 +32,7 @@ var App = (function() {
       chap: $('.chapter').not('.exclude'),
       lim: $('.lim').not('.exclude'),
       contentWrap: $('section[role=main]'),
-      sections: $('.section'),
+      sections: $('section[role=main] section'),
       currentParagraph: $('[data-hook="current-paragraph"]'),
       paragraphCount: $('[data-hook="paragraph-count"]'),
       paragraphSelect: $('select[name="par"]'),
@@ -218,7 +218,7 @@ var App = (function() {
       if(!this.options.summaryOpened) return;
 
       $el = $(e.currentTarget);
-      $section = $el.parents('.section');
+      $section = $el.parents('section');
       number = this.$els.sections.index($section);
       matches = this.getAnchorTypeAndNumberMatchesFromEl($section[0]);
 
@@ -422,11 +422,10 @@ var App = (function() {
     },
 
     setAnchorSelect: function() {
-      var $sections = $('.section'),
-          options = "",
+      var options = "",
           i = 1;
 
-      $sections.each(function(index, el) {
+      this.$els.sections.each(function(index, el) {
         var currentChapter = $(el),
             title = currentChapter.find('h1, h2, h3').first().text(),
             paragraphsCount = currentChapter.find('p, .paragraph').not('.exclude').length,

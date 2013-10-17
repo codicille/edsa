@@ -22,6 +22,10 @@ Exécutez `script/setup` pour installer le projet.
 
 Utilisez `foreman start` pour exécuter l'application.
 
+## Balisage des textes
+
+
+
 ## Crédits & licence
 
 Le code source de EDSA est disponible sous la licence GNU General Public License Version 3.
