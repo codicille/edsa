@@ -6,7 +6,7 @@
 
 Le but de ce projet est de produire une liseuse numérique entièrement web
 et seulement front-end, qui peut être utilisé dans une solution plus
-complète de ebook.
+complète de lecture en ligne.
 
 Le projet est exécuté via le cadre d'application web ruby [Sinatra][sinatra]
 pour le démo, mais l'idée est de pouvoir utiliser le code dans n'importe quel
@@ -21,6 +21,16 @@ Minimum requis pour exécuter l'application de démo :
 Exécutez `script/setup` pour installer le projet.
 
 Utilisez `foreman start` pour exécuter l'application.
+
+## Principes
+
+La liseuse permet de charger un texte balisé de façon à le rendre aisément
+lisible dans un navigateur web. Le balisage permet d’intégrer les métadonnées
+de base du texte et d’établir le formatage du texte (sections, chapitres,
+paragraphes, table des matières). L’interface génère la table des matières du
+texte et numérote les paragraphes pour référencement ultérieur. Elle offre
+également des options d’affichage à l’écran (mise en page, typographie) ainsi
+que des modes de navigation simples.
 
 ## Balisage des textes
 
