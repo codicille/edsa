@@ -41,7 +41,10 @@ var App = (function() {
       allLinks: $('a[href^="javascript:"]:not(a[href="javascript:"])'),
       summaryButton: $('[data-hook="toggle-summary"]'),
       authorWrap: $('[data-hook="author"]'),
-      titleWrap: $('[data-hook="textTitle"]')
+      titleWrap: $('[data-hook="textTitle"]'),
+      closeAdvancedMenu: $('[data-hook="close-advanced-menu"]'),
+      showAdvancedMenu: $('[data-hook="show-advanced-menu"]'),
+      showTextSettingsMenu: $('[data-hook="show-text-settings-menu"]')
     }
 
     // Events
@@ -51,6 +54,9 @@ var App = (function() {
     this.$els.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick.bind(this));
     this.$els.summaryButton.on(UA.CLICK, this.onSummaryButtonClick.bind(this));
     this.$els.sections.find('h3:first').on('click', this.onHeadingClick.bind(this));
+    this.$els.closeAdvancedMenu.on('click', this.hideAdvancedMenus.bind(this));
+    this.$els.showAdvancedMenu.on('click', this.showAdvancedMenus.bind(this));
+    this.$els.showTextSettingsMenu.on('click', this.showTextSettingsMenu.bind(this));
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus.bind(this));
 
     this.init();
@@ -115,7 +121,9 @@ var App = (function() {
     },
 
     // Advanced menus management
-    showAdvancedMenus: function() {
+    showAdvancedMenus: function(e) {
+      e.preventDefault();
+
       if (this.options.advancedMenusOpened) { return }
       this.options.advancedMenusOpened = true;
       this.options.currentScrollTop = this.getScrollTop();
@@ -123,7 +131,9 @@ var App = (function() {
       this.$els.body.addClass('show-advanced-menus');
     },
 
-    hideAdvancedMenus: function() {
+    hideAdvancedMenus: function(e) {
+      e.preventDefault();
+
       if (!this.options.advancedMenusOpened) { return }
       this.options.advancedMenusOpened = false;
 
@@ -137,8 +147,12 @@ var App = (function() {
       this.options.textInfosOpened = false;
     },
 
-    showTextSettingsMenu: function(menu) {
-      var isToggle = this.options.textInfosOpened == menu;
+    showTextSettingsMenu: function(e) {
+      e.preventDefault();
+
+      var menu = $(e.currentTarget).data('setting'),
+          isToggle = this.options.textInfosOpened == menu;
+
       this.hideTextSettingsMenus();
 
       if(isToggle) return;

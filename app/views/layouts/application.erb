@@ -34,13 +34,13 @@
           </a>
         </li>
         <li class="last">
-          <a class="close-advanced-menus blue-button" href="javascript:App.hideAdvancedMenus()">
+          <a href="#" class="close-advanced-menus blue-button" data-hook="close-advanced-menu">
             <span data-icon="x" class="icon-close"></span>
           </a>
         </li>
       </ul>
     </div>
-    <a class="button-advanced-menus" href="javascript:App.showAdvancedMenus()"><span data-icon="…" class="icon-more icon-b"></span></a>
+    <a href="#" class="button-advanced-menus" data-hook="show-advanced-menu"><span data-icon="…" class="icon-more icon-b"></span></a>
   </header>
 
   <div class="submenu readability-settings">
@@ -70,10 +70,10 @@
           <span class="submenu-title">Texte</span>
           <div class="extruded">
             <ul class="text-options-menu">
-              <li><a href="javascript:App.showTextSettingsMenu('font-size')" class="font-size-switcher">Taille</a></li>
-              <li><a href="javascript:App.showTextSettingsMenu('line-height')" class="line-height-switcher">Interligne</a></li>
-              <li><a href="javascript:App.showTextSettingsMenu('font-family')" class="font-family-switcher">Police</a></li>
-              <li><a href="javascript:App.showTextSettingsMenu('alignment')" class="alignment-switcher">Alignement</a></li>
+              <li><a href="#" data-hook="show-text-settings-menu" data-setting="font-size" class="font-size-switcher">Taille</a></li>
+              <li><a href="#" data-hook="show-text-settings-menu" data-setting="line-height" class="line-height-switcher">Interligne</a></li>
+              <li><a href="#" data-hook="show-text-settings-menu" data-setting="font-family" class="font-family-switcher">Police</a></li>
+              <li><a href="#" data-hook="show-text-settings-menu" data-setting="alignment" class="alignment-switcher">Alignement</a></li>
             </ul>
 
             <div class="toggleable-content buttons-list font-size">
