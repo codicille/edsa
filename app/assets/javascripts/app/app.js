@@ -310,7 +310,7 @@ var App = (function() {
 
     // Anchors management
     getAnchorTypeAndNumberMatchesFromHref: function(string) {
-      var matches = string.match(/(lim|par|chap)(\/)([0-9]+)/);
+      var matches = string.match(/(lim|par|chap)(\-)([0-9]+)/);
       if (matches == null) { return null }
 
       return { type: matches[1], number: matches[3] }
@@ -356,7 +356,7 @@ var App = (function() {
 
       state = { type: anchorType, number: anchorNumber };
       title = this.options.defaultTitle + ' | ' + anchorType.capitalize() + ' ' + anchorNumber;
-      url = '/' + anchorType + '/' + anchorNumber;
+      url = '#' + anchorType + '-' + anchorNumber;
 
       window.history.replaceState(state, title, url);
       this.options.currentState = state;
@@ -381,7 +381,7 @@ var App = (function() {
 
       state = {};
       title = this.options.defaultTitle;
-      url = '/';
+      url = '#';
 
       window.history.replaceState(state, title, url);
       document.title = title;
