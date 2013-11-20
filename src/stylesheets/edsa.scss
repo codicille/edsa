@@ -1,7 +1,5 @@
-//= require reset
-//= require ./font_face
-//= require_self
-
+@import 'reset';
+@import 'font_face';
 @import 'variables';
 @import 'mixins';
 

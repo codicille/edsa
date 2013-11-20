@@ -1,3 +1,5 @@
+require('./ui/buttons_group');
+
 var ReadabilitySettings = (function() {
   function ReadabilitySettings() {
     var _this = this;

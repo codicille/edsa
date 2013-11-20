@@ -1,5 +1,5 @@
 // Global Namespace
-var EDSA_UA = {};
+window.EDSA_UA = {};
 
 // Touch
 EDSA_UA.IS_TOUCH_DEVICE = window.ontouchend !== void 0;
