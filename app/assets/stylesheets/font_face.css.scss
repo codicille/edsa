@@ -1,17 +1,17 @@
 @font-face {
-  font-family: 'icomoon';
-  src: url('icomoon.eot');
-  src: url('icomoon.eot?#iefix') format('embedded-opentype'),
-       url('icomoon.woff') format('woff'),
-       url('icomoon.ttf') format('truetype'),
-       url('icomoon.svg#icomoon') format('svg');
+  font-family: 'edsa-icons';
+  src: url('edsa-icons.eot');
+  src: url('edsa-icons.eot?#iefix') format('embedded-opentype'),
+       url('edsa-icons.woff') format('woff'),
+       url('edsa-icons.ttf') format('truetype'),
+       url('edsa-icons.svg#edsa-icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
-  font-family: 'icomoon';
+  font-family: 'edsa-icons';
   content: attr(data-icon);
   speak: none;
   font-size: 16px;
@@ -34,5 +34,5 @@
   data-icon="x" - x
   data-icon="g" - glasses
   data-icon="b" - books
-  
+
 */
