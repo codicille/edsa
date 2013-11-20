@@ -26,7 +26,7 @@
       </h1>
       <ul class="right">
         <li class="readability-settings-container">
-          <a href="javascript:ReadabilitySettings.toggleSubmenu()" class="font-sizes-wrap">
+          <a href="#" data-hook="toggle-submenu" class="font-sizes-wrap">
             <span class="icon-fonts">
               <span data-icon="a" class="icon-small-font"></span>
               <span data-icon="a" class="icon-big-font"></span>
@@ -85,20 +85,20 @@
             </div>
 
             <div class="toggleable-content buttons-list line-height">
-              <a href="javascript:ReadabilitySettings.setLineHeight(1.4)" class="line-height-14">&#xe001;</a>
-              <a href="javascript:ReadabilitySettings.setLineHeight(1.5)" class="line-height-15">&#xe002;</a>
-              <a href="javascript:ReadabilitySettings.setLineHeight(1.6)" class="line-height-16 active">&#xe003;</a>
-              <a href="javascript:ReadabilitySettings.setLineHeight(1.7)" class="line-height-17">&#xe004;</a>
-              <a href="javascript:ReadabilitySettings.setLineHeight(1.8)" class="line-height-18">&#xe005;</a>
+              <a href="#" data-hook="change-line-height" data-line-height="1.4" class="line-height-14">&#xe001;</a>
+              <a href="#" data-hook="change-line-height" data-line-height="1.5" class="line-height-15">&#xe002;</a>
+              <a href="#" data-hook="change-line-height" data-line-height="1.6" class="line-height-16 active">&#xe003;</a>
+              <a href="#" data-hook="change-line-height" data-line-height="1.7" class="line-height-17">&#xe004;</a>
+              <a href="#" data-hook="change-line-height" data-line-height="1.8" class="line-height-18">&#xe005;</a>
             </div>
 
             <div class="toggleable-content buttons-list font-family">
-              <a href="javascript:ReadabilitySettings.prevFont()" class="js-next-font"><span class="left-triangle"></span></a>
+              <a href="#" data-hook="change-font" data-font-direction="-1" class="js-next-font"><span class="left-triangle"></span></a>
               <div class="font-preview">
                 <span class="example js-font-example font-times">Aa</span>
                 <span class="font-name js-font-name">Times</span>
               </div>
-              <a href="javascript:ReadabilitySettings.nextFont()" class="js-previous-font"><span class="right-triangle"></span></a>
+              <a href="#" data-hook="change-font" data-font-direction="1" class="js-previous-font"><span class="right-triangle"></span></a>
 
               <select name="fonts" class="js-font-choices hidden">
                 <option value="helvetica">Helvetica</option>
@@ -110,8 +110,8 @@
             </div>
 
             <div class="toggleable-content buttons-list alignment">
-              <a href="javascript:ReadabilitySettings.leftAlignment()" class="alignment-left active">l</a>
-              <a href="javascript:ReadabilitySettings.justifyAlignment()" class="alignment-justify">j</a>
+              <a href="#" data-hook="change-alignment" data-alignment="left" class="alignment-left active">l</a>
+              <a href="#" data-hook="change-alignment" data-alignment="justify" class="alignment-justify">j</a>
             </div>
           </div>
         </section>

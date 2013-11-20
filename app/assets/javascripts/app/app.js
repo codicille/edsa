@@ -42,9 +42,13 @@ var App = (function() {
       summaryButton: $('[data-hook="toggle-summary"]'),
       authorWrap: $('[data-hook="author"]'),
       titleWrap: $('[data-hook="textTitle"]'),
-      closeAdvancedMenu: $('[data-hook="close-advanced-menu"]'),
-      showAdvancedMenu: $('[data-hook="show-advanced-menu"]'),
-      showTextSettingsMenu: $('[data-hook="show-text-settings-menu"]')
+      closeAdvancedMenuBtn: $('[data-hook="close-advanced-menu"]'),
+      showAdvancedMenuBtn: $('[data-hook="show-advanced-menu"]'),
+      showTextSettingsMenuBtn: $('[data-hook="show-text-settings-menu"]'),
+      changeLineHeightBtns: $('[data-hook="change-line-height"]'),
+      changeFontBtns: $('[data-hook="change-font"]'),
+      changeAlignmentBtns: $('[data-hook="change-alignment"]'),
+      toggleSubmenuBtn: $('[data-hook="toggle-submenu"]')
     }
 
     // Events
@@ -54,9 +58,13 @@ var App = (function() {
     this.$els.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick.bind(this));
     this.$els.summaryButton.on(UA.CLICK, this.onSummaryButtonClick.bind(this));
     this.$els.sections.find('h3:first').on('click', this.onHeadingClick.bind(this));
-    this.$els.closeAdvancedMenu.on('click', this.hideAdvancedMenus.bind(this));
-    this.$els.showAdvancedMenu.on('click', this.showAdvancedMenus.bind(this));
-    this.$els.showTextSettingsMenu.on('click', this.showTextSettingsMenu.bind(this));
+    this.$els.closeAdvancedMenuBtn.on('click', this.hideAdvancedMenus.bind(this));
+    this.$els.showAdvancedMenuBtn.on('click', this.showAdvancedMenus.bind(this));
+    this.$els.showTextSettingsMenuBtn.on('click', this.showTextSettingsMenu.bind(this));
+    this.$els.changeLineHeightBtns.on('click', this.changeLineHeight.bind(this));
+    this.$els.changeFontBtns.on('click', this.changeFont.bind(this));
+    this.$els.changeAlignmentBtns.on('click', this.changeAlignment.bind(this));
+    this.$els.toggleSubmenuBtn.on('click', this.toggleSubmenu.bind(this));
     $('.veil').on(UA.CLICK, this.hideAdvancedMenus.bind(this));
 
     this.init();
@@ -512,6 +520,29 @@ var App = (function() {
           }
         );
       }
+    },
+
+    changeLineHeight: function(e){
+      e.preventDefault();
+      var lineHeight = $(e.currentTarget).data('line-height');
+      ReadabilitySettings.setLineHeight(lineHeight);
+    },
+
+    changeFont: function(e){
+      e.preventDefault();
+      var direction = $(e.currentTarget).data('font-direction');
+      ReadabilitySettings.cycleFont(direction);
+    },
+
+    changeAlignment: function(e){
+      e.preventDefault();
+      var alignment = $(e.currentTarget).data('alignment');
+      ReadabilitySettings.setAlignment(alignment);
+    },
+
+    toggleSubmenu: function(e){
+      e.preventDefault();
+      ReadabilitySettings.toggleSubmenu();
     }
   }
 
