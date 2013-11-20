@@ -55,8 +55,8 @@ var App = (function() {
     $(document).on('keyup', this.handleKeyup.bind(this));
     this.$els.window.on('scroll resize', this.onWindowScroll.bind(this));
     this.$els.paragraphSelect.on('change', this.onParagraphSelectChange.bind(this));
-    this.$els.anchorsButton.on(UA.CLICK, this.onAnchorsButtonClick.bind(this));
-    this.$els.summaryButton.on(UA.CLICK, this.onSummaryButtonClick.bind(this));
+    this.$els.anchorsButton.on(EDSA_UA.CLICK, this.onAnchorsButtonClick.bind(this));
+    this.$els.summaryButton.on(EDSA_UA.CLICK, this.onSummaryButtonClick.bind(this));
     this.$els.sections.find('h3:first').on('click', this.onHeadingClick.bind(this));
     this.$els.closeAdvancedMenuBtn.on('click', this.hideAdvancedMenus.bind(this));
     this.$els.showAdvancedMenuBtn.on('click', this.showAdvancedMenus.bind(this));
@@ -65,7 +65,7 @@ var App = (function() {
     this.$els.changeFontBtns.on('click', this.changeFont.bind(this));
     this.$els.changeAlignmentBtns.on('click', this.changeAlignment.bind(this));
     this.$els.toggleSubmenuBtn.on('click', this.toggleSubmenu.bind(this));
-    $('.veil').on(UA.CLICK, this.hideAdvancedMenus.bind(this));
+    $('.veil').on(EDSA_UA.CLICK, this.hideAdvancedMenus.bind(this));
 
     this.init();
   }
@@ -86,7 +86,7 @@ var App = (function() {
 
     handleMobileDevices: function(){
       // Mobile
-      if (!UA.IS_TOUCH_DEVICE) { return; }
+      if (!EDSA_UA.IS_TOUCH_DEVICE) { return; }
       var App = this;
       window.scrollTo(0, 1);
 
@@ -498,7 +498,7 @@ var App = (function() {
     },
 
     initStartupHint: function(){
-      if(!UA.IS_TOUCH_DEVICE) { return; }
+      if(!EDSA_UA.IS_TOUCH_DEVICE) { return; }
 
       var savedSettings = $.parseJSON(localStorage.getItem('edsa'));
       if($.isEmptyObject(savedSettings) || savedSettings.firstVisit == true){

@@ -53,7 +53,7 @@ var ReadabilitySettings = (function() {
       this.initThemeSlider();
       this.initFontSizeButtons();
 
-      if (UA.IS_TOUCH_DEVICE) {
+      if (EDSA_UA.IS_TOUCH_DEVICE) {
         this.$els.veil.onTap(this.closeSubmenu.bind(this));
       } else {
         this.$els.veil.on('click', this.closeSubmenu.bind(this));
