@@ -186,7 +186,8 @@ var App = (function() {
       changeLineHeightBtns: $('[data-hook="change-line-height"]'),
       changeFontBtns: $('[data-hook="change-font"]'),
       changeAlignmentBtns: $('[data-hook="change-alignment"]'),
-      toggleSubmenuBtn: $('[data-hook="toggle-submenu"]')
+      toggleSubmenuBtn: $('[data-hook="toggle-submenu"]'),
+      backLibraryBtn: $('[data-hook="back-library"]')
     }
 
     // Events
@@ -220,6 +221,7 @@ var App = (function() {
       this.initClasses();
       this.handleMobileDevices();
       this.initStartupHint();
+      this.manageBackLibrary();
     },
 
     handleMobileDevices: function(){
@@ -681,6 +683,21 @@ var App = (function() {
     toggleSubmenu: function(e){
       e.preventDefault();
       ReadabilitySettings.toggleSubmenu();
+    },
+
+    manageBackLibrary: function(){
+
+      if(document.referrer) {
+        this.$els.backLibraryBtn.on('click', this.handleBackLibrary.bind(this));
+      }
+      else {
+        this.$els.backLibraryBtn.hide();
+      }
+    },
+
+    handleBackLibrary: function(e){
+      e.preventDefault();
+      window.history.back();
     }
   }
 
@@ -719,7 +736,6 @@ Modal.prototype = {
 
 // Singleton
 window.App = new App();
-
 
 var ReadabilitySettings = (function() {
   function ReadabilitySettings() {
