@@ -2,6 +2,15 @@
 /*global module:false */
 module.exports = function(grunt) {
   grunt.initConfig({
+    connect: {
+      dev: {
+        options: {
+          base: 'dist',
+          port: 9002,
+          hostname: '*'
+        }
+      }
+    },
     neuter: {
       options: {
         template: '{%= src %}',
@@ -33,6 +42,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', [
+    'connect',
     'neuter',
     'sass',
     'uglify',
