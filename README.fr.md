@@ -8,19 +8,18 @@ Le but de ce projet est de produire une liseuse numérique entièrement web
 et seulement front-end, qui peut être utilisé dans une solution plus
 complète de lecture en ligne.
 
-Le projet est exécuté via le cadre d'application web ruby [Sinatra][sinatra]
-pour le démo, mais l'idée est de pouvoir utiliser le code dans n'importe quel
-langage ou cadre d'application.
+Vous pouvez consulter le [démo][demo] fourni dans la version distribuée de la liseuse.
 
-## Guide de démarrage
+## Utilisation
 
-Minimum requis pour exécuter l'application de démo :
+Téléchargez une copie des fichiers dans le dossier `dist` pour utiliser
+la liseuse web dans votre projet.
 
-* Ruby 1.9.3+
+Adaptez ensuite le fichier `dist/index.html` à vos besoin, en y ajoutant
+par exemple le texte à lire en fonction du choix de l'utilisateur dans
+votre projet web.
 
-Exécutez `script/setup` pour installer le projet.
-
-Utilisez `foreman start` pour exécuter l'application.
+Pour en savoir plus, lisez la suite.
 
 ## Principes
 
@@ -34,7 +33,7 @@ que des modes de navigation simples.
 
 ## Balisage des textes
 
-À titre d'exemple, voir le contenu du fichier `app/views/index.erb`.
+À titre d'exemple, voir le contenu du fichier `dist/index.html`.
 
 ### Identification de l'ouvrage
 
@@ -119,6 +118,28 @@ Ces classes serviront notamment à mettre à jour l'URL lors de la consultation 
 Ex. : `www.domaine.com/lim/1` pour la première partie liminaire ou `www.domaine.com/chap/16`
 pour le chapitre 16.
 
+## Développement
+
+Si vous souhaitez contribuer à la liseuse, lisez ceci d'abord s'il vous plait.
+
+Vous avez besoin de [NodeJS][nodejs] pour le serveur de développement et
+de Ruby [SASS][sass] pour compiler le CSS.
+
+Le serveur de développement va surveiller les changements aux fichiers SASS
+et automatiquement recompiler le fichier CSS.
+
+Le code source est situé dans `src` et vous pouvez démarrer le serveur
+de développement après avoir installé Ruby SASS et les paquets NodeJS :
+
+    gem install bundler # if you do not have bundler yet
+    bundle install
+    npm install
+
+Vous pouvez ensuite démarrer le serveur de développement :
+
+    grunt
+    open http://localhost:9002
+
 ## Crédits & licence
 
 Le code source de EDSA est disponible sous la licence GNU General Public License Version 3.
@@ -133,4 +154,4 @@ et tous les autres contributeurs.
 
 Les contributions sont bienvenues, veuillez toutefois d'abord consulter le [guide de contribution](CONTRIBUTING.md).
 
-[sinatra]: https://github.com/sinatra
+[demo]: http://raw.github.com.everydayimmirror.in/codicille/edsa/master/dist/index.html
