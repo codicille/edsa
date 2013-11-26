@@ -1,3 +1,5 @@
 node_modules/
 .sass-cache/
 .bundle/config
+src/dev/javascripts/edsa.js
+src/dev/stylesheets/edsa.css
