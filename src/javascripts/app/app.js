@@ -132,7 +132,7 @@ var App = (function() {
 
     // Advanced menus management
     showAdvancedMenus: function(e) {
-      e.preventDefault();
+      if(e) e.preventDefault();
 
       if (this.options.advancedMenusOpened) { return }
       this.options.advancedMenusOpened = true;
@@ -142,7 +142,7 @@ var App = (function() {
     },
 
     hideAdvancedMenus: function(e) {
-      e.preventDefault();
+      if(e) e.preventDefault();
 
       if (!this.options.advancedMenusOpened) { return }
       this.options.advancedMenusOpened = false;
