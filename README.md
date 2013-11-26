@@ -38,6 +38,16 @@ You may then run & open the development server :
     grunt
     open http://localhost:9002
 
+### Release version
+
+Update `package.json` version and then use the `grunt dist` task to release a
+new version in `dist` folder. Make a commit to tag version release.
+
+    grunt dist
+    git commit -m "Release v1.0.0"
+    git tag v1.0.0
+    git push --tags
+
 ## Credits & license
 
 EDSA source is released under GNU General Public License Version 3. See [LICENSE](LICENSE) for details.
