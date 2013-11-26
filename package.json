@@ -1,8 +1,8 @@
 {
-  "name": "edsa-reader",
+  "name": "edsa",
   "title": "EDSA web reader",
   "description": "Web-based and multi-devices e-book reader.",
-  "version": "1.0.0pre",
+  "version": "1.0.0",
   "homepage": "https://github.com/codicille/edsa",
   "dependencies": {},
   "devDependencies": {
