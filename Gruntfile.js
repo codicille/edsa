@@ -1,6 +1,7 @@
 /*jshint camelcase: false */
 /*global module:false */
 module.exports = function(grunt) {
+  var _ = require('lodash');
   var neuterOptions = {
     template: '{%= src %}',
     includeSourceURL: true,
@@ -10,7 +11,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     neuter: {
       application: {
-        options: neuterOptions,
+        options: _.merge({includeSourceMap: true}, neuterOptions),
         src: 'src/javascripts/edsa.js',
         dest: 'src/dev/javascripts/edsa.js'
       },

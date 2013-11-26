@@ -3,3 +3,4 @@ node_modules/
 .bundle/config
 src/dev/javascripts/edsa.js
 src/dev/stylesheets/edsa.css
+src/dev/javascripts/edsa.js.map
