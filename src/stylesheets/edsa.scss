@@ -807,15 +807,16 @@ footer {
   }
 
   select {
-    width: 100%;
     display: block;
+    font-size: 12px;
+    width: 100%;
   }
 }
 
 .anchors.opened {
   .popup {
-    z-index: 2;
     opacity: 1;
+    z-index: 2;
     .column { pointer-events: all; }
   }
 }
