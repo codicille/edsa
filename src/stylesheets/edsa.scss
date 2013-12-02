@@ -56,6 +56,14 @@ option {
   margin: auto;
 }
 
+.book-title {
+  max-width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
 .columns { font-size: 0 }
 .column-1 { width: 100% }
 .column-2 { width: 50% }
@@ -1092,16 +1100,18 @@ footer:before { bottom: 0; }
   }
 
   .book-title {
+    @include vendor-prefixes(transition, opacity .2s);
+
+    background-color: #f5f5f5;
     opacity: 0;
+    overflow: hidden;
+    padding: .4em .6em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+
     position: absolute;
     top: 100%; left: 0;
-    width: 100%;
-    padding: .4em .6em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    background-color: #f5f5f5;
-    @include vendor-prefixes(transition, opacity .2s)
   }
 
   .show-advanced-menus {
