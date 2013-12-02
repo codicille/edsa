@@ -1,4 +1,4 @@
-var App = (function() {
+var EDSA = (function() {
   function App(opts) {
     // Global variables
     this.options = {
@@ -19,7 +19,8 @@ var App = (function() {
       gestureTime: 220, // Max allowable time before a gesture stops being a quick swipe
       nextPageTapZone: 25, // percentage
       maxTapZone: 150, // pixels
-      scrollPosition: 0
+      scrollPosition: 0,
+      backButtonUrl: false
     }
 
     $.extend(this.options, opts);
@@ -67,8 +68,6 @@ var App = (function() {
     this.$els.changeAlignmentBtns.on('click', this.changeAlignment.bind(this));
     this.$els.toggleSubmenuBtn.on('click', this.toggleSubmenu.bind(this));
     $('.veil').on(EDSA_UA.CLICK, this.hideAdvancedMenus.bind(this));
-
-    this.init();
   }
 
   // Utils
@@ -547,8 +546,10 @@ var App = (function() {
     },
 
     manageBackLibrary: function(){
-
-      if(document.referrer) {
+      if(this.options.backButtonUrl){
+        this.$els.backLibraryBtn.attr('href', this.options.backButtonUrl);
+      }
+      else if (document.referrer) {
         this.$els.backLibraryBtn.on('click', this.handleBackLibrary.bind(this));
       }
       else {
@@ -563,7 +564,6 @@ var App = (function() {
   }
 
   return App;
-
 })();
 
 function Modal($modal, options){
@@ -594,6 +594,3 @@ Modal.prototype = {
     if(this.opts.openCallback) { this.opts.openCallback(); }
   }
 }
-
-// Singleton
-window.App = new App();
