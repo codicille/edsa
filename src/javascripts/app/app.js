@@ -193,8 +193,7 @@ var App = (function() {
 
         // Note: Negative speed means going *down* the page
         //       Also, no more swipe detection for now
-
-        if(!speed){
+        if(!speed || positionDelta < 15){
           if(this.gestureEndPosition >= tapZone && !this.options.summaryOpened){
             this.showNextPageHint();
             this.smoothScrollTo(this.gestureStartScreenPosition + pageIncrement);
