@@ -8,8 +8,6 @@ Le but de ce projet est de produire une liseuse numérique entièrement web
 et seulement front-end, qui peut être utilisé dans une solution plus
 complète de lecture en ligne.
 
-Vous pouvez consulter le [démo][demo] fourni dans la version distribuée de la liseuse.
-
 ## Utilisation
 
 Téléchargez une copie des fichiers dans le dossier `dist` pour utiliser
@@ -93,7 +91,7 @@ avec les classes suivantes:
 - `lim` identifie toutes les parties liminaires de l'ouvrage (préface, avant-propos, etc.)
 - `chapter` identifie un chapitre
 
-Les `<section>` serviront également à bâtir la table des matières. Il est donc
+Les `<section>` servent également à bâtir la table des matières. Il est donc
 obligatoire pour chaque section d'avoir son propre titre ou identifiant. La balise
 `<h3>` est utilisée à cette fin.
 
@@ -115,7 +113,7 @@ obligatoire pour chaque section d'avoir son propre titre ou identifiant. La bali
 ````
 
 Ces classes serviront notamment à mettre à jour l'URL lors de la consultation de l'ouvrage.
-Ex. : `www.domaine.com/lim/1` pour la première partie liminaire ou `www.domaine.com/chap/16`
+Ex. : `www.domaine.com/lim#1` pour la première partie liminaire ou `www.domaine.com/chap#16`
 pour le chapitre 16.
 
 ## Développement
