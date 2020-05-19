@@ -702,7 +702,11 @@ header li {
   h1, h2 { margin: .4em 0 }
   h1 { font-size: 2.3em }
   h2 { font-size: 1.5em }
-  h3 { margin: 3em 0 0 }
+  h3, h4, h5, h6 { margin: 3em 0 0 }
+  h3 { font-size: 1.2em }
+  h4 { font-size: 1.1em }
+  h5 { font-size: 1.05em }
+  h6 { font-size: 1em }
 
   .wrap {
     max-width: 31em;
@@ -837,6 +841,8 @@ footer {
   [role="main"] {
     blockquote, ul, ol { display: none; }
 
+    div.v-spacer { display: none; }
+
     .section:first-of-type { margin-top: 2em; }
 
     .section {
@@ -848,12 +854,28 @@ footer {
       &:first-of-type h3:before { display: none; }
     }
 
+
     h3 {
+      margin: 0 0 0 0;
+    }
+
+    h4 {
+      margin: 0 0 0 1em;
+    }
+
+    h5 {
+      margin: 0 0 0 1.8em;
+    }
+
+    h6 {
+      margin: 0 0 0 2.5em;
+    }
+
+    h3, h4, h5, h6 {
       cursor: pointer;
       display: inline-block;
-      float: left;
+      text-align: left !important;
       font-size: 18px;
-      margin: 0;
       padding: 0;
       position: relative;
       width: 100%;
