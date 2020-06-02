@@ -707,6 +707,8 @@ header li {
   h4 { font-size: 1.1em }
   h5 { font-size: 1.05em }
   h6 { font-size: 1em }
+  
+  .altTitle { display: none }
 
   .wrap {
     max-width: 31em;
@@ -855,23 +857,23 @@ footer {
     }
 
 
-    h3 {
+    h3, .altTitle.l3 {
       margin: 0 0 0 0;
     }
 
-    h4 {
+    h4, .altTitle.l4 {
       margin: 0 0 0 1.5em;
     }
 
-    h5 {
+    h5, .altTitle.l5 {
       margin: 0 0 0 2.7em;
     }
 
-    h6 {
+    h6, .altTitle.l6 {
       margin: 0 0 0 3.5em;
     }
 
-    h3, h4, h5, h6 {
+    h3, h4, h5, h6, .altTitle {
       cursor: pointer;
       display: inline-block;
       text-align: left !important;
@@ -895,6 +897,8 @@ footer {
         &:before { background-color: #01b3df; }
       }
     }
+    
+    .no-toc { display: none; }
 
     p { display: none; }
   }

@@ -4,3 +4,4 @@ node_modules/
 src/dev/javascripts/edsa.js
 src/dev/stylesheets/edsa.css
 src/dev/javascripts/edsa.js.map
+package-lock.json
