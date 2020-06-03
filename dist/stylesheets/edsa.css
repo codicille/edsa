@@ -905,6 +905,9 @@ header li {
     position: relative;
     margin: 0;
     padding: 2em 0 0; }
+  [role="main"] .text-block {
+    display: inline-block;
+    text-align: left; }
 
 p, .paragraph {
   counter-increment: paragraph; }
@@ -1069,7 +1072,7 @@ footer {
   display: none; }
 .show-summary [role="main"] blockquote, .show-summary [role="main"] ul, .show-summary [role="main"] ol {
   display: none; }
-.show-summary [role="main"] div.v-spacer {
+.show-summary [role="main"] div.v-spacer, .show-summary [role="main"] div.text-block {
   display: none; }
 .show-summary [role="main"] .section:first-of-type {
   margin-top: 2em; }

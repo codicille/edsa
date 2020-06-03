@@ -725,6 +725,11 @@ header li {
     margin: 0;
     padding: 2em 0 0;
   }
+  
+  .text-block {
+    display: inline-block;
+    text-align: left;
+  }
 }
 
 p, .paragraph {
@@ -843,7 +848,7 @@ footer {
   [role="main"] {
     blockquote, ul, ol { display: none; }
 
-    div.v-spacer { display: none; }
+    div.v-spacer, div.text-block { display: none; }
 
     .section:first-of-type { margin-top: 2em; }
 
