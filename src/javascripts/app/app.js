@@ -59,7 +59,7 @@ var EDSA = (function() {
     this.$els.paragraphSelect.on('change', this.onParagraphSelectChange.bind(this));
     this.$els.anchorsButton.on(EDSA_UA.CLICK, this.onAnchorsButtonClick.bind(this));
     this.$els.summaryButton.on(EDSA_UA.CLICK, this.onSummaryButtonClick.bind(this));
-    this.$els.sections.find('.altTitle:first,h3:first,h4:first,h5:first,h6:first').on('click', this.onHeadingClick.bind(this));
+    this.$els.sections.find('.toc-title:first,h3:first,h4:first,h5:first,h6:first').on('click', this.onHeadingClick.bind(this));
     this.$els.closeAdvancedMenuBtn.on('click', this.hideAdvancedMenus.bind(this));
     this.$els.showAdvancedMenuBtn.on('click', this.showAdvancedMenus.bind(this));
     this.$els.showTextSettingsMenuBtn.on('click', this.showTextSettingsMenu.bind(this));
@@ -102,7 +102,7 @@ var EDSA = (function() {
       this.$els.contentWrap.on('touchstart', this.onContentTouchStart.bind(this));
       this.$els.contentWrap.on('touchend', this.onContentTouchEnd.bind(this));
 
-      this.$els.sections.find('.altTitle:first,h3:first,h4:first,h5:first,h6:first').onTap(this.onHeadingClick.bind(this));
+      this.$els.sections.find('.toc-title:first,h3:first,h4:first,h5:first,h6:first').onTap(this.onHeadingClick.bind(this));
     },
 
     getScrollTop: function() {

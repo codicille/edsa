@@ -893,7 +893,7 @@ header li {
     font-size: 1.05em; }
   [role="main"] h6 {
     font-size: 1em; }
-  [role="main"] .altTitle {
+  [role="main"] .toc-title {
     display: none; }
   [role="main"] .wrap {
     max-width: 31em;
@@ -1082,15 +1082,15 @@ footer {
     clear: both; }
   .show-summary [role="main"] .section:first-of-type h3:before {
     display: none; }
-.show-summary [role="main"] h3, .show-summary [role="main"] .altTitle.l3 {
+.show-summary [role="main"] h3, .show-summary [role="main"] .toc-title.l3 {
   margin: 0 0 0 0; }
-.show-summary [role="main"] h4, .show-summary [role="main"] .altTitle.l4 {
+.show-summary [role="main"] h4, .show-summary [role="main"] .toc-title.l4 {
   margin: 0 0 0 1.5em; }
-.show-summary [role="main"] h5, .show-summary [role="main"] .altTitle.l5 {
+.show-summary [role="main"] h5, .show-summary [role="main"] .toc-title.l5 {
   margin: 0 0 0 2.7em; }
-.show-summary [role="main"] h6, .show-summary [role="main"] .altTitle.l6 {
+.show-summary [role="main"] h6, .show-summary [role="main"] .toc-title.l6 {
   margin: 0 0 0 3.5em; }
-.show-summary [role="main"] h3, .show-summary [role="main"] h4, .show-summary [role="main"] h5, .show-summary [role="main"] h6, .show-summary [role="main"] .altTitle {
+.show-summary [role="main"] h3, .show-summary [role="main"] h4, .show-summary [role="main"] h5, .show-summary [role="main"] h6, .show-summary [role="main"] .toc-title {
   cursor: pointer;
   display: inline-block;
   text-align: left !important;
@@ -1098,7 +1098,7 @@ footer {
   padding: 0;
   position: relative;
   width: 100%; }
-  .show-summary [role="main"] h3:before, .show-summary [role="main"] h4:before, .show-summary [role="main"] h5:before, .show-summary [role="main"] h6:before, .show-summary [role="main"] .altTitle:before {
+  .show-summary [role="main"] h3:before, .show-summary [role="main"] h4:before, .show-summary [role="main"] h5:before, .show-summary [role="main"] h6:before, .show-summary [role="main"] .toc-title:before {
     background-color: #c0c0c0;
     content: "";
     height: 1px;
@@ -1106,11 +1106,11 @@ footer {
     left: -40px;
     top: 0.5em;
     width: 10px; }
-  .show-summary [role="main"] h3:hover, .show-summary [role="main"] h4:hover, .show-summary [role="main"] h5:hover, .show-summary [role="main"] h6:hover, .show-summary [role="main"] .altTitle:hover {
+  .show-summary [role="main"] h3:hover, .show-summary [role="main"] h4:hover, .show-summary [role="main"] h5:hover, .show-summary [role="main"] h6:hover, .show-summary [role="main"] .toc-title:hover {
     color: #01b3df; }
-    .show-summary [role="main"] h3:hover:before, .show-summary [role="main"] h4:hover:before, .show-summary [role="main"] h5:hover:before, .show-summary [role="main"] h6:hover:before, .show-summary [role="main"] .altTitle:hover:before {
+    .show-summary [role="main"] h3:hover:before, .show-summary [role="main"] h4:hover:before, .show-summary [role="main"] h5:hover:before, .show-summary [role="main"] h6:hover:before, .show-summary [role="main"] .toc-title:hover:before {
       background-color: #01b3df; }
-.show-summary [role="main"] .no-toc {
+.show-summary [role="main"] .no-toc, .show-summary [role="main"] .hh h3, .show-summary [role="main"] .hh h4, .show-summary [role="main"] .hh h5, .show-summary [role="main"] .hh h6 {
   display: none; }
 .show-summary [role="main"] p {
   display: none; }
