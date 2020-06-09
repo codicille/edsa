@@ -723,7 +723,20 @@ header li {
   p, blockquote {
     position: relative;
     margin: 0;
+  }
+  
+  p {
     padding: 2em 0 0;
+  }
+  
+  blockquote {
+    padding: 0 0 0 2em;
+  }
+  
+  @media (max-width: 600px) {
+    blockquote {
+      padding-left: 1.2em;
+    }
   }
   
   .text-block {
@@ -905,7 +918,7 @@ footer {
     
     .no-toc, .hh h3, .hh h4, .hh h5, .hh h6 { display: none; }
 
-    p { display: none; }
+    p, hr { display: none; }
   }
 
   .touch &, .no-touch &, {

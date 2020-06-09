@@ -903,8 +903,14 @@ header li {
     display: table; }
   [role="main"] p, [role="main"] blockquote {
     position: relative;
-    margin: 0;
+    margin: 0; }
+  [role="main"] p {
     padding: 2em 0 0; }
+  [role="main"] blockquote {
+    padding: 0 0 0 2em; }
+  @media (max-width: 600px) {
+    [role="main"] blockquote {
+      padding-left: 1.2em; } }
   [role="main"] .text-block {
     display: inline-block;
     text-align: left; }
@@ -1115,7 +1121,7 @@ footer {
       background-color: #01b3df; }
 .show-summary [role="main"] .no-toc, .show-summary [role="main"] .hh h3, .show-summary [role="main"] .hh h4, .show-summary [role="main"] .hh h5, .show-summary [role="main"] .hh h6 {
   display: none; }
-.show-summary [role="main"] p {
+.show-summary [role="main"] p, .show-summary [role="main"] hr {
   display: none; }
 .touch .show-summary .book, .no-touch .show-summary .book {
   background-color: #f2f2f2; }
