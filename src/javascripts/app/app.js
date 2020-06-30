@@ -27,7 +27,7 @@ var EDSA = (function() {
 
     // jQuery cached elements
     this.$els = {
-      body: $('body'),
+      body: $('html, body'),
       window: $(window),
       par: $('p, .paragraph').not('.exclude'),
       chap: $('.chapter').not('.exclude'),
@@ -171,10 +171,11 @@ var EDSA = (function() {
 
     // Events callback
     onContentTouchStart: function(e) {
+      if (e.target.tagName === "A") return true;
+
       this.gestureStartTime = new Date();
       this.gestureStartPosition = e.originalEvent.changedTouches[0].clientY;
       this.gestureStartScreenPosition = this.$els.window.scrollTop();
-
       this.$els.body.stop(); // In case the body is scrolling via jQuery
     },
 
